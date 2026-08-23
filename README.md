@@ -129,15 +129,21 @@ now ("needs Lv 38 — ≈25 battles", "ready to become Ivysaur", "tap to set its
   already have picked up*. Set what it knows, or hit **use recommended set**. Once a set is
   stored the sheet tells you what to change: *"Teach Razor Leaf over Vine Whip — level
   22"*, naming the move, its source and the slot it should replace. Ranked on power x
-  accuracy, x1.5 for STAB, plus a bonus for hitting the types in the next four fights;
-  the recommended set takes the best damaging move per type, then status moves, and only
+  accuracy, x1.5 for STAB, plus a bonus for hitting the types in the next four fights,
+  then weighted by the Pokémon's own **Attack vs Special Attack** so a physical bruiser
+  is steered onto physical moves and a special sweeper onto special ones. Set its
+  **Nature** beside the level and the ±10% flows straight into that weighting. The
+  recommended set takes the best damaging move per type, then status moves, and only
   doubles up on a type as a last resort.
 - **Relearning and undoing.** A level-up move whose level you have already passed is
   marked `· relearn`, and the advice says so: *"Skipped it? The Move Relearner on Two
   Island has it."* Before you get there it reads *"nothing brings it back until Two
-  Island"* instead. HM moves get a lock note naming the Move Deleter in Fuchsia City,
-  and are excluded from swap suggestions — the app will not tell you to overwrite a move
-  you cannot overwrite. All three NPCs (Relearner, Deleter, and the Cape Brink tutor for
+  Island"* instead — and until you reach the Relearner those moves are kept out of the
+  recommendations entirely, because you can't put them back on yet; it suggests moves you
+  can actually teach now. HM moves get a lock note naming the Move Deleter in Fuchsia
+  City, are excluded from swap suggestions, and are *kept* in the recommended set until
+  you reach the Deleter — the app will neither tell you to overwrite a move you cannot
+  overwrite nor hand you a set you cannot yet assemble. All three NPCs (Relearner, Deleter, and the Cape Brink tutor for
   the starters' ultimate moves) are in the searchable catalogue and appear at their stops.
 
 - **Field moves — who carries what.** For each of the seven HMs, in the order the game
