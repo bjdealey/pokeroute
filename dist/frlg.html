@@ -204,7 +204,7 @@ button.g[disabled]{opacity:.45;cursor:not-allowed}
   border-radius:14px;padding:6px 10px;min-height:56px;cursor:pointer;user-select:none;
   transition:background .12s,transform .12s}
 .slot:hover{background:#fff;transform:translateY(-1px)}
-.slot img{width:44px;height:44px;flex:none;object-fit:contain;transform:scale(1.5);transform-origin:center 60%}
+.slot img{width:44px;height:44px;flex:none;object-fit:contain;transform:scale(1.3);transform-origin:center}
 .slot b{display:block;font-size:13px;text-transform:capitalize;line-height:1.2}
 .slot .who{min-width:0}
 .slot .lv{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#4a5a73;margin:2px 0}
@@ -256,8 +256,9 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .cell.empty:hover{background:#223d68;transform:none}
 /* box icons sit small on a canvas sized for the biggest species; zoom past the
    padding so early-route mons read, and the cell's overflow:hidden clips the rest */
-.cell img{width:100%;height:100%;object-fit:contain;transform:scale(1.6);transform-origin:center 62%}
-.cell span{position:absolute;bottom:1px;left:0;right:0;font-size:8.5px;text-align:center;color:#bcd6f5;
+.cell img{width:100%;height:100%;object-fit:contain;padding-bottom:12px;transform:scale(1.4);transform-origin:center 55%}
+.cell span{position:absolute;bottom:0;left:0;right:0;padding:3px 3px 2px;font-size:8.5px;text-align:center;color:#dce8f8;
+  background:linear-gradient(#0b162600,#0b1626d9 65%);
   text-transform:capitalize;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 /* PC = the living dex: a box per 30 species, ghost cells for what you still need */
 .pcbox{margin-bottom:12px}
@@ -2057,6 +2058,11 @@ function drawModal() {
   const pool = lv ? available(id, lv) : []
   const { swaps } = lv ? moveAdvice(id, lv) : { swaps: [] }
   const mine = sets[id] || [null, null, null, null]
+  // Whatever it's actually holding is always a valid choice — even a move it's since been
+  // set below the level for, or one off a machine you've walked past. Without this the slot
+  // silently blanks and the move looks like it vanished.
+  mine.forEach(mid => { if (mid && DATA.moves[mid] && !pool.some(m => m.id === mid))
+    pool.push({ ...DATA.moves[mid], id: mid, from: 'set now' }) })
   const opt = sel => `<option value=""${sel ? '' : ' selected'}>— empty —</option>` +
     pool.slice().sort((a, b) => a.n.localeCompare(b.n)).map(mv =>
       `<option value="${mv.id}"${+sel === mv.id ? ' selected' : ''}>${cap(mv.n)} · ${mv.t}${
