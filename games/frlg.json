@@ -1,0 +1,2657 @@
+{
+  "game": "FireRed / LeafGreen",
+  "region": "Kanto",
+  "build": {
+    "generation": 3,
+    "maxDex": 386,
+    "versionGroup": 7,
+    "versions": {
+      "FR": 10,
+      "LG": 11
+    },
+    "stoneShop": {
+      "stop": "erika",
+      "cost": 2100,
+      "where": "Celadon"
+    },
+    "methodGates": {
+      "old-rod": "vermilion",
+      "good-rod": "koga",
+      "super-rod": "cyclingroad",
+      "surf": "koga",
+      "rock-smash": "sevii",
+      "pokeflute": "tower"
+    },
+    "spriteSets": [
+      "versions/generation-iii/firered-leafgreen",
+      "versions/generation-iii/emerald"
+    ]
+  },
+  "badgeHm": {
+    "boulder": "flash",
+    "cascade": "cut",
+    "thunder": "fly",
+    "rainbow": "strength",
+    "soul": "surf",
+    "marsh": "rock-smash",
+    "volcano": "waterfall",
+    "earth": null
+  },
+  "badges": {
+    "boulder": 1,
+    "cascade": 2,
+    "thunder": 3,
+    "rainbow": 4,
+    "soul": 5,
+    "marsh": 6,
+    "volcano": 7,
+    "earth": 8
+  },
+  "stops": [
+    {
+      "id": "pallet",
+      "name": "Pallet Town — Starter",
+      "locations": [
+        "pallet-town",
+        "kanto-route-1"
+      ],
+      "items": [
+        {
+          "name": "Starter Pokémon",
+          "where": "Oak's Lab",
+          "why": "Bulbasaur trivialises Brock+Misty; Squirtle is the safest all-game pick; Charmander is the hard mode (loses to first two gyms).",
+          "icon": "poke-ball"
+        },
+        {
+          "name": "Poké Balls x5",
+          "where": "Oak's parcel errand",
+          "why": "First catching supply."
+        },
+        {
+          "name": "Town Map",
+          "where": "Rival's sister",
+          "why": "Free, one dialogue."
+        },
+        {
+          "name": "Potion",
+          "where": "Pallet Town PC",
+          "why": "Free item on the PC in your house."
+        }
+      ],
+      "notes": "Route 1 is a level-2 grind lane. Don't over-catch here — Pidgey/Rattata are both available for the rest of Kanto."
+    },
+    {
+      "id": "viridian",
+      "name": "Viridian City & Route 22",
+      "locations": [
+        "viridian-city",
+        "kanto-route-22"
+      ],
+      "items": [
+        {
+          "name": "Poké Balls (Mart)",
+          "where": "Viridian Mart, after the parcel",
+          "why": "Stock ~10 before Viridian Forest."
+        },
+        {
+          "name": "TM Bide",
+          "where": "Viridian Mart clerk",
+          "why": "Free, skippable."
+        }
+      ],
+      "notes": "Route 22 has Mankey/Spearow/Nidoran — Mankey is the single best early answer to Brock AND Misty's Starmie is neutral to it. Rival battle on Route 22 is optional."
+    },
+    {
+      "id": "forest",
+      "name": "Viridian Forest & Route 2",
+      "locations": [
+        "kanto-route-2",
+        "viridian-forest"
+      ],
+      "items": [
+        {
+          "name": "Antidote / Potion / Poké Ball",
+          "where": "Viridian Forest floor items",
+          "why": "Free consumables on the way through."
+        }
+      ],
+      "notes": "Pikachu is here at a low rate (FR/LG ~5%). If you want one, get it now — the next spot is Power Plant, very late."
+    },
+    {
+      "id": "brock",
+      "name": "Pewter City — Brock",
+      "badge": "boulder",
+      "boss": {
+        "name": "Brock",
+        "types": [
+          "rock",
+          "ground"
+        ],
+        "maxLevel": 14
+      },
+      "locations": [],
+      "items": [
+        {
+          "name": "TM39 Rock Tomb",
+          "where": "Brock",
+          "why": "Gym reward."
+        },
+        {
+          "name": "Old Amber",
+          "where": "Pewter Museum (needs Cut, come back later)",
+          "why": "Aerodactyl — revive it at Cinnabar Lab."
+        },
+        {
+          "name": "Running Shoes",
+          "where": "Mom, after the first badge",
+          "why": "Straight movement-speed win. Don't skip."
+        }
+      ],
+      "notes": "Boulder Badge enables Flash out of battle."
+    },
+    {
+      "id": "mtmoon",
+      "name": "Route 3 & Mt. Moon",
+      "locations": [
+        "kanto-route-3",
+        "mt-moon"
+      ],
+      "items": [
+        {
+          "name": "Moon Stone x1 (+ hidden ones)",
+          "where": "Mt. Moon B1F",
+          "why": "Only reliable Moon Stone before Celadon. Nidorino→Nidoking or Clefairy→Clefable."
+        },
+        {
+          "name": "Dome or Helix Fossil",
+          "where": "Mt. Moon, end",
+          "why": "One-time exclusive choice. Omanyte (Helix) is the stronger of the two; both need Cinnabar Lab, very late.",
+          "icon": "dome-fossil"
+        },
+        {
+          "name": "TM12 Water Gun / Rare Candy",
+          "where": "Mt. Moon floor items",
+          "why": "Free."
+        }
+      ],
+      "notes": "Mt. Moon is the Zubat/Geodude/Paras pool. Nidoran♂ from Route 3 + the Moon Stone here is the classic power spike."
+    },
+    {
+      "id": "misty",
+      "name": "Cerulean City — Misty",
+      "badge": "cascade",
+      "boss": {
+        "name": "Misty",
+        "types": [
+          "water"
+        ],
+        "maxLevel": 21
+      },
+      "locations": [
+        "kanto-route-4",
+        "cerulean-city",
+        "kanto-route-24",
+        "kanto-route-25"
+      ],
+      "items": [
+        {
+          "name": "Bike Voucher",
+          "where": "Bill (Route 25), then Vermilion Bike Shop",
+          "why": "Biggest single playtime-speed item in the game. Get it the moment Route 25 opens."
+        },
+        {
+          "name": "TM03 Water Pulse",
+          "where": "Misty",
+          "why": "Gym reward."
+        },
+        {
+          "name": "TM28 Dig",
+          "where": "Cerulean, man behind the Rocket house",
+          "why": "Strong early Ground move; also an escape rope."
+        },
+        {
+          "name": "Nugget x1",
+          "where": "Route 24 Nugget Bridge",
+          "why": "Sells for 5000. Fund your Bike-era shopping."
+        }
+      ],
+      "notes": "Cascade Badge enables Cut. Abra is on Route 24/25 — catch one, it's a top-3 sweeper (Alakazam) and only needs a trade or level 16."
+    },
+    {
+      "id": "vermilion",
+      "name": "Routes 5–6, Vermilion City",
+      "locations": [
+        "kanto-route-5",
+        "kanto-route-6",
+        "kanto-underground-path",
+        "vermilion-city"
+      ],
+      "items": [
+        {
+          "name": "Bicycle",
+          "where": "Vermilion Bike Shop, with the Voucher",
+          "why": "Do this first thing on arrival."
+        },
+        {
+          "name": "Old Rod",
+          "where": "Vermilion Pokémon Centre",
+          "why": "Magikarp → Gyarados. Slow to train, huge payoff."
+        },
+        {
+          "name": "Squirtle (trade)",
+          "where": "Vermilion house, trade a Nidoran",
+          "why": "Free second water type if you skipped it as a starter."
+        }
+      ],
+      "notes": "Diglett's Cave connects Route 2 to Route 11 — Diglett/Dugtrio here are the fastest Pokémon in the early game and clean up Surge."
+    },
+    {
+      "id": "ssanne",
+      "name": "S.S. Anne",
+      "locations": [
+        "ss-anne"
+      ],
+      "items": [
+        {
+          "name": "HM01 Cut",
+          "where": "Captain, after the rival fight",
+          "why": "Required to leave the ship and to reach the Vermilion Gym."
+        },
+        {
+          "name": "TM31 Mega Kick / misc",
+          "where": "S.S. Anne cabins",
+          "why": "Sweep the rooms before you get Cut — the ship vanishes permanently after the gym."
+        }
+      ],
+      "notes": "One-time area. Loot everything before you leave; it is gone for the rest of the save."
+    },
+    {
+      "id": "surge",
+      "name": "Vermilion City — Lt. Surge",
+      "badge": "thunder",
+      "boss": {
+        "name": "Lt. Surge",
+        "types": [
+          "electric"
+        ],
+        "maxLevel": 24
+      },
+      "locations": [
+        "digletts-cave",
+        "kanto-route-11"
+      ],
+      "items": [
+        {
+          "name": "TM34 Shock Wave",
+          "where": "Lt. Surge",
+          "why": "Gym reward."
+        },
+        {
+          "name": "HM05 Flash",
+          "where": "Route 2 east gate via Diglett's Cave (need 10 species caught)",
+          "why": "Rock Tunnel is miserable without it."
+        },
+        {
+          "name": "Itemfinder",
+          "where": "Route 11, Oak's Aide (need 30 species)",
+          "why": "Optional."
+        }
+      ],
+      "notes": "Thunder Badge enables Fly — but you don't get HM02 until Route 16. Dugtrio or any Ground type walks the gym."
+    },
+    {
+      "id": "rocktunnel",
+      "name": "Routes 9–10 & Rock Tunnel",
+      "locations": [
+        "kanto-route-9",
+        "kanto-route-10",
+        "rock-tunnel"
+      ],
+      "items": [
+        {
+          "name": "TM43 Secret Power / Elixir",
+          "where": "Route 9/10 floor items",
+          "why": "Free."
+        }
+      ],
+      "notes": "Needs Cut to enter Route 9. Bring Flash. The Power Plant is visible from Route 10 but is unreachable until you have Surf — it shows up under Fuchsia."
+    },
+    {
+      "id": "lavender",
+      "name": "Lavender Town & Routes 7–8",
+      "locations": [
+        "kanto-route-7",
+        "kanto-route-8"
+      ],
+      "items": [],
+      "notes": "Pokémon Tower is blocked until you have the Silph Scope from the Celadon Rocket Hideout. Pass straight through to Celadon."
+    },
+    {
+      "id": "erika",
+      "name": "Celadon City — Erika, Game Corner, Rocket Hideout",
+      "badge": "rainbow",
+      "boss": {
+        "name": "Erika",
+        "types": [
+          "grass"
+        ],
+        "maxLevel": 29
+      },
+      "locations": [
+        "celadon-city"
+      ],
+      "items": [
+        {
+          "name": "Eevee",
+          "where": "Celadon Mansion rooftop house",
+          "why": "Free. Vaporeon/Jolteon/Flareon — Vaporeon is the strongest of the three for the rest of the run."
+        },
+        {
+          "name": "Evolution stones (Dept. Store 4F)",
+          "where": "Celadon Dept. Store",
+          "why": "Fire/Water/Thunder/Leaf Stone for sale. This is the evolution-timing checkpoint for Eevee, Pikachu, Gloom, Growlithe, Vulpix, Staryu, Shellder, Exeggcute.",
+          "icon": "fire-stone"
+        },
+        {
+          "name": "Vitamins (Protein, Carbos, HP Up...)",
+          "where": "Dept. Store 5F",
+          "why": "Vitamins (Protein/Carbos etc.) are the cheapest permanent stat boost — buy for your two carries.",
+          "icon": "protein"
+        },
+        {
+          "name": "Silph Scope",
+          "where": "Rocket Hideout B4F, beat Giovanni",
+          "why": "Hard gate for Pokémon Tower."
+        },
+        {
+          "name": "Coin Case + Game Corner prizes",
+          "where": "Celadon",
+          "why": "Porygon / Dratini / Scyther / Pinsir here. Dratini is a long-term Dragonite; the coin grind is real playtime cost — buy coins, don't spin."
+        },
+        {
+          "name": "TM19 Giga Drain",
+          "where": "Erika",
+          "why": "Gym reward."
+        }
+      ],
+      "notes": "Rainbow Badge enables Strength (you get HM04 later, at Fuchsia). Celadon is the single biggest decision node in the game — stones, Eevee, Game Corner, vitamins all land here."
+    },
+    {
+      "id": "tower",
+      "name": "Pokémon Tower",
+      "locations": [
+        "pokemon-tower"
+      ],
+      "items": [
+        {
+          "name": "Poké Flute",
+          "where": "Mr. Fuji, after clearing the Tower",
+          "why": "Wakes the two Snorlax and unblocks Routes 12 and 16."
+        }
+      ],
+      "notes": "Gastly/Haunter here. Haunter → Gengar needs a trade; without one, Haunter still hits hard. Marowak on 6F is a scripted un-catchable fight."
+    },
+    {
+      "id": "cyclingroad",
+      "name": "Routes 12–18, Cycling Road, Snorlax",
+      "locations": [
+        "kanto-route-12",
+        "kanto-route-13",
+        "kanto-route-14",
+        "kanto-route-15",
+        "kanto-route-16",
+        "kanto-route-17",
+        "kanto-route-18"
+      ],
+      "items": [
+        {
+          "name": "HM02 Fly",
+          "where": "House on Route 16",
+          "why": "Second-biggest playtime-speed item after the Bike. Teach it immediately."
+        },
+        {
+          "name": "Super Rod",
+          "where": "Route 12 fishing house",
+          "why": "Opens the real water encounter pool."
+        },
+        {
+          "name": "Snorlax x2",
+          "where": "Route 12 and Route 16",
+          "why": "One-time each, level 30, huge bulk. Save before engaging."
+        },
+        {
+          "name": "TM13 Ice Beam / Exp. Share",
+          "where": "Route 12 floor / Route 15 Oak's Aide (50 species)",
+          "why": "Exp. Share is a big grind reducer for a sixth-slot carry."
+        }
+      ],
+      "notes": "With Fly + Bike, backtracking cost drops to near zero. This is the point to sweep every skipped item."
+    },
+    {
+      "id": "koga",
+      "name": "Fuchsia City — Koga & Safari Zone",
+      "badge": "soul",
+      "boss": {
+        "name": "Koga",
+        "types": [
+          "poison"
+        ],
+        "maxLevel": 43
+      },
+      "locations": [
+        "fuchsia-city",
+        "kanto-safari-zone",
+        "kanto-power-plant"
+      ],
+      "items": [
+        {
+          "name": "HM03 Surf",
+          "where": "Safari Zone Secret House (Area 3)",
+          "why": "Opens roughly a third of the map. Highest-priority item in this stop."
+        },
+        {
+          "name": "Gold Teeth → HM04 Strength",
+          "where": "Safari Zone Area 3, then the Warden",
+          "why": "Required for Victory Road and Seafoam."
+        },
+        {
+          "name": "TM06 Toxic",
+          "where": "Koga",
+          "why": "Gym reward."
+        },
+        {
+          "name": "Good Rod",
+          "where": "Fuchsia fishing house",
+          "why": "Minor."
+        },
+        {
+          "name": "Chansey / Kangaskhan / Scyther / Pinsir / Tauros / Dratini",
+          "where": "Safari Zone",
+          "why": "Tauros and Kangaskhan are the best combat picks here; Chansey is an Exp piñata."
+        }
+      ],
+      "notes": "Soul Badge enables Surf. Safari Zone is step-limited — decide what you want before entering, don't wander. Surf also opens the Power Plant off Route 10 — Electabuzz, Voltorb and Zapdos, and the best Electric answer you'll get before the League."
+    },
+    {
+      "id": "sabrina",
+      "name": "Saffron City — Silph Co. & Sabrina",
+      "badge": "marsh",
+      "boss": {
+        "name": "Sabrina",
+        "types": [
+          "psychic"
+        ],
+        "maxLevel": 43
+      },
+      "locations": [
+        "saffron-city"
+      ],
+      "items": [
+        {
+          "name": "Lapras",
+          "where": "Silph Co. 7F, free from an employee",
+          "why": "Free, one-time, excellent Water/Ice. Take it."
+        },
+        {
+          "name": "Master Ball",
+          "where": "Silph Co. president, after Giovanni",
+          "why": "Save it for Mewtwo or a roamer."
+        },
+        {
+          "name": "Hitmonlee or Hitmonchan",
+          "where": "Saffron Fighting Dojo",
+          "why": "One-time exclusive choice. Hitmonlee's higher Attack/Speed makes it the better pick in FRLG."
+        },
+        {
+          "name": "TM04 Calm Mind",
+          "where": "Sabrina",
+          "why": "Gym reward."
+        }
+      ],
+      "notes": "Marsh Badge enables Rock Smash. Sabrina is the hardest gym — bring a Bug, Ghost or Dark option; a Gengar or Snorlax with Bite/Crunch is the practical answer."
+    },
+    {
+      "id": "seaward",
+      "name": "Routes 19–21 & Seafoam Islands",
+      "locations": [
+        "kanto-sea-route-19",
+        "kanto-sea-route-20",
+        "kanto-sea-route-21",
+        "seafoam-islands"
+      ],
+      "items": [
+        {
+          "name": "Articuno",
+          "where": "Seafoam Islands B4F (needs Strength + Surf)",
+          "why": "Level 50 legendary, one-time. Save first."
+        }
+      ],
+      "notes": "Surf opens the entire southern sea. Tentacool/Krabby/Horsea pools are here."
+    },
+    {
+      "id": "blaine",
+      "name": "Cinnabar Island — Pokémon Mansion & Blaine",
+      "badge": "volcano",
+      "boss": {
+        "name": "Blaine",
+        "types": [
+          "fire"
+        ],
+        "maxLevel": 47
+      },
+      "locations": [
+        "cinnabar-island",
+        "pokemon-mansion"
+      ],
+      "items": [
+        {
+          "name": "Secret Key",
+          "where": "Pokémon Mansion B1F",
+          "why": "Hard gate for the gym."
+        },
+        {
+          "name": "Fossil revivals",
+          "where": "Cinnabar Lab",
+          "why": "Cash in Helix/Dome/Old Amber here — Kabutops/Omastar/Aerodactyl arrive at level 5, so only worth it if you'll actually train one.",
+          "icon": "old-amber"
+        },
+        {
+          "name": "Electrode/Magmar",
+          "where": "Pokémon Mansion",
+          "why": "Magmar is a solid late Fire type if you never picked Charmander."
+        },
+        {
+          "name": "TM38 Fire Blast",
+          "where": "Blaine",
+          "why": "Gym reward."
+        }
+      ],
+      "notes": "Volcano Badge enables Waterfall. Bill meets you outside the gym afterwards — that starts the Sevii Islands leg."
+    },
+    {
+      "id": "sevii",
+      "name": "Sevii Islands 1–3 (story leg)",
+      "locations": [
+        "one-island",
+        "kindle-road",
+        "mt-ember",
+        "treasure-beach",
+        "two-island",
+        "cape-brink",
+        "three-island",
+        "bond-bridge",
+        "berry-forest",
+        "water-path",
+        "green-path",
+        "five-isle-meadow"
+      ],
+      "items": [
+        {
+          "name": "HM06 Rock Smash",
+          "where": "Ember Spa, Kindle Road (One Island)",
+          "why": "Needed for Sevii traversal."
+        },
+        {
+          "name": "Ruby",
+          "where": "Mt. Ember summit (needs Strength)",
+          "why": "Celio's network machine — this is the story gate."
+        },
+        {
+          "name": "Moltres",
+          "where": "Mt. Ember, inner cave",
+          "why": "Level 50 legendary, one-time."
+        },
+        {
+          "name": "Rescue Lostelle",
+          "where": "Berry Forest, Two Island",
+          "why": "Story gate — the Hypno fight."
+        }
+      ],
+      "notes": "Bill hands you the Tri-Pass after Blaine. This leg is mandatory story, not optional — clear it before heading back to Viridian."
+    },
+    {
+      "id": "giovanni",
+      "name": "Viridian City — Giovanni",
+      "badge": "earth",
+      "boss": {
+        "name": "Giovanni",
+        "types": [
+          "ground"
+        ],
+        "maxLevel": 50
+      },
+      "locations": [],
+      "items": [
+        {
+          "name": "TM26 Earthquake",
+          "where": "Giovanni",
+          "why": "Best physical Ground move in the game — teach it to your bulkiest hitter before the Elite Four."
+        }
+      ],
+      "notes": "Eighth badge. Grass and Water types walk this gym."
+    },
+    {
+      "id": "victoryroad",
+      "name": "Route 23 & Victory Road",
+      "locations": [
+        "kanto-route-23",
+        "kanto-victory-road-2"
+      ],
+      "items": [
+        {
+          "name": "Zapdos",
+          "where": "Power Plant — reachable by Surf from Route 10",
+          "why": "Last legendary before the E4; also the best answer to Lorelei and Lance."
+        },
+        {
+          "name": "Rare Candy / Max Elixir / TM17 Protect",
+          "where": "Victory Road boulders (needs Strength)",
+          "why": "Free."
+        }
+      ],
+      "notes": "Needs Strength, Surf and Rock Smash. Last chance to shop — buy 20+ Hyper Potions and a stack of Full Restores before entering the League."
+    },
+    {
+      "id": "elitefour",
+      "name": "Indigo Plateau — Elite Four & Champion",
+      "boss": {
+        "name": "Elite Four",
+        "types": [
+          "ice",
+          "fighting",
+          "ghost",
+          "dragon"
+        ],
+        "maxLevel": 59
+      },
+      "locations": [],
+      "items": [],
+      "notes": "Lorelei (Ice) → Bruno (Fighting) → Agatha (Ghost/Poison) → Lance (Dragon/Flying) → Rival. No healing between fights: an Electric or Rock type covers Lorelei and Lance, a Psychic covers Bruno, and Agatha is the reason to carry a Ground or Psychic move. Recommended party floor: level 55."
+    },
+    {
+      "id": "postgame",
+      "name": "Post-game — National Dex, Sevii 4–7, Cerulean Cave",
+      "locations": [
+        "cerulean-cave",
+        "four-island",
+        "five-island",
+        "icefall-cave",
+        "lost-cave",
+        "resort-gorgeous",
+        "outcast-island",
+        "sevault-canyon",
+        "tanoby-ruins",
+        "ruin-valley",
+        "canyon-entrance",
+        "trainer-tower",
+        "pattern-bush",
+        "memorial-pillar",
+        "water-labyrinth",
+        "three-isle-port"
+      ],
+      "items": [
+        {
+          "name": "HM07 Waterfall",
+          "where": "Icefall Cave, Four Island",
+          "why": "Opens the last of the map."
+        },
+        {
+          "name": "Mewtwo",
+          "where": "Cerulean Cave (needs Surf)",
+          "why": "Level 70. This is what the Master Ball was for."
+        },
+        {
+          "name": "Ruby + Sapphire → National Dex",
+          "where": "Sapphire is in the Rocket Warehouse, Five Island",
+          "why": "Unlocks Gen 2 Pokémon in the Sevii Islands and the Rainbow Pass."
+        }
+      ],
+      "notes": "Everything here is optional. Sevii 4–7 is where the Gen 2 encounters live after the National Dex."
+    }
+  ],
+  "map": {
+    "nodes": [
+      {
+        "id": "indigo",
+        "label": "Indigo Plateau",
+        "x": 4,
+        "y": 14,
+        "s": [
+          "elitefour"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "victory",
+        "label": "Victory Road",
+        "x": 4,
+        "y": 26,
+        "s": [
+          "victoryroad"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route23",
+        "label": "Route 23",
+        "x": 4,
+        "y": 38,
+        "s": [
+          "victoryroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route22",
+        "label": "Route 22",
+        "x": 4,
+        "y": 54,
+        "s": [
+          "viridian"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "viridian",
+        "label": "Viridian City",
+        "x": 14,
+        "y": 54,
+        "s": [
+          "viridian",
+          "giovanni"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "route1",
+        "label": "Route 1",
+        "x": 14,
+        "y": 64,
+        "s": [
+          "pallet"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "pallet",
+        "label": "Pallet Town",
+        "x": 14,
+        "y": 74,
+        "s": [
+          "pallet"
+        ],
+        "gym": false,
+        "kind": "city"
+      },
+      {
+        "id": "route21",
+        "label": "Sea Route 21",
+        "x": 14,
+        "y": 84,
+        "s": [
+          "seaward"
+        ],
+        "gym": false,
+        "kind": "sea"
+      },
+      {
+        "id": "cinnabar",
+        "label": "Cinnabar Island",
+        "x": 14,
+        "y": 92,
+        "s": [
+          "blaine"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "mansion",
+        "label": "Pokémon Mansion",
+        "x": 5,
+        "y": 92,
+        "s": [
+          "blaine"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route2",
+        "label": "Route 2",
+        "x": 14,
+        "y": 44,
+        "s": [
+          "forest"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "vforest",
+        "label": "Viridian Forest",
+        "x": 14,
+        "y": 36,
+        "s": [
+          "forest"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "pewter",
+        "label": "Pewter City",
+        "x": 14,
+        "y": 26,
+        "s": [
+          "brock"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "route3",
+        "label": "Route 3",
+        "x": 26,
+        "y": 26,
+        "s": [
+          "mtmoon"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "mtmoon",
+        "label": "Mt. Moon",
+        "x": 36,
+        "y": 26,
+        "s": [
+          "mtmoon"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route4",
+        "label": "Route 4",
+        "x": 48,
+        "y": 26,
+        "s": [
+          "mtmoon"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "cerulean",
+        "label": "Cerulean City",
+        "x": 60,
+        "y": 26,
+        "s": [
+          "misty"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "route24",
+        "label": "Route 24",
+        "x": 60,
+        "y": 16,
+        "s": [
+          "misty"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route25",
+        "label": "Route 25",
+        "x": 70,
+        "y": 16,
+        "s": [
+          "misty"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "ccave",
+        "label": "Cerulean Cave",
+        "x": 48,
+        "y": 16,
+        "s": [
+          "postgame"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route9",
+        "label": "Route 9",
+        "x": 70,
+        "y": 26,
+        "s": [
+          "rocktunnel"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "rocktunnel",
+        "label": "Rock Tunnel",
+        "x": 80,
+        "y": 26,
+        "s": [
+          "rocktunnel"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route10",
+        "label": "Route 10",
+        "x": 80,
+        "y": 36,
+        "s": [
+          "rocktunnel"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "powerplant",
+        "label": "Power Plant",
+        "x": 90,
+        "y": 36,
+        "s": [
+          "rocktunnel"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route5",
+        "label": "Route 5",
+        "x": 60,
+        "y": 36,
+        "s": [
+          "vermilion"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "saffron",
+        "label": "Saffron City",
+        "x": 60,
+        "y": 46,
+        "s": [
+          "sabrina"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "route6",
+        "label": "Route 6",
+        "x": 60,
+        "y": 56,
+        "s": [
+          "vermilion"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "vermilion",
+        "label": "Vermilion City",
+        "x": 60,
+        "y": 66,
+        "s": [
+          "surge"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "ssanne",
+        "label": "S.S. Anne",
+        "x": 50,
+        "y": 66,
+        "s": [
+          "ssanne"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route11",
+        "label": "Route 11",
+        "x": 70,
+        "y": 66,
+        "s": [
+          "surge"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "digletts",
+        "label": "Diglett's Cave",
+        "x": 70,
+        "y": 56,
+        "s": [
+          "surge"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route12",
+        "label": "Route 12",
+        "x": 80,
+        "y": 66,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "lavender",
+        "label": "Lavender Town",
+        "x": 80,
+        "y": 46,
+        "s": [
+          "lavender"
+        ],
+        "gym": false,
+        "kind": "city"
+      },
+      {
+        "id": "tower",
+        "label": "Pokémon Tower",
+        "x": 90,
+        "y": 46,
+        "s": [
+          "tower"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route8",
+        "label": "Route 8",
+        "x": 70,
+        "y": 46,
+        "s": [
+          "lavender"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route7",
+        "label": "Route 7",
+        "x": 48,
+        "y": 46,
+        "s": [
+          "lavender"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "celadon",
+        "label": "Celadon City",
+        "x": 36,
+        "y": 46,
+        "s": [
+          "erika"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "route16",
+        "label": "Route 16",
+        "x": 26,
+        "y": 46,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route17",
+        "label": "Route 17",
+        "x": 26,
+        "y": 60,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route18",
+        "label": "Route 18",
+        "x": 26,
+        "y": 76,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "fuchsia",
+        "label": "Fuchsia City",
+        "x": 36,
+        "y": 76,
+        "s": [
+          "koga"
+        ],
+        "gym": true,
+        "kind": "city"
+      },
+      {
+        "id": "safari",
+        "label": "Safari Zone",
+        "x": 36,
+        "y": 66,
+        "s": [
+          "koga"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "route15",
+        "label": "Route 15",
+        "x": 48,
+        "y": 76,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route14",
+        "label": "Route 14",
+        "x": 60,
+        "y": 76,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route13",
+        "label": "Route 13",
+        "x": 80,
+        "y": 76,
+        "s": [
+          "cyclingroad"
+        ],
+        "gym": false,
+        "kind": "route"
+      },
+      {
+        "id": "route19",
+        "label": "Sea Route 19",
+        "x": 36,
+        "y": 86,
+        "s": [
+          "seaward"
+        ],
+        "gym": false,
+        "kind": "sea"
+      },
+      {
+        "id": "route20",
+        "label": "Sea Route 20",
+        "x": 26,
+        "y": 86,
+        "s": [
+          "seaward"
+        ],
+        "gym": false,
+        "kind": "sea"
+      },
+      {
+        "id": "seafoam",
+        "label": "Seafoam Islands",
+        "x": 20,
+        "y": 86,
+        "s": [
+          "seaward"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "one",
+        "label": "One Island",
+        "x": 74,
+        "y": 88,
+        "s": [
+          "sevii"
+        ],
+        "gym": false,
+        "kind": "city"
+      },
+      {
+        "id": "kindle",
+        "label": "Kindle Rd / Mt. Ember",
+        "x": 86,
+        "y": 88,
+        "s": [
+          "sevii"
+        ],
+        "gym": false,
+        "kind": "cave"
+      },
+      {
+        "id": "two",
+        "label": "Two Island",
+        "x": 70,
+        "y": 96,
+        "s": [
+          "sevii"
+        ],
+        "gym": false,
+        "kind": "city"
+      },
+      {
+        "id": "three",
+        "label": "Three Island",
+        "x": 82,
+        "y": 96,
+        "s": [
+          "sevii"
+        ],
+        "gym": false,
+        "kind": "city"
+      },
+      {
+        "id": "four7",
+        "label": "Islands 4–7",
+        "x": 94,
+        "y": 92,
+        "s": [
+          "postgame"
+        ],
+        "gym": false,
+        "kind": "city"
+      }
+    ],
+    "edges": [
+      [
+        "indigo",
+        "victory"
+      ],
+      [
+        "victory",
+        "route23"
+      ],
+      [
+        "route23",
+        "route22"
+      ],
+      [
+        "route22",
+        "viridian"
+      ],
+      [
+        "viridian",
+        "route1"
+      ],
+      [
+        "route1",
+        "pallet"
+      ],
+      [
+        "pallet",
+        "route21"
+      ],
+      [
+        "route21",
+        "cinnabar"
+      ],
+      [
+        "cinnabar",
+        "mansion"
+      ],
+      [
+        "viridian",
+        "route2"
+      ],
+      [
+        "route2",
+        "vforest"
+      ],
+      [
+        "route2",
+        "pewter"
+      ],
+      [
+        "pewter",
+        "route3"
+      ],
+      [
+        "route3",
+        "mtmoon"
+      ],
+      [
+        "mtmoon",
+        "route4"
+      ],
+      [
+        "route4",
+        "cerulean"
+      ],
+      [
+        "cerulean",
+        "route24"
+      ],
+      [
+        "route24",
+        "route25"
+      ],
+      [
+        "route24",
+        "ccave"
+      ],
+      [
+        "cerulean",
+        "route9"
+      ],
+      [
+        "route9",
+        "rocktunnel"
+      ],
+      [
+        "rocktunnel",
+        "route10"
+      ],
+      [
+        "route10",
+        "powerplant"
+      ],
+      [
+        "route10",
+        "lavender"
+      ],
+      [
+        "cerulean",
+        "route5"
+      ],
+      [
+        "route5",
+        "saffron"
+      ],
+      [
+        "saffron",
+        "route6"
+      ],
+      [
+        "route6",
+        "vermilion"
+      ],
+      [
+        "vermilion",
+        "ssanne"
+      ],
+      [
+        "vermilion",
+        "route11"
+      ],
+      [
+        "route11",
+        "digletts"
+      ],
+      [
+        "route11",
+        "route12"
+      ],
+      [
+        "route12",
+        "lavender"
+      ],
+      [
+        "lavender",
+        "tower"
+      ],
+      [
+        "lavender",
+        "route8"
+      ],
+      [
+        "route8",
+        "saffron"
+      ],
+      [
+        "saffron",
+        "route7"
+      ],
+      [
+        "route7",
+        "celadon"
+      ],
+      [
+        "celadon",
+        "route16"
+      ],
+      [
+        "route16",
+        "route17"
+      ],
+      [
+        "route17",
+        "route18"
+      ],
+      [
+        "route18",
+        "fuchsia"
+      ],
+      [
+        "fuchsia",
+        "safari"
+      ],
+      [
+        "fuchsia",
+        "route15"
+      ],
+      [
+        "route15",
+        "route14"
+      ],
+      [
+        "route14",
+        "route13"
+      ],
+      [
+        "route13",
+        "route12"
+      ],
+      [
+        "fuchsia",
+        "route19"
+      ],
+      [
+        "route19",
+        "route20"
+      ],
+      [
+        "route20",
+        "seafoam"
+      ],
+      [
+        "seafoam",
+        "cinnabar"
+      ],
+      [
+        "one",
+        "kindle"
+      ],
+      [
+        "one",
+        "two"
+      ],
+      [
+        "two",
+        "three"
+      ],
+      [
+        "three",
+        "four7"
+      ]
+    ],
+    "sea": [
+      [
+        "cinnabar",
+        "one"
+      ],
+      [
+        "seafoam",
+        "cinnabar"
+      ],
+      [
+        "cinnabar",
+        "mansion"
+      ]
+    ],
+    "fill": [
+      [
+        "route2",
+        "pewter",
+        "route3",
+        "mtmoon",
+        "route4",
+        "cerulean",
+        "route5",
+        "saffron",
+        "route7",
+        "celadon",
+        "route16",
+        "viridian"
+      ],
+      [
+        "cerulean",
+        "route9",
+        "rocktunnel",
+        "route10",
+        "lavender",
+        "route8",
+        "saffron",
+        "route5"
+      ],
+      [
+        "saffron",
+        "route6",
+        "vermilion",
+        "route11",
+        "digletts"
+      ],
+      [
+        "vermilion",
+        "route11",
+        "route12",
+        "route13",
+        "route14",
+        "route15",
+        "fuchsia",
+        "safari",
+        "route17",
+        "route16",
+        "celadon",
+        "route7",
+        "saffron",
+        "route6"
+      ],
+      [
+        "one",
+        "kindle",
+        "three",
+        "two"
+      ]
+    ],
+    "tunnel": [
+      [
+        "digletts",
+        "route2"
+      ]
+    ]
+  },
+  "fights": [
+    {
+      "id": "rival-viridian",
+      "stop": "viridian",
+      "name": "Rival — Route 22",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgey",
+          9
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "bulbasaur",
+            9
+          ]
+        ],
+        "charmander": [
+          [
+            "charmander",
+            9
+          ]
+        ],
+        "squirtle": [
+          [
+            "squirtle",
+            9
+          ]
+        ]
+      }
+    },
+    {
+      "id": "brock",
+      "stop": "brock",
+      "name": "Brock — Gym 1",
+      "kind": "gym",
+      "team": [
+        [
+          "geodude",
+          12
+        ],
+        [
+          "onix",
+          14
+        ]
+      ]
+    },
+    {
+      "id": "rival-cerulean",
+      "stop": "misty",
+      "name": "Rival — Nugget Bridge",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeotto",
+          17
+        ],
+        [
+          "abra",
+          16
+        ],
+        [
+          "rattata",
+          15
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "bulbasaur",
+            18
+          ]
+        ],
+        "charmander": [
+          [
+            "charmander",
+            18
+          ]
+        ],
+        "squirtle": [
+          [
+            "squirtle",
+            18
+          ]
+        ]
+      }
+    },
+    {
+      "id": "misty",
+      "stop": "misty",
+      "name": "Misty — Gym 2",
+      "kind": "gym",
+      "team": [
+        [
+          "staryu",
+          18
+        ],
+        [
+          "starmie",
+          21
+        ]
+      ]
+    },
+    {
+      "id": "rival-ssanne",
+      "stop": "ssanne",
+      "name": "Rival — S.S. Anne",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeotto",
+          19
+        ],
+        [
+          "raticate",
+          16
+        ],
+        [
+          "kadabra",
+          18
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "ivysaur",
+            20
+          ]
+        ],
+        "charmander": [
+          [
+            "charmeleon",
+            20
+          ]
+        ],
+        "squirtle": [
+          [
+            "wartortle",
+            20
+          ]
+        ]
+      }
+    },
+    {
+      "id": "surge",
+      "stop": "surge",
+      "name": "Lt. Surge — Gym 3",
+      "kind": "gym",
+      "team": [
+        [
+          "voltorb",
+          21
+        ],
+        [
+          "pikachu",
+          18
+        ],
+        [
+          "raichu",
+          24
+        ]
+      ]
+    },
+    {
+      "id": "erika",
+      "stop": "erika",
+      "name": "Erika — Gym 4",
+      "kind": "gym",
+      "team": [
+        [
+          "victreebel",
+          29
+        ],
+        [
+          "tangela",
+          24
+        ],
+        [
+          "vileplume",
+          29
+        ]
+      ]
+    },
+    {
+      "id": "rival-tower",
+      "stop": "tower",
+      "name": "Rival — Pokémon Tower",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeotto",
+          25
+        ],
+        [
+          "kadabra",
+          20
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "gyarados",
+            23
+          ],
+          [
+            "growlithe",
+            22
+          ],
+          [
+            "ivysaur",
+            25
+          ]
+        ],
+        "charmander": [
+          [
+            "exeggcute",
+            23
+          ],
+          [
+            "gyarados",
+            22
+          ],
+          [
+            "charmeleon",
+            25
+          ]
+        ],
+        "squirtle": [
+          [
+            "growlithe",
+            23
+          ],
+          [
+            "exeggcute",
+            22
+          ],
+          [
+            "wartortle",
+            25
+          ]
+        ]
+      }
+    },
+    {
+      "id": "koga",
+      "stop": "koga",
+      "name": "Koga — Gym 5",
+      "kind": "gym",
+      "team": [
+        [
+          "koffing",
+          37
+        ],
+        [
+          "koffing",
+          37
+        ],
+        [
+          "muk",
+          39
+        ],
+        [
+          "weezing",
+          43
+        ]
+      ]
+    },
+    {
+      "id": "rival-silph",
+      "stop": "sabrina",
+      "name": "Rival — Silph Co.",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeot",
+          37
+        ],
+        [
+          "alakazam",
+          35
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "gyarados",
+            38
+          ],
+          [
+            "growlithe",
+            35
+          ],
+          [
+            "venusaur",
+            40
+          ]
+        ],
+        "charmander": [
+          [
+            "exeggcute",
+            38
+          ],
+          [
+            "gyarados",
+            35
+          ],
+          [
+            "charizard",
+            40
+          ]
+        ],
+        "squirtle": [
+          [
+            "growlithe",
+            38
+          ],
+          [
+            "exeggcute",
+            35
+          ],
+          [
+            "blastoise",
+            40
+          ]
+        ]
+      }
+    },
+    {
+      "id": "sabrina",
+      "stop": "sabrina",
+      "name": "Sabrina — Gym 6",
+      "kind": "gym",
+      "team": [
+        [
+          "kadabra",
+          38
+        ],
+        [
+          "mr-mime",
+          37
+        ],
+        [
+          "venomoth",
+          38
+        ],
+        [
+          "alakazam",
+          43
+        ]
+      ]
+    },
+    {
+      "id": "blaine",
+      "stop": "blaine",
+      "name": "Blaine — Gym 7",
+      "kind": "gym",
+      "team": [
+        [
+          "growlithe",
+          42
+        ],
+        [
+          "ponyta",
+          40
+        ],
+        [
+          "rapidash",
+          42
+        ],
+        [
+          "arcanine",
+          47
+        ]
+      ]
+    },
+    {
+      "id": "giovanni",
+      "stop": "giovanni",
+      "name": "Giovanni — Gym 8",
+      "kind": "gym",
+      "team": [
+        [
+          "rhyhorn",
+          45
+        ],
+        [
+          "dugtrio",
+          42
+        ],
+        [
+          "nidoqueen",
+          44
+        ],
+        [
+          "nidoking",
+          45
+        ],
+        [
+          "rhydon",
+          50
+        ]
+      ]
+    },
+    {
+      "id": "rival-route22",
+      "stop": "victoryroad",
+      "name": "Rival — Route 22, pre-League",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeot",
+          47
+        ],
+        [
+          "rhyhorn",
+          45
+        ],
+        [
+          "alakazam",
+          47
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "gyarados",
+            45
+          ],
+          [
+            "growlithe",
+            45
+          ],
+          [
+            "venusaur",
+            53
+          ]
+        ],
+        "charmander": [
+          [
+            "exeggcute",
+            45
+          ],
+          [
+            "gyarados",
+            45
+          ],
+          [
+            "charizard",
+            53
+          ]
+        ],
+        "squirtle": [
+          [
+            "growlithe",
+            45
+          ],
+          [
+            "exeggcute",
+            45
+          ],
+          [
+            "blastoise",
+            53
+          ]
+        ]
+      }
+    },
+    {
+      "id": "champion",
+      "stop": "elitefour",
+      "name": "Blue — Champion",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeot",
+          59
+        ],
+        [
+          "alakazam",
+          57
+        ],
+        [
+          "rhydon",
+          59
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "gyarados",
+            59
+          ],
+          [
+            "arcanine",
+            61
+          ],
+          [
+            "venusaur",
+            63
+          ]
+        ],
+        "charmander": [
+          [
+            "exeggutor",
+            59
+          ],
+          [
+            "gyarados",
+            61
+          ],
+          [
+            "charizard",
+            63
+          ]
+        ],
+        "squirtle": [
+          [
+            "arcanine",
+            61
+          ],
+          [
+            "exeggutor",
+            61
+          ],
+          [
+            "blastoise",
+            63
+          ]
+        ]
+      }
+    },
+    {
+      "id": "lorelei",
+      "stop": "elitefour",
+      "name": "Lorelei — Elite Four",
+      "kind": "e4",
+      "team": [
+        [
+          "dewgong",
+          52
+        ],
+        [
+          "cloyster",
+          51
+        ],
+        [
+          "slowbro",
+          52
+        ],
+        [
+          "jynx",
+          54
+        ],
+        [
+          "lapras",
+          54
+        ]
+      ]
+    },
+    {
+      "id": "bruno",
+      "stop": "elitefour",
+      "name": "Bruno — Elite Four",
+      "kind": "e4",
+      "team": [
+        [
+          "onix",
+          51
+        ],
+        [
+          "hitmonchan",
+          53
+        ],
+        [
+          "hitmonlee",
+          53
+        ],
+        [
+          "onix",
+          54
+        ],
+        [
+          "machamp",
+          56
+        ]
+      ]
+    },
+    {
+      "id": "agatha",
+      "stop": "elitefour",
+      "name": "Agatha — Elite Four",
+      "kind": "e4",
+      "team": [
+        [
+          "gengar",
+          54
+        ],
+        [
+          "golbat",
+          54
+        ],
+        [
+          "haunter",
+          53
+        ],
+        [
+          "arbok",
+          56
+        ],
+        [
+          "gengar",
+          58
+        ]
+      ]
+    },
+    {
+      "id": "lance",
+      "stop": "elitefour",
+      "name": "Lance — Elite Four",
+      "kind": "e4",
+      "team": [
+        [
+          "gyarados",
+          56
+        ],
+        [
+          "dragonair",
+          54
+        ],
+        [
+          "dragonair",
+          54
+        ],
+        [
+          "aerodactyl",
+          58
+        ],
+        [
+          "dragonite",
+          60
+        ]
+      ]
+    }
+  ],
+  "rivalStarter": {
+    "bulbasaur": "charmander",
+    "charmander": "squirtle",
+    "squirtle": "bulbasaur"
+  },
+  "dexBlockers": [
+    {
+      "kind": "one of",
+      "stop": "pallet",
+      "pick": [
+        "bulbasaur",
+        "charmander",
+        "squirtle"
+      ],
+      "note": "You keep one starter for the whole run. The other two lines — 6 dex entries — only ever arrive by trade."
+    },
+    {
+      "kind": "one of",
+      "stop": "mtmoon",
+      "pick": [
+        "omanyte",
+        "kabuto"
+      ],
+      "note": "Helix or Dome, never both. Whichever you leave costs you 2 entries."
+    },
+    {
+      "kind": "one of",
+      "stop": "sabrina",
+      "pick": [
+        "hitmonlee",
+        "hitmonchan"
+      ],
+      "note": "The Fighting Dojo gives you exactly one."
+    },
+    {
+      "kind": "event only",
+      "stop": "postgame",
+      "pick": [
+        "mew",
+        "deoxys",
+        "lugia",
+        "ho-oh",
+        "celebi"
+      ],
+      "note": "Distribution events and the Aurora/Mystic Ticket. Not obtainable in normal play."
+    }
+  ],
+  "catalogue": [
+    {
+      "name": "TM01 Focus Punch",
+      "where": "Silph Co. 5F",
+      "stop": "sabrina",
+      "kind": "TM"
+    },
+    {
+      "name": "TM02 Dragon Claw",
+      "where": "Victory Road",
+      "stop": "victoryroad",
+      "kind": "TM"
+    },
+    {
+      "name": "TM03 Water Pulse",
+      "where": "Cerulean Gym (Misty)",
+      "stop": "misty",
+      "kind": "TM"
+    },
+    {
+      "name": "TM04 Calm Mind",
+      "where": "Saffron Gym (Sabrina)",
+      "stop": "sabrina",
+      "kind": "TM"
+    },
+    {
+      "name": "TM05 Roar",
+      "where": "Outside Mt. Moon; Celadon Dept. Store",
+      "stop": "mtmoon",
+      "kind": "TM"
+    },
+    {
+      "name": "TM06 Toxic",
+      "where": "Fuchsia Gym (Koga)",
+      "stop": "koga",
+      "kind": "TM"
+    },
+    {
+      "name": "TM07 Hail",
+      "where": "Victory Road",
+      "stop": "victoryroad",
+      "kind": "TM"
+    },
+    {
+      "name": "TM08 Bulk Up",
+      "where": "Silph Co. 7F",
+      "stop": "sabrina",
+      "kind": "TM"
+    },
+    {
+      "name": "TM09 Bullet Seed",
+      "where": "Mt. Moon entrance",
+      "stop": "mtmoon",
+      "kind": "TM"
+    },
+    {
+      "name": "TM10 Hidden Power",
+      "where": "Only via the Pickup ability",
+      "stop": null,
+      "kind": "TM"
+    },
+    {
+      "name": "TM11 Sunny Day",
+      "where": "Safari Zone",
+      "stop": "koga",
+      "kind": "TM"
+    },
+    {
+      "name": "TM12 Taunt",
+      "where": "Rocket Hideout B2F",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM13 Ice Beam",
+      "where": "Celadon Game Corner prize",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM14 Blizzard",
+      "where": "Pokémon Mansion",
+      "stop": "blaine",
+      "kind": "TM"
+    },
+    {
+      "name": "TM15 Hyper Beam",
+      "where": "Celadon Dept. Store",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM16 Light Screen",
+      "where": "Celadon Dept. Store roof",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM17 Protect",
+      "where": "Power Plant",
+      "stop": "koga",
+      "kind": "TM"
+    },
+    {
+      "name": "TM18 Rain Dance",
+      "where": "Route 15",
+      "stop": "cyclingroad",
+      "kind": "TM"
+    },
+    {
+      "name": "TM19 Giga Drain",
+      "where": "Celadon Gym (Erika)",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM20 Safeguard",
+      "where": "Celadon Dept. Store roof",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM21 Frustration",
+      "where": "Rocket Hideout B3F",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM22 SolarBeam",
+      "where": "Pokémon Mansion",
+      "stop": "blaine",
+      "kind": "TM"
+    },
+    {
+      "name": "TM23 Iron Tail",
+      "where": "Celadon Game Corner prize",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM24 Thunderbolt",
+      "where": "Celadon Game Corner prize",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM25 Thunder",
+      "where": "Power Plant",
+      "stop": "koga",
+      "kind": "TM"
+    },
+    {
+      "name": "TM26 Earthquake",
+      "where": "Viridian Gym (Giovanni)",
+      "stop": "giovanni",
+      "kind": "TM"
+    },
+    {
+      "name": "TM27 Return",
+      "where": "Route 12",
+      "stop": "cyclingroad",
+      "kind": "TM"
+    },
+    {
+      "name": "TM28 Dig",
+      "where": "Cerulean City; Celadon Dept. Store",
+      "stop": "misty",
+      "kind": "TM"
+    },
+    {
+      "name": "TM29 Psychic",
+      "where": "Saffron City",
+      "stop": "sabrina",
+      "kind": "TM"
+    },
+    {
+      "name": "TM30 Shadow Ball",
+      "where": "Celadon Game Corner prize",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM31 Brick Break",
+      "where": "S.S. Anne; Celadon Dept. Store",
+      "stop": "ssanne",
+      "kind": "TM"
+    },
+    {
+      "name": "TM32 Double Team",
+      "where": "Safari Zone",
+      "stop": "koga",
+      "kind": "TM"
+    },
+    {
+      "name": "TM33 Reflect",
+      "where": "S.S. Anne B1F; Celadon Dept. Store roof",
+      "stop": "ssanne",
+      "kind": "TM"
+    },
+    {
+      "name": "TM34 Shock Wave",
+      "where": "Vermilion Gym (Lt. Surge)",
+      "stop": "surge",
+      "kind": "TM"
+    },
+    {
+      "name": "TM35 Flamethrower",
+      "where": "Celadon Game Corner prize",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM36 Sludge Bomb",
+      "where": "Rocket Warehouse, Five Island",
+      "stop": "postgame",
+      "kind": "TM"
+    },
+    {
+      "name": "TM37 Sandstorm",
+      "where": "Victory Road",
+      "stop": "victoryroad",
+      "kind": "TM"
+    },
+    {
+      "name": "TM38 Fire Blast",
+      "where": "Silph Co. 7F; Cinnabar Gym (Blaine)",
+      "stop": "blaine",
+      "kind": "TM"
+    },
+    {
+      "name": "TM39 Rock Tomb",
+      "where": "Pewter Gym (Brock); Silph Co. 4F",
+      "stop": "brock",
+      "kind": "TM"
+    },
+    {
+      "name": "TM40 Aerial Ace",
+      "where": "Route 9",
+      "stop": "rocktunnel",
+      "kind": "TM"
+    },
+    {
+      "name": "TM41 Torment",
+      "where": "Silph Co. 4F",
+      "stop": "sabrina",
+      "kind": "TM"
+    },
+    {
+      "name": "TM42 Facade",
+      "where": "Rock Altar, Six Island",
+      "stop": "postgame",
+      "kind": "TM"
+    },
+    {
+      "name": "TM43 Secret Power",
+      "where": "Celadon Dept. Store; Route 24",
+      "stop": "misty",
+      "kind": "TM"
+    },
+    {
+      "name": "TM44 Rest",
+      "where": "Route 9",
+      "stop": "rocktunnel",
+      "kind": "TM"
+    },
+    {
+      "name": "TM45 Attract",
+      "where": "Route 24; Celadon Dept. Store",
+      "stop": "misty",
+      "kind": "TM"
+    },
+    {
+      "name": "TM46 Thief",
+      "where": "Mt. Moon B2F",
+      "stop": "mtmoon",
+      "kind": "TM"
+    },
+    {
+      "name": "TM47 Steel Wing",
+      "where": "Safari Zone",
+      "stop": "koga",
+      "kind": "TM"
+    },
+    {
+      "name": "TM48 Skill Swap",
+      "where": "Route 12",
+      "stop": "cyclingroad",
+      "kind": "TM"
+    },
+    {
+      "name": "TM49 Snatch",
+      "where": "Rocket Hideout B4F",
+      "stop": "erika",
+      "kind": "TM"
+    },
+    {
+      "name": "TM50 Overheat",
+      "where": "Victory Road",
+      "stop": "victoryroad",
+      "kind": "TM"
+    },
+    {
+      "name": "HM01 Cut",
+      "where": "S.S. Anne, from the Captain",
+      "stop": "ssanne",
+      "kind": "HM"
+    },
+    {
+      "name": "HM02 Fly",
+      "where": "House on Route 16",
+      "stop": "cyclingroad",
+      "kind": "HM"
+    },
+    {
+      "name": "HM03 Surf",
+      "where": "Safari Zone Secret House",
+      "stop": "koga",
+      "kind": "HM"
+    },
+    {
+      "name": "HM04 Strength",
+      "where": "Fuchsia Warden, for the Gold Teeth",
+      "stop": "koga",
+      "kind": "HM"
+    },
+    {
+      "name": "HM05 Flash",
+      "where": "Route 2 east gate (needs 10 species)",
+      "stop": "surge",
+      "kind": "HM"
+    },
+    {
+      "name": "HM06 Rock Smash",
+      "where": "Ember Spa, One Island",
+      "stop": "sevii",
+      "kind": "HM"
+    },
+    {
+      "name": "HM07 Waterfall",
+      "where": "Icefall Cave, Four Island",
+      "stop": "postgame",
+      "kind": "HM"
+    }
+  ],
+  "npcs": [
+    {
+      "id": "relearner",
+      "name": "Move Relearner (Move Maniac)",
+      "stop": "sevii",
+      "where": "Two Island — purple-roofed house by the Pokémon Center",
+      "why": "Re-teaches any move the Pokémon should have learnt by level-up and missed. Costs 2 TinyMushrooms or 1 Big Mushroom — both are held items on wild Paras and Parasect."
+    },
+    {
+      "id": "deleter",
+      "name": "Move Deleter",
+      "stop": "koga",
+      "where": "Fuchsia City — house next to the Pokémon Center",
+      "why": "The only way to remove an HM move. Nothing else can overwrite Cut, Fly, Surf, Strength, Flash, Rock Smash or Waterfall."
+    },
+    {
+      "id": "ultimate",
+      "name": "Starter ultimate move tutor",
+      "stop": "sevii",
+      "where": "Cape Brink, Two Island",
+      "why": "Teaches Frenzy Plant / Hydro Cannon / Blast Burn — once each, to a fully evolved Venusaur, Blastoise or Charizard only."
+    }
+  ]
+}

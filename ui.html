@@ -1,0 +1,1212 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Route Planner</title>
+<style>
+:root{--bg:#0f1219;--card:#181c26;--line:#282d3c;--fg:#e6e8ef;--dim:#8b91a3;--acc:#6ea8fe;--good:#4ade80;--warn:#fbbf24;--sea:#2f6ba8}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg)}
+img{image-rendering:pixelated}
+header{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;flex-wrap:wrap;position:sticky;top:0;background:var(--bg);z-index:9}
+h1{font-size:16px;margin:0;font-weight:600}h1 small{color:var(--dim);font-weight:400}
+.wrap{display:grid;grid-template-columns:500px 1fr}
+aside{border-right:1px solid var(--line);padding:12px;position:sticky;top:53px;max-height:calc(100vh - 53px);overflow:auto}
+main{padding:18px 22px;max-width:880px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 14px}
+h2{font-size:20px;margin:0 0 6px}
+h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:22px 0 8px}
+.meta{color:var(--dim);font-size:13px}
+.notes{border-left:3px solid var(--acc);padding-left:12px;margin:12px 0;color:#c3c8d6}
+ol,ul{margin:0;padding-left:20px}li{margin:7px 0}
+.why{color:var(--dim);font-size:13px}
+/* map */
+.mapwrap{position:relative;margin-bottom:6px}
+.maphead{position:absolute;top:7px;left:8px;z-index:2;color:#fff;font:700 13px/1 ui-monospace,Menlo,monospace;
+  letter-spacing:.14em;text-transform:uppercase;text-shadow:2px 2px 0 #17324f,-1px -1px 0 #17324f,1px -1px 0 #17324f,-1px 1px 0 #17324f;
+  pointer-events:none}
+svg.map{width:100%;display:block;background:#a5d8f2;border:3px solid #17324f;border-radius:3px}
+svg.map .stripe{stroke:#8ac6e8;stroke-width:1}
+svg.map .coast{fill:none;stroke:#256b2c;stroke-linecap:square;stroke-linejoin:miter}
+svg.map .land{fill:none;stroke:#46b04a;stroke-linecap:square;stroke-linejoin:miter}
+svg.map .inland polygon{fill:#256b2c;stroke:#256b2c;stroke-width:15;stroke-linejoin:miter}
+svg.map .inland2 polygon{fill:#46b04a;stroke:#46b04a;stroke-width:12.6;stroke-linejoin:miter}
+/* roads carry the progress: walked ones are warm, the rest are washed out */
+svg.map .roadbase{fill:none;stroke:#2f7a38;stroke-width:3.4;stroke-linecap:square}
+svg.map .road{fill:none;stroke-width:2.2;stroke-linecap:square}
+svg.map .road.future{stroke:#9fbe93}
+svg.map .road.done{stroke:#e8b24a}
+svg.map .road.here{stroke:#fff36b;stroke-width:2.8}
+svg.map .ferry{fill:none;stroke:#fff;stroke-width:.6;stroke-dasharray:1.4 1.8;opacity:.8}
+svg.map .tunnel{fill:none;stroke:#7a5c30;stroke-width:.7;stroke-dasharray:1 1.4;opacity:.8}
+svg.map g.n{cursor:pointer}
+svg.map g.n .hitbox{fill:transparent}
+svg.map .mk{stroke:#17324f;stroke-width:.5}
+/* not been there yet: washed out. been there: full colour. */
+svg.map g.n.future .mk{fill:#b9c9b2;stroke:#6f8a74}
+svg.map g.n.future .pip{fill:#eaf1e6}
+svg.map g.n.city.done .mk,svg.map g.n.city.here .mk{fill:#e8443c}
+svg.map g.n.cave.done .mk,svg.map g.n.cave.here .mk{fill:#5b4a33}
+svg.map g.n.done .pip,svg.map g.n.here .pip{fill:#fff}
+svg.map g.n.here .mk{fill:#fff36b;stroke:#7a5a00}    /* routes have no marker of their own */
+svg.map .gymring{fill:none;stroke:#c9962f;stroke-width:.7;opacity:.75}
+svg.map g.n.done .gymring{stroke:#ffd34d;opacity:1}
+/* you are here: the only thing on the map that moves */
+svg.map .halo{fill:none;stroke:#fff36b;stroke-width:1.1;opacity:.9;
+  transform-box:fill-box;transform-origin:center;animation:ping 1.8s ease-out infinite}
+svg.map .here-dot{fill:none;stroke:#fff;stroke-width:1.3}
+@keyframes ping{0%{r:3.2;opacity:1}70%{r:6.4;opacity:0}100%{r:6.4;opacity:0}}
+@media(prefers-reduced-motion:reduce){svg.map .halo{animation:none;opacity:.85}}
+svg.map g.n:hover .mk{stroke:#fff;stroke-width:1}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--dim);padding:6px 2px 4px}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;border:1px solid #17324f}
+/* stop list */
+.stops button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--dim);padding:5px 8px;border-radius:6px;cursor:pointer;font:inherit;font-size:13px}
+.stops button:hover{background:var(--card);color:var(--fg)}
+.stops button.on{background:var(--acc);color:#0b0d12;font-weight:600}
+.stops button.done{color:#4c5364;text-decoration:line-through}
+/* mons */
+.mon{display:grid;grid-template-columns:26px 56px 1fr;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.mon:last-child{border:0}
+.rank{color:var(--dim);font-variant-numeric:tabular-nums;padding-top:14px}
+.spr{width:56px;height:56px;object-fit:contain}
+.nm{font-weight:600;text-transform:capitalize}
+.t{font-size:11px;padding:1px 7px;border-radius:20px;background:#2a3040;color:#c9d1e4;text-transform:capitalize;margin-left:5px}
+.chain{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin:4px 0}
+.chain img{width:32px;height:32px}
+.chain span{color:var(--dim);font-size:12px}
+.pill{font-size:12px;padding:2px 9px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+.pill.b{border-color:var(--warn);color:var(--warn)}
+button.g{background:var(--card);border:1px solid var(--line);color:var(--dim);border-radius:6px;padding:2px 8px;cursor:pointer;font:inherit;font-size:12px}
+button.g.on{border-color:var(--good);color:var(--good)}
+.prog{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:13px}
+.prog .ok{color:var(--good);margin-top:0}
+.prog .ev{color:#6f7890;font-size:12px}
+.nudge{margin-left:auto}
+.bar{height:4px;background:var(--line);border-radius:3px;overflow:hidden;flex:1;min-width:110px}
+.bar i{display:block;height:100%;background:var(--good)}
+/* party / PC, in the shape of the in-game screens */
+.pkui{background:linear-gradient(#33578c,#1d3557);border:3px solid #0b1626;border-radius:12px;padding:12px;margin-bottom:14px}
+.pkui h4{margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#bcd6f5;font-weight:700}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slot{display:flex;gap:9px;align-items:center;background:#eef3fa;color:#152238;border:2px solid #0b1626;
+  border-radius:14px;padding:6px 10px;min-height:56px;cursor:pointer;user-select:none}
+.slot img{width:44px;height:44px;flex:none}
+.slot b{display:block;font-size:13px;text-transform:capitalize;line-height:1.2}
+.slot .who{min-width:0}
+.slot .lv{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#4a5a73;margin:2px 0}
+.slot .lv input{width:44px;padding:1px 4px;font:inherit;font-size:11px;border:1px solid #8fa6c4;
+  border-radius:4px;background:#fff;color:#152238}
+.slot .xp{color:#a8511c}.slot .ok2{color:#1d7a3c}
+.evos{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.evo{display:flex;align-items:center;gap:4px;background:#d8ead8;border:2px solid #2f6b3f;color:#14401f;
+  border-radius:9px;padding:2px 7px 2px 3px;font:inherit;font-size:11px;font-weight:700;cursor:pointer;
+  text-transform:capitalize}
+.evo:hover{background:#b9dfba}
+.evo img{width:22px;height:22px}
+.evo small{font-weight:400;color:#3f6b4d;text-transform:none}
+.evo.off{background:#e3e8ef;border-color:#9aa6b6;color:#7d879a;cursor:not-allowed}
+.evo.off small{color:#8d97a8}
+.livewarn{color:#a8511c;display:block;margin-top:3px}
+.cell .rdy{position:absolute;top:1px;right:2px;font-size:9px;color:#8fe27a;font-style:normal}
+.mslots{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mslots select{width:100%;padding:5px 7px;font:inherit;font-size:12px;border:1px solid var(--line);
+  border-radius:6px;background:#11151d;color:var(--fg)}
+.advice{margin-top:9px;font-size:13px;color:#c3c8d6;border-left:3px solid var(--good);padding-left:10px}
+.advice b{color:var(--good)}
+.note{margin-top:9px;font-size:12px;color:#c9a86a;background:#211d14;border:1px solid #3d3320;
+  border-radius:6px;padding:6px 9px}
+.spots tr.later td{opacity:.55}
+img.mini{width:26px;height:26px;vertical-align:middle}
+.give{margin-left:8px;border-color:var(--good);color:var(--good)}
+.carrying{color:var(--good);font-size:12px;margin-left:8px}
+.slot small{color:#4a5a73;font-size:11px;line-height:1.3;display:block}
+.slot .hm{color:#1c5fa8;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.slot.empty{background:#2d4f80;border-style:dashed;border-color:#5d84bb;color:#7ea3d4;
+  justify-content:center;align-items:center;font-size:11px;cursor:default}
+.pcgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;max-width:430px}
+.cell{aspect-ratio:1;background:#2a4a7d;border:2px solid #0b1626;border-radius:8px;
+  display:grid;place-items:center;cursor:grab;position:relative}
+.cell.empty{background:#223d68;border-color:#33547f;cursor:default}
+.cell img{width:82%;height:82%;object-fit:contain}
+.cell span{position:absolute;bottom:0;left:0;right:0;font-size:7px;text-align:center;color:#bcd6f5;
+  text-transform:capitalize;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.pkui.drop{outline:3px dashed #ffd34d;outline-offset:2px}
+.notice{color:var(--warn);font-size:12px;margin-top:8px}
+/* one-line slots; the detail lives in the sheet */
+.slot .who{flex:1;min-width:0}
+.slot .lvtag{font-size:11px;color:#4a5a73;margin-left:6px;font-weight:600}
+.slot .rdytag{font-size:10px;color:#1d7a3c;margin-left:6px;font-weight:700}
+.slot .chev{color:#8fa6c4;font-size:19px;line-height:1;flex:none}
+.slot small{display:block;color:#4a5a73;font-size:11px;line-height:1.35}
+/* the sheet */
+.modal{position:fixed;inset:0;z-index:40;background:#000a;display:flex;align-items:center;
+  justify-content:center;padding:16px;overflow:auto}
+.modal[hidden]{display:none}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;
+  width:min(520px,100%);max-height:90vh;overflow:auto}
+.shead{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.shead img{width:64px;height:64px}
+.shead b{font-size:19px;text-transform:capitalize}
+.shead .x{margin-left:auto;background:none;border:0;color:var(--dim);font-size:26px;line-height:1;
+  cursor:pointer;padding:0 6px}
+.srow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--line)}
+.srow .lv{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--dim)}
+.srow .lv input{width:62px;padding:6px 8px;font:inherit;font-size:14px;border:1px solid var(--line);
+  border-radius:6px;background:#11151d;color:var(--fg)}
+.srow .xp{color:var(--warn);font-size:13px}
+.srow .ok2{color:var(--good);font-size:13px}
+.ssec{padding:12px 0;border-top:1px solid var(--line)}
+.ssec h5{margin:0 0 8px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.ssec .auto{margin-top:8px}
+.sfoot{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.sfoot button{flex:1;min-height:38px}
+.sheet .evo{background:#16301f;border-color:#2f6b3f;color:#9ce8b4}
+.sheet .evo:hover{background:#1d4029}
+.sheet .evo small{color:#6fae87}
+.sheet .evo.off{background:#1a1e27;border-color:#333b4a;color:#6a7387}
+.sheet .evo.off small{color:#5b6376}
+.drag{opacity:.35}
+.roster{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
+.roster div{text-align:center;font-size:11px;color:var(--dim);width:60px;text-transform:capitalize}
+.roster img{width:48px;height:48px;display:block;margin:0 auto}
+.roster b{color:var(--fg);font-weight:600}
+.ctr{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.ctr div{width:74px;text-align:center;font-size:11px;color:var(--dim);text-transform:capitalize;
+  border:1px solid var(--line);border-radius:8px;padding:5px 2px}
+.ctr div.have{border-color:var(--good);background:#132a1f}
+.ctr div.trade{opacity:.55}
+.ctr img{width:44px;height:44px;display:block;margin:0 auto}
+.ctr .src{font-size:10px;color:#666e85;display:block;text-transform:none;line-height:1.25}
+.gap{color:var(--warn);font-size:13px;margin-top:8px}
+.warn{color:#e8b45f;font-size:13px;margin-top:8px}
+.ctr div.stored{border-color:#4a5a7a;background:#151d2b}
+.dex .covered{color:#78849b}.dex .have{color:var(--good)}.dex .need{color:#c9d1e4}
+.mon.dim{opacity:.45}
+.ok{color:var(--good);font-size:13px;margin-top:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:3px 0}
+.chip{font-size:11px;padding:1px 7px;border-radius:5px;background:#232838;color:var(--dim)}
+.chip.v{color:#9fd0ff}.chip.e{color:#ffcf87}
+.cost{color:#7d859c;font-size:12px;margin-top:2px}
+.cost b{color:var(--warn);font-weight:500}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+#q{width:100%;margin-bottom:10px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);
+   background:var(--card);color:var(--fg);font:inherit;font-size:13px}
+#q::placeholder{color:#5d6478}
+.qm{width:100%;margin-bottom:12px;padding:11px 12px;border-radius:9px;border:1px solid var(--line);
+  background:var(--card);color:var(--fg);font:inherit;font-size:15px}
+.qm::placeholder{color:#5d6478}
+.dex{font-size:12px;margin-top:3px;line-height:1.5}
+.dex .later{color:#7fb3e8}.dex .only{color:var(--warn)}.dex .skip{color:var(--good)}
+.ver{font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid var(--line);color:var(--dim);margin-left:5px}
+.ver.x{border-color:#a05; color:#f79}
+.spots td{padding:4px 10px 4px 0;font-size:13px;vertical-align:top}
+.spots td:first-child{color:var(--dim);white-space:nowrap}
+.hit{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.hit img{width:48px;height:48px}
+.gear{display:none;font-size:16px;line-height:1;padding:4px 9px}
+.setup{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 18px;
+  border-bottom:1px solid var(--line);background:var(--card)}
+.tabs{display:none}
+.side{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.side button{background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--dim);
+  font:inherit;font-size:12px;padding:8px 4px;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;gap:4px}
+.side button em{font-style:normal;font-size:17px;line-height:1}
+.side button:hover{color:var(--fg);border-color:#39415a}
+.side button.on{color:var(--acc);border-color:var(--acc);background:#161c2a}
+@media(max-width:860px){
+  .wrap{grid-template-columns:1fr}
+  aside{position:static;border-right:0;max-height:none;padding:10px 12px 84px}
+  #q,.side{display:none}              /* the bottom tab bar is the nav here */
+  main{padding:12px 12px 84px;max-width:none}
+  header{padding:10px 12px;gap:10px}
+  h1{font-size:15px}
+  .gear{display:block;margin-left:auto}
+  .setup{display:none;padding:12px}
+  body.showsetup .setup{display:flex}
+  body:not(.tab-map) aside{display:none}
+  body.tab-map main{display:none}
+  /* thumbs, not cursors */
+  button.g{min-height:34px;padding:6px 12px;font-size:13px}
+  .mslots select{min-height:38px;font-size:13px}
+  .slot .lv input{width:56px;min-height:30px;font-size:13px}
+  .mon{grid-template-columns:24px 48px 1fr;gap:8px}
+  .spr{width:48px;height:48px}
+  .slots{grid-template-columns:1fr}
+  .slot.empty{min-height:34px;padding:4px}
+  .pcgrid{grid-template-columns:repeat(5,1fr);max-width:none}
+  .ctr div{width:70px}
+  .tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;
+    background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  .tabs button{background:none;border:0;color:var(--dim);font:inherit;font-size:11px;padding:9px 2px 8px;
+    cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .tabs button em{font-style:normal;font-size:17px;line-height:1}
+  .tabs button.on{color:var(--acc)}
+}
+/* art: item icons, type labels, badges. Last, and typed, so the sprite-sizing
+   rules above ('.hit img', '.shead img') can't blow these up. */
+img.ico{width:26px;height:26px;vertical-align:middle;margin-right:7px;flex:none}
+.spots td img.ico{margin-right:4px}
+.meta img.ico,.evo small img.ico{width:15px;height:15px;margin:0 3px 0 0}
+img.ty{height:12px;width:auto;vertical-align:middle;margin-left:5px}  /* native size — 32x12 */
+.shead img.ty{height:24px}
+img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-fit:contain;display:inline}
+</style>
+<header>
+  <h1><span id="region"></span> Router <small id="game"></small></h1>
+  <button class="g gear" id="gear" aria-label="Settings">⚙</button>
+  <div class="bar"><i id="prog"></i></div>
+  <span class="meta" id="progtxt"></span>
+</header>
+<div class="setup" id="setup">
+  <span class="meta">goal:</span><span id="goal"></span>
+  <span id="cart"></span>
+  <span class="meta">starter:</span><span id="starter"></span>
+  <button class="g" id="resetbtn">Reset all progress</button>
+</div>
+<div class="wrap">
+  <aside id="aside">
+    <nav class="side" id="sidenav"></nav>
+    <input id="q" placeholder="where do I find… (Pokémon, TM, move)" autocomplete="off">
+    <div class="mapwrap">
+      <div class="maphead" id="maphead"></div>
+      <svg class="map" id="map" viewBox="-2 6 104 96" shape-rendering="crispEdges"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:#e8443c"></i>town</span>
+      <span><i style="background:#5b4a33"></i>cave / building</span>
+      <span><i style="background:#b9c9b2"></i>not been yet</span>
+      <span><i style="background:#fff36b"></i>you are here</span>
+    </div>
+    <div class="stops" id="stops"></div>
+  </aside>
+  <main id="main"></main>
+</div>
+<nav class="tabs" id="tabs"></nav>
+<div class="modal" id="modal" hidden></div>
+<script>/*DATA*/</script>
+<script>
+const $ = h => { const d = document.createElement('div'); d.innerHTML = h; return d.firstElementChild }
+const save = (k, v) => { try { localStorage.setItem('kr:' + k, JSON.stringify(v)) } catch {} }
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem('kr:' + k)) ?? d } catch { return d } }
+const cap = s => s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))
+
+const spr = id => SPR[id] || ''
+// item art. A few catalogue lines name a Pokémon ("Snorlax x2") — those draw the sprite.
+const icon = k => !k ? '' : k.startsWith('pkm-') ? spr(k.slice(4)) : (IMG[k] || '')
+const ico = (k, cls = 'ico') => icon(k) ? `<img class="${cls}" src="${icon(k)}" alt="" loading="lazy">` : ''
+const ty = t => icon(DATA.typeArt[t])
+  ? `<img class="ty" src="${icon(DATA.typeArt[t])}" alt="${cap(t)}" title="${cap(t)}" loading="lazy">`
+  : `<span class="t">${cap(t)}</span>`
+// how you get it, drawn with the item that gets it
+const methodIco = m => ico(DATA.methodArt[m])
+
+// How far you've got is mostly inferable: owning something, or knowing a move off a
+// machine, proves you reached wherever that comes from. `reached` is the manual floor
+// for when you're further along than your catches let on.
+let reached = load('reached', (() => { const d = load('done', []); return d.length ? Math.max(...d) + 1 : 0 })())
+let progress = 0, evidence = []
+const isDone = i => i < progress
+
+function inferProgress() {
+  let best = reached, why = []
+  const bump = (i, note) => { if (i > best) { best = i; why = [note] } else if (i === best && i > 0) why.push(note) }
+
+  // the earliest stop anything in its family can be got — a safe lower bound
+  const familyFloor = id => {
+    const fam = (monById[id] || {}).family || (DATA.mon[id] ? [id] : [])
+    const ats = [id, ...fam].map(f => monById[f] && monById[f].spots[0].at).filter(a => a != null)
+    return ats.length ? Math.min(...ats) : null
+  }
+  new Set([...party, ...pc, ...seen]).forEach(id => {
+    const f = familyFloor(id)
+    if (f != null) bump(f, `you have ${cap(M(id).name)}`)
+  })
+  // a move that only comes off a TM or HM proves you got that machine
+  const stopIdx = Object.fromEntries(stops.map((x, i) => [x.id, i]))
+  Object.entries(sets).forEach(([pid, list]) => (list || []).forEach(mid => {
+    const c = Object.values(DATA.machines).find(x => x.move === mid)
+    if (c && c.stop != null && stopIdx[c.stop] != null)
+      bump(stopIdx[c.stop], `${cap(M(pid).name)} knows ${cap(DATA.moves[mid].n)} (${c.name})`)
+  }))
+  progress = Math.min(best, stops.length - 1)
+  evidence = [...new Set(why)].slice(0, 4)
+}
+
+const setReached = i => { reached = Math.max(0, i); save('reached', reached); render() }
+let party = new Set(load('party', load('team', [])).slice(0, 6))
+let pc = new Set(load('pc', load('box', [])))
+let goal = load('goal', 'story')
+let levels = load('levels', {})
+let sets = load('sets', {})
+// what the dex has registered: you keep the entry after evolving, you don't keep the Pokémon
+let seen = new Set(load('seen', [...load('party', []), ...load('pc', [])]))
+const M = id => DATA.mon[id] || { name: '#' + id, types: [], bst: 0, growth: 2, baseExp: 60, hms: [], learn: { lv: [], tm: [] } }
+const lvOf = id => levels[id] || null
+const setLv = (id, n) => {
+  n = Math.max(1, Math.min(100, n | 0))
+  if (n) levels[id] = n; else delete levels[id]
+  save('levels', levels); render()
+}
+
+// Gen 3: a battle is worth base_exp x the fainted level / 7. `grind` is what the
+// best spot you can reach is worth per battle at each stop.
+function battlesTo(id, from, to) {
+  const g = DATA.exp[M(id).growth]
+  if (!g || to <= from) return 0
+  const need = g[Math.min(100, to) - 1] - g[Math.max(1, from) - 1]
+  return Math.max(0, Math.round(need / (DATA.games[game].grind[at] * 1.6)))
+}
+const GOALS = { story: 'beat the game', national: 'National Dex', living: 'Living Dex' }
+const PARTY_MAX = 6
+const owns = id => party.has(id) || pc.has(id)
+function setOwn(id, where) {
+  party.delete(id); pc.delete(id)
+  if (where === 'party') (party.size < PARTY_MAX ? party : pc).add(id)
+  else if (where === 'box') pc.add(id)
+  if (where) seen.add(id)
+  save('party', [...party]); save('pc', [...pc]); save('seen', [...seen]); render()
+}
+
+// Evolving moves the Pokémon and keeps the old dex entry — which is exactly the
+// difference between a National Dex (done) and a Living Dex (still needs one).
+function evolve(from, to) {
+  const where = party.has(from) ? 'party' : 'box'
+  party.delete(from); pc.delete(from)
+  ;(where === 'party' ? party : pc).add(to)
+  if (levels[from]) { levels[to] = levels[from]; delete levels[from] }
+  if (sets[from]) { sets[to] = sets[from]; delete sets[from] }   // evolving keeps its moves
+  seen.add(from); seen.add(to)
+  save('party', [...party]); save('pc', [...pc]); save('levels', levels)
+  save('sets', sets); save('seen', [...seen])
+  render()
+}
+
+// can this evolution be done right now?
+function canEvolve(id, o) {
+  const lv = lvOf(id)
+  if (o.trigger === 'level-up') return o.level ? (lv ? lv >= o.level : false) : !!lv
+  if (o.trigger === 'use-item') return at >= DATA.stoneStop || /moon/.test(o.item || '')
+  return true                       // trade / friendship: your call, flagged in the UI
+}
+
+// National Dex: owning any earlier member of the line registers the rest by evolving.
+// Living Dex: you need one of each, simultaneously — nothing covers anything else.
+function dexNeed(id, family) {
+  if (goal === 'story') return null
+  if (goal === 'national' && seen.has(id)) return { s: 'have' }
+  if (owns(id)) return { s: 'have' }
+  if (goal === 'national') {
+    const by = (family || []).find(o => owns(o) && (DATA.evoDown[o] || []).includes(id))
+    if (by) return { s: 'covered', by }
+  }
+  return { s: 'need' }
+}
+let at = load('at', 0)
+let starter = load('starter', 'charmander')
+let sortBy = load('sortBy', 'score')
+let game = load('game', 'FR')
+let query = ''
+let notice = ''
+let view = 'route'
+const mobile = () => matchMedia('(max-width: 860px)').matches
+const TABS = [['map', '🗺', 'Map'], ['route', '📍', 'Here'], ['team', '🎒', 'Team'],
+              ['find', '🔍', 'Find'], ['dex', '📕', 'Dex']]
+let showSetup = false
+let dexTab = load('dexTab', 'mon'), dexQ = ''
+let modalId = null
+addEventListener('keydown', e => { if (e.key === 'Escape' && modalId) closeMon() })
+matchMedia('(max-width: 860px)').addEventListener('change', () => render())
+const SORTS = { score: 'best payoff', effort: 'least effort', value: 'most useful', bst: 'raw power' }
+
+// everything below re-derives when you switch cartridge
+let stops, idx, fightById, monById
+function useGame() {
+  stops = DATA.games[game].stops
+  idx = Object.fromEntries(stops.map((s, i) => [s.id, i]))
+  fightById = Object.fromEntries(DATA.games[game].fights.map(f => [f.id, f]))
+  monById = {}
+  stops.forEach((s, i) => s.mons.forEach(m => monById[m.id] = { ...m, stop: i }))
+  if (at >= stops.length) at = 0
+}
+useGame()
+const roster = f => f.variants ? f.team.concat(f.variants[DATA.rivalStarter[starter]] || []) : f.team
+
+
+function drawMap() {
+  const M = DATA.map, pos = Object.fromEntries(M.nodes.map(n => [n.id, n]))
+  const seaEdge = new Set(M.sea.map(e => e.join('>')))
+  const isSea = ([a, b]) => pos[a].kind === 'sea' || pos[b].kind === 'sea'
+    || seaEdge.has(a + '>' + b) || seaEdge.has(b + '>' + a)
+  const stopsOf = n => pos[n].s.map(x => idx[x])
+  const atHere = M.nodes.filter(n => stopsOf(n.id).includes(at))
+  const hereNode = (atHere.find(n => n.kind === 'city') || atHere.find(n => n.kind === 'cave')
+                    || atHere[0] || {}).id
+  const state = n => n === hereNode ? 'here'
+    : stopsOf(n).includes(at) || stopsOf(n).every(isDone) ? 'done' : 'future'
+
+  const seg = ([a, b]) => {
+    const p = pos[a], q = pos[b]
+    return (p.x === q.x || p.y === q.y)
+      ? `M${p.x} ${p.y}L${q.x} ${q.y}`
+      : `M${p.x} ${p.y}L${q.x} ${p.y}L${q.x} ${q.y}`
+  }
+  const land = M.edges.filter(e => !isSea(e))
+  const spine = land.map(seg).join('') +
+    M.nodes.filter(n => n.kind !== 'sea').map(n => `M${n.x} ${n.y}h.01`).join('')
+  // a road is "walked" once both ends are behind you — that is the progress read
+  const roadClass = ([a, b]) => (state(a) === 'here' || state(b) === 'here') ? 'here'
+    : (state(a) !== 'future' && state(b) !== 'future') ? 'done' : 'future'
+  const roadsBy = c => land.filter(e => roadClass(e) === c).map(seg).join('')
+  const ferries = M.edges.concat(M.sea).filter(isSea).map(seg).join('')
+  const tunnels = (M.tunnel || []).map(seg).join('')
+
+  // Only places get a marker. Routes are the roads themselves — drawing a dot on
+  // every one was most of the clutter.
+  const marker = n => {
+    if (n.kind === 'city') return `<circle class="mk" cx="${n.x}" cy="${n.y}" r="2.1"/>` +
+      `<circle class="pip" cx="${n.x}" cy="${n.y}" r="0.85"/>`
+    if (n.kind === 'cave') return `<rect class="mk" x="${n.x - 1.7}" y="${n.y - 1.4}" width="3.4" height="2.8"/>`
+    return ''
+  }
+
+  document.getElementById('map').innerHTML = `
+    <g class="stripes">${Array.from({ length: 25 }, (_, i) =>
+      `<line class="stripe" x1="-2" y1="${8 + i * 4}" x2="102" y2="${8 + i * 4}"/>`).join('')}</g>
+    <path class="coast" stroke-width="15" d="${spine}"/>
+    <g class="inland">${(M.fill || []).map(f =>
+      `<polygon points="${f.map(id => pos[id].x + ',' + pos[id].y).join(' ')}"/>`).join('')}</g>
+    <path class="land" stroke-width="12.6" d="${spine}"/>
+    <g class="inland2">${(M.fill || []).map(f =>
+      `<polygon points="${f.map(id => pos[id].x + ',' + pos[id].y).join(' ')}"/>`).join('')}</g>
+    <path class="roadbase" d="${land.map(seg).join('')}"/>
+    <path class="road future" d="${roadsBy('future')}"/>
+    <path class="road done" d="${roadsBy('done')}"/>
+    <path class="road here" d="${roadsBy('here')}"/>
+    <path class="tunnel" d="${tunnels}"/>
+    <path class="ferry" d="${ferries}"/>
+    ${M.nodes.map(n => {
+      const st = state(n.id)
+      return `<g class="n ${n.kind} ${st}" data-all="${stopsOf(n.id).join(',')}" data-label="${esc(n.label)}">
+        <title>${esc(n.label)}</title>
+        ${st === 'here' ? `<circle class="halo" cx="${n.x}" cy="${n.y}" r="5.4"/>
+                           <circle class="here-dot" cx="${n.x}" cy="${n.y}" r="2.6"/>` : ''}
+        ${n.gym && st !== 'here' ? `<circle class="gymring" cx="${n.x}" cy="${n.y}" r="3.3"/>` : ''}
+        ${marker(n) || (st === 'here' ? `<circle class="mk" cx="${n.x}" cy="${n.y}" r="1.6"/>` : '')}
+        <rect class="hitbox" x="${n.x - 3.4}" y="${n.y - 3.4}" width="6.8" height="6.8"/>
+      </g>`
+    }).join('')}`
+
+  const head = document.getElementById('maphead')
+  const home = (pos[hereNode] || {}).label || stops[at].name
+  const show = t => head.textContent = t
+  show(home)
+  document.querySelectorAll('svg.map g.n').forEach(g => {
+    g.onmouseenter = () => show(g.dataset.label)
+    g.onmouseleave = () => show(home)
+    g.onclick = () => {
+      const all = g.dataset.all.split(',').map(Number)
+      go(all.find(i => !isDone(i)) ?? all[all.length - 1])
+    }
+  })
+}
+
+const go = i => { at = i; view = 'route'; query = ''; save('at', i); render(); scrollTo(0, 0) }
+
+function chain(m) {
+  if (!m.path.length) return ''
+  return `<div class="chain"><img src="${spr(m.id)}" alt="${m.name}">` +
+    m.path.map(e => `<span>→</span><img src="${spr(e.id)}" alt="${e.name}" title="${cap(e.name)}"><span>${esc(e.how || '')}</span>`).join('') + '</div>'
+}
+
+function dexStatusLine(p) {
+  const n = dexNeed(p.id, p.family)
+  if (!n) return ''
+  if (n.s === 'have') return `<div class="dex"><span class="have">✓ you have this one</span></div>`
+  if (n.s === 'covered') return `<div class="dex"><span class="covered">◇ National Dex: already covered — evolving your ${cap(DATA.names[n.by] || '')} registers it. Only catch it if you want it for a fight.</span></div>`
+  if (goal === 'living' && p.family.length > 1)
+    return `<div class="dex"><span class="need">◆ Living Dex: ${p.family.map(id => cap(DATA.names[id] || '')).join(', ')} all need their own slot — ${p.family.filter(owns).length}/${p.family.length} so far.</span></div>`
+  return ''
+}
+
+function dexLine(p) {
+  const out = []
+  if (p.onlyChance)
+    out.push(`<span class="only">⚠ only chance in the game — skip it here and it's a trade later</span>`)
+  else if (p.also.length)
+    out.push(`<span class="later">⏳ also at ${p.also.map(a => esc(a.name.replace(/ —.*/, ''))).join(', ')} — safe to skip if you don't need it now</span>`)
+  if (p.wildEvo) {
+    const w = p.wildEvo
+    const how = w.method === 'walk' ? 'in the grass' : w.method === 'npc-trade' ? 'by trade' : `with the ${cap(w.method)}`
+    const where = `${cap(w.where)}, Lv ${w.levels[0]}–${w.levels[1]}` +
+      (w.at > p.spots[0].at ? ` (from ${esc(w.stop.replace(/ —.*/, ''))} onward)` : '')
+    if (goal === 'national')
+      out.push(`<span class="skip">↷ evolving this one fills all ${p.fills.length} dex entries — no need to catch ${cap(w.name)} separately.</span>`)
+    else if (goal === 'living')
+      out.push(`<span class="skip">↷ a Living Dex needs its own ${cap(w.name)} — catch one ${how} at ${where} rather than raising a second ${cap(p.name)}.</span>`)
+    else
+      out.push(`<span class="skip">↷ no need to evolve it — ${cap(w.name)} is catchable ${how} at ${where}</span>`)
+  }
+  return out.length ? `<div class="dex">${out.join('<br>')}</div>` : ''
+}
+
+function verTag(p) {
+  return p.vers.length === 1
+    ? `<span class="ver x">${p.vers[0]} only</span>`
+    : ''
+}
+
+function findView(m) {
+  if (mobile()) {
+    const inp = $(`<input class="qm" placeholder="Pokémon, TM, item, move…" value="${esc(query)}" autocomplete="off">`)
+    inp.oninput = e => { query = e.target.value.trim(); render(); document.querySelector('.qm').focus() }
+    m.append(inp)
+  }
+  const q = query.toLowerCase()
+  const hits = Object.values(monById).filter(p => p.name.includes(q) || p.final.includes(q)).slice(0, 12)
+  const gear = DATA.catalogue.filter(c => c.name.toLowerCase().includes(q) || c.where.toLowerCase().includes(q))
+  if (!query) { m.append($(`<div class="card meta">Search for a Pokémon, an item, a TM or a move name.</div>`)); return }
+  m.append($(`<h3>Where to find “${esc(query)}”</h3>`))
+  if (gear.length) m.append($(`<div class="card"><table class="spots">${gear.slice(0, 14).map(c =>
+    `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b></td><td>${esc(c.where)}${
+      c.stop ? ` <span class="meta">— ${esc((DATA.stopNames[c.stop] || '').replace(/ —.*/, ''))}</span>` : ''}</td></tr>`).join('')}</table></div>`))
+  if (!hits.length && !gear.length) { m.append($(`<div class="card meta">Nothing in ${game} matches. It may be a ${game === 'FR' ? 'LeafGreen' : 'FireRed'} exclusive — check the blockers panel.</div>`)); return }
+  hits.forEach(p => {
+    const box = $(`<div class="card">
+      <div class="hit"><img src="${spr(p.id)}" alt="${p.name}">
+        <div><b style="text-transform:capitalize">${cap(p.name)}</b>${verTag(p)}
+        ${p.types.map(ty).join('')}
+        <div class="meta">first available: ${esc(p.fromStop)}</div></div></div>
+      <table class="spots">${p.spots.map(x => `<tr>
+        <td>${esc(x.stop.replace(/ —.*/, ''))}</td>
+        <td><b>${cap(x.where)}</b> · ${methodIco(x.method)}${x.method === 'npc-trade' ? 'in-game trade' : cap(x.method)}${x.method === 'walk' ? ` · ${x.rate}%` : ''} · Lv ${x.levels[0]}–${x.levels[1]}</td></tr>`).join('')}</table>
+      ${chain(p)}${dexLine(p)}
+    </div>`)
+    m.append(box)
+  })
+}
+
+// --- the reference dexes: every species, move and item this game has ---------
+const DEXTABS = { mon: 'Pokédex', moves: 'Movedex', items: 'Itemdex', blockers: 'Blockers' }
+const STATN = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
+// move id -> the machine that teaches it, so the movedex can say "TM26"
+const machineOf = Object.fromEntries(Object.values(DATA.machines).map(c => [c.move, c]))
+
+function dexView(m) {
+  const tools = $('<div class="tools"></div>')
+  Object.entries(DEXTABS).forEach(([k, label]) => {
+    const b = $(`<button class="g ${dexTab === k ? 'on' : ''}">${label}</button>`)
+    b.onclick = () => { dexTab = k; save('dexTab', k); dexQ = ''; render(); scrollTo(0, 0) }
+    tools.append(b)
+  })
+  m.append(tools)
+  if (dexTab === 'blockers') return blockerView(m)
+  const inp = $(`<input class="qm" placeholder="filter by name or type…" value="${esc(dexQ)}" autocomplete="off">`)
+  inp.oninput = e => { dexQ = e.target.value.trim(); render(); const i = document.querySelector('.qm'); i.focus(); i.setSelectionRange(i.value.length, i.value.length) }
+  m.append(inp)
+  const q = dexQ.toLowerCase()
+  const hit = (...fields) => !q || fields.some(f => String(f || '').toLowerCase().includes(q))
+  if (dexTab === 'mon') return monDex(m, hit)
+  if (dexTab === 'moves') return moveDex(m, hit)
+  itemDex(m, hit)
+}
+
+function monDex(m, hit) {
+  const list = Object.keys(DATA.mon).map(Number).sort((a, b) => a - b)
+    .filter(id => hit(DATA.mon[id].name, DATA.mon[id].types.join(' '), '#' + id))
+  m.append($(`<h3>${list.length} of ${Object.keys(DATA.mon).length} — everything obtainable in ${DATA.game}</h3>`))
+  const box = $('<div class="card"></div>')
+  list.forEach(id => {
+    const sp = DATA.mon[id], own = monById[id]
+    const where = own ? `first at ${esc(own.fromStop)}`
+      : DATA.dex.exclusives[game === 'FR' ? 'LG' : 'FR'].includes(sp.name) ? 'other cartridge — trade only'
+      : 'evolve or trade for it'
+    const row = $(`<div class="hit" style="cursor:pointer">
+      <img src="${spr(id)}" alt="${sp.name}" loading="lazy">
+      <div style="flex:1">
+        <div><span class="meta">#${id}</span> <span class="nm">${cap(sp.name)}</span>${
+          sp.types.map(ty).join('')}</div>
+        <div class="chips">${(sp.stats || []).map((v, i) =>
+          `<span class="chip">${STATN[i]} ${v}</span>`).join('')}<span class="chip v">${sp.bst} BST</span></div>
+        <div class="meta">${where}</div>
+      </div></div>`)
+    row.onclick = () => openMon(id)
+    box.append(row)
+  })
+  m.append(box)
+}
+
+function moveDex(m, hit) {
+  const list = Object.keys(DATA.moves).map(Number)
+    .filter(i => hit(DATA.moves[i].n, DATA.moves[i].t, DATA.moves[i].c, (machineOf[i] || {}).name))
+    .sort((a, b) => DATA.moves[a].n.localeCompare(DATA.moves[b].n))
+  m.append($(`<h3>${list.length} of ${Object.keys(DATA.moves).length} moves</h3>`))
+  m.append($(`<div class="card"><table class="spots">${list.map(i => {
+    const mv = DATA.moves[i]
+    return `<tr><td><b style="color:var(--fg)">${cap(mv.n)}</b>${
+      machineOf[i] ? ` ${ico(machineOf[i].icon)}<span class="chip">${esc(machineOf[i].name.slice(0, 4))}</span>` : ''}</td>
+      <td>${ty(mv.t)} <span class="meta">${mv.c}${
+        mv.p ? ` · ${mv.p} power` : ''} · ${mv.a}% · ${mv.pp} PP</span></td></tr>`
+  }).join('')}</table></div>`))
+}
+
+function itemDex(m, hit) {
+  const list = DATA.catalogue.filter(c => hit(c.name, c.kind, c.where, c.why))
+  m.append($(`<h3>${list.length} of ${DATA.catalogue.length} — machines, key items and the people who matter</h3>`))
+  m.append($(`<div class="card"><table class="spots">${list.map(c =>
+    `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b><div class="meta">${esc(c.kind)}</div></td>
+     <td>${esc(c.where)}${c.stop ? ` <span class="meta">— ${esc((DATA.stopNames[c.stop] || '').replace(/ —.*/, ''))}</span>` : ''}
+     ${c.why ? `<div class="why">${esc(c.why)}</div>` : ''}</td></tr>`).join('')}</table></div>`))
+}
+
+function blockerView(m) {
+  const d = DATA.dex, other = game === 'FR' ? 'LG' : 'FR'
+  m.append($(`<h3>What stands between you and a full dex</h3>`))
+  m.append($(`<div class="card">
+    <b>Version exclusives</b>
+    <div class="why">These ${d.exclusives[other].length} live only in ${other === 'FR' ? 'FireRed' : 'LeafGreen'}. On ${game === 'FR' ? 'FireRed' : 'LeafGreen'} they are trade-only.</div>
+    <div class="ctr">${d.exclusives[other].map(n => `<div>${cap(n)}</div>`).join('')}</div>
+    <div class="why" style="margin-top:10px">Yours to trade away: ${d.exclusives[game].map(cap).join(', ')}</div>
+  </div>`))
+  m.append($(`<div class="card"><b>Trade-only evolutions</b>
+    <div class="why">No amount of levelling gets these — they need a second console.</div>
+    <div class="ctr">${d.tradeEvos.map(n => `<div>${cap(n)}</div>`).join('')}</div></div>`))
+  d.choices.forEach(c => m.append($(`<div class="card">
+    <b>${cap(c.kind)}: ${c.pick.map(cap).join(' / ')}</b>
+    <div class="roster">${c.ids.map((id, i) => `<div><img src="${spr(id)}" alt="">${cap(c.pick[i])}</div>`).join('')}</div>
+    <div class="why">${esc(c.note)}</div></div>`)))
+}
+
+// Everything a species could legally be holding right now: what it has learnt by
+// level, plus any machine you could already have picked up.
+function available(id, lv) {
+  const sp = M(id), out = new Map()
+  const stopIdx = Object.fromEntries(stops.map((x, i) => [x.id, i]))
+  sp.learn.lv.filter(([l]) => l <= lv).forEach(([l, i]) => {
+    const m = DATA.moves[i]
+    if (m) out.set(+i, { ...m, id: +i, lv: l, past: l < lv, from: 'level ' + l })
+  })
+  sp.learn.tm.forEach(n => {
+    const c = DATA.machines[n]
+    if (!c || !c.stop || stopIdx[c.stop] > at) return
+    const m = DATA.moves[c.move]
+    if (m) out.set(c.move, { ...m, id: c.move, from: c.name.slice(0, 4), where: c.where, hm: n > 100 })
+  })
+  return [...out.values()]
+}
+
+const HM_MOVES = new Set(Object.entries(DATA.machines).filter(([n]) => +n > 100).map(([, c]) => c.move))
+const npcReady = k => at >= DATA.npcs[k].at
+const relearnerAt = () => DATA.npcs.relearner.where.split(' — ')[0]   // "Two Island"
+
+function soonMoves(id, lv) {
+  return M(id).learn.lv.filter(([l]) => l > lv && l <= lv + 12)
+    .map(([l, i]) => DATA.moves[i] && { ...DATA.moves[i], id: +i, from: 'learns at ' + l, lv: l })
+    .filter(Boolean)
+}
+
+// How much a move is worth to this Pokémon, for what is still ahead.
+function moveScore(id, m) {
+  if (!m || !m.p) return 0
+  const sp = M(id)
+  const ahead = stops.slice(at).flatMap(x => x.fights).map(f => fightById[f]).filter(Boolean).slice(0, 4)
+  const foes = new Set(ahead.flatMap(f => roster(f).flatMap(t => t.types)))
+  let v = m.p * (m.a / 100) / 20
+  // ponytail: no effect data, so the 140+ power moves (Hyper Beam, Explosion) get a
+  // flat damping for their drawback rather than a real model. effect_id would fix it.
+  if (m.p >= 140) v *= 0.55
+  if (sp.types.includes(m.t)) v *= 1.5                              // STAB
+  v += [...foes].filter(t => (DATA.se[m.t] || []).includes(t)).length * 0.35
+  return v
+}
+
+// The four it should be holding: best damaging move per type, then fill.
+function idealSet(id, lv) {
+  const pool = available(id, lv).sort((a, b) => moveScore(id, b) - moveScore(id, a))
+  const best = []
+  const add = m => { if (best.length < 4 && !best.includes(m)) best.push(m) }
+  // one damaging move per type first — a third same-type attack is dead weight
+  pool.filter(m => m.p).forEach(m => { if (!best.some(x => x.t === m.t)) add(m) })
+  // ponytail: no move-effect data, so status moves fill spare slots newest-first
+  // rather than being ranked. movedex could carry effect_id if that needs to be smarter.
+  pool.filter(m => !m.p).sort((a, b) => (b.lv || 0) - (a.lv || 0)).forEach(add)
+  pool.filter(m => m.p).forEach(add)             // duplicate typing, only as a last resort
+  return best
+}
+
+// What to change about the set you actually have.
+// Only the Move Deleter can clear an HM, so a set carrying one is partly frozen.
+function hmLock(id) {
+  const held = (sets[id] || []).filter(i => HM_MOVES.has(i)).map(i => cap(DATA.moves[i].n))
+  if (!held.length) return ''
+  const d = DATA.npcs.deleter
+  return `<div class="note">🔒 ${held.join(' and ')} ${held.length > 1 ? 'are HMs' : 'is an HM'} — ${
+    npcReady('deleter')
+      ? `only the Move Deleter can clear ${held.length > 1 ? 'them' : 'it'} (${esc(d.where)}).`
+      : `nothing can overwrite ${held.length > 1 ? 'them' : 'it'} until you reach the Move Deleter (${esc(d.where)}).`}</div>`
+}
+
+// Put a move into a set: first empty slot, else over the weakest thing that is not
+// itself an HM (those can't be overwritten without the Move Deleter).
+function teach(id, moveId) {
+  const cur = (sets[id] || [null, null, null, null]).slice()
+  if (cur.includes(moveId)) return
+  let i = cur.findIndex(x => !x)
+  if (i < 0) {
+    const held = cur.map(x => ({ x, s: HM_MOVES.has(x) ? Infinity : moveScore(id, DATA.moves[x]) }))
+    i = cur.indexOf(held.sort((a, b) => a.s - b.s)[0].x)
+  }
+  cur[i] = moveId
+  sets[id] = cur; save('sets', sets); render()
+}
+
+function moveAdvice(id, lv) {
+  const cur = (sets[id] || []).map(i => i && { ...DATA.moves[i], id: i }).filter(Boolean)
+  if (!cur.length) return { cur: [], swaps: [] }
+  const held = new Set(cur.map(m => m.id))
+  const cand = available(id, lv).concat(soonMoves(id, lv)).filter(m => !held.has(m.id))
+  // an HM slot can't be swapped out on a whim, so it isn't the "weakest" candidate
+  const swappable = cur.filter(m => !HM_MOVES.has(m.id))
+  const weakest = (swappable.length ? swappable : cur)
+    .slice().sort((a, b) => moveScore(id, a) - moveScore(id, b))[0]
+  const swaps = cand
+    .map(m => ({ m, gain: moveScore(id, m) - moveScore(id, weakest) }))
+    .filter(x => x.gain > 0.35)
+    .sort((a, b) => b.gain - a.gain).slice(0, 3)
+    .map(x => ({ ...x.m, drop: cur.length >= 4 ? weakest : null }))
+  return { cur, swaps }
+}
+
+// Who should carry each field move, and what it costs them. HM moves that are also
+// good attacks (Surf, Strength, Fly) are close to free on the right Pokémon.
+function hmPlan() {
+  const stopIdx = Object.fromEntries(stops.map((x, i) => [x.id, i]))
+  const hms = Object.entries(DATA.machines).filter(([n]) => +n > 100)
+    .map(([n, c]) => ({ n: +n, c, move: DATA.moves[c.move], at: stopIdx[c.stop] }))
+    .filter(h => h.move && h.at != null).sort((a, b) => a.at - b.at)
+  const load = {}
+  return hms.map(h => {
+    const able = who => [...who].filter(id => (M(id).learn.tm || []).includes(h.n))
+    const inParty = able(party), stored = inParty.length ? [] : able(pc)
+    const cands = inParty.concat(stored).map(id => {
+      const lv = lvOf(id) || 1
+      const ideal = idealSet(id, lv)
+      const displaced = ideal[3] || null
+      const gain = moveScore(id, h.move) - (displaced ? moveScore(id, displaced) : 0)
+      return { id, gain, displaced, taken: load[id] || 0, inPC: !inParty.length }
+    }).sort((a, b) => (b.gain - b.taken * 0.9) - (a.gain - a.taken * 0.9))
+    const pick = cands[0]
+    if (pick) load[pick.id] = (load[pick.id] || 0) + 1
+    return { ...h, pick, none: !cands.length }
+  })
+}
+
+
+function ownButtons(id) {
+  const mk = (label, where, on) => {
+    const b = $(`<button class="g ${on ? 'on' : ''}" title="${where === 'party' ? 'carry it' : 'store it in the PC'}">${label}</button>`)
+    b.onclick = () => setOwn(id, on ? null : where)
+    return b
+  }
+  return [mk('party', 'party', party.has(id)), mk('PC', 'box', pc.has(id))]
+}
+
+
+function boxPanel(m, s) {
+  const unlocked = new Set(stops.slice(0, at + 1).map(x => x.unlock).filter(Boolean))
+  const nextF = stops.slice(at).flatMap(x => x.fights).map(f => fightById[f]).filter(Boolean)[0]
+  const target = nextF ? Math.max(...roster(nextF).map(t => t.level)) - 2 : null
+
+  // One line per Pokémon: everything else lives behind a tap.
+  const slot = id => {
+    const sp = M(id), lv = lvOf(id), n = (sp.evo || [])[0]
+    const carries = (sp.hms || []).filter(h => unlocked.has(h) && (sets[id] || []).includes(
+      (Object.values(DATA.machines).find(c => DATA.moves[c.move] && DATA.moves[c.move].n === h) || {}).move))
+    const ready = (sp.evo || []).some(o => canEvolve(id, o))
+    const status = !lv ? 'tap to set its level'
+      : target && target > lv ? `needs Lv ${target} — ≈${battlesTo(id, lv, target)} battles`
+      : n && n.level && lv >= n.level ? `ready to become ${cap(n.name)}`
+      : 'ready for what\'s next'
+    return `<div class="slot" draggable="true" data-id="${id}" data-open="${id}">
+      <img src="${spr(id)}" alt="${sp.name}">
+      <div class="who">
+        <b>${cap(sp.name)}</b>${lv ? `<span class="lvtag">Lv ${lv}</span>` : ''}${ready ? '<span class="rdytag">▲ evolve</span>' : ''}
+        <small>${esc(status)}</small>
+        ${carries.length ? `<small class="hm">${carries.map(cap).join(' · ')}</small>` : ''}
+      </div><span class="chev">›</span></div>`
+  }
+
+  m.append($(`<h3>Party &amp; PC</h3>`))
+  const empties = Math.max(0, PARTY_MAX - party.size)
+  const partyUI = $(`<div class="pkui" data-to="party">
+    <h4>Party — ${party.size}/${PARTY_MAX}</h4>
+    <div class="slots">${[...party].map(slot).join('')}${
+      Array.from({ length: empties }, () => '<div class="slot empty">empty</div>').join('')}</div>
+  </div>`)
+
+  const CELLS = 30, stored = [...pc]
+  const pcUI = $(`<div class="pkui" data-to="box">
+    <h4>PC — Box 1 · ${stored.length} stored</h4>
+    <div class="pcgrid">${Array.from({ length: Math.max(CELLS, stored.length) }, (_, i) => {
+      const id = stored[i]
+      return id
+        ? `<div class="cell" draggable="true" data-id="${id}" data-open="${id}" title="${cap(M(id).name)}">
+             <img src="${spr(id)}" alt="${M(id).name}">
+             ${(M(id).evo || []).some(o => canEvolve(id, o)) ? '<em class="rdy">▲</em>' : ''}
+             <span>${cap(M(id).name)}</span></div>`
+        : '<div class="cell empty"></div>'
+    }).join('')}</div>
+  </div>`);
+
+  [partyUI, pcUI].forEach(el => {
+    el.ondragover = e => { e.preventDefault(); el.classList.add('drop') }
+    el.ondragleave = () => el.classList.remove('drop')
+    el.ondrop = e => {
+      e.preventDefault(); el.classList.remove('drop')
+      const id = +e.dataTransfer.getData('text/plain'), to = el.dataset.to
+      notice = (to === 'party' && party.size >= PARTY_MAX && !party.has(id))
+        ? `Party is full — ${cap(M(id).name)} went to the PC instead. Drag someone out first.` : ''
+      setOwn(id, to)
+    }
+    el.querySelectorAll('[data-open]').forEach(d => {
+      d.onclick = () => openMon(+d.dataset.open)
+      d.ondragstart = e => {
+        e.dataTransfer.setData('text/plain', d.dataset.id)
+        e.dataTransfer.effectAllowed = 'move'
+        d.classList.add('drag')
+      }
+      d.ondragend = () => d.classList.remove('drag')
+    })
+    m.append(el)
+  })
+  if (notice) m.append($(`<div class="notice">${esc(notice)}</div>`))
+
+  // who carries the field moves
+  const plan = hmPlan()
+  if (party.size) {
+    m.append($(`<h3>Field moves — who carries what</h3>`))
+    const hmCard = $(`<div class="card"><table class="spots">${plan.map(h => {
+      const need = h.at <= at
+      const who = h.pick
+      return `<tr class="${need ? '' : 'later'}">
+        <td>${ico(h.c.icon)}<b style="color:var(--fg)">${esc(h.c.name)}</b><br>
+          <span class="meta">${need ? 'needed now' : 'from ' + esc((DATA.stopNames[h.c.stop] || '').replace(/ —.*/, ''))}</span></td>
+        <td>${who
+          ? `<img src="${spr(who.id)}" class="mini" alt=""> <b style="text-transform:capitalize">${cap(M(who.id).name)}</b>${
+               who.inPC ? ' <span class="warn">— in your PC</span>' : ''}
+             ${(sets[who.id] || []).includes(h.c.move)
+               ? '<span class="carrying">✓ carrying it</span>'
+               : !lvOf(who.id) ? '<span class="meta"> — set its level to assign</span>'
+               : !need ? ''
+               : `<button class="g give" data-give="${who.id}:${h.c.move}">teach it</button>`}
+             <div class="meta">${h.move.p && who.gain > 0
+               ? `free — ${cap(h.move.n)} earns its slot here anyway`
+               : who.displaced ? `costs it ${cap(who.displaced.n)}`
+               : 'takes a spare slot'}</div>`
+          : `<span class="gap">Nobody in your party can learn it.</span>`}</td></tr>`
+    }).join('')}</table></div>`)
+    hmCard.querySelectorAll('button[data-give]').forEach(b => b.onclick = () => {
+      const [pid, mid] = b.dataset.give.split(':'); teach(+pid, +mid)
+    })
+    m.append(hmCard)
+  }
+
+  // who's dead weight for what's coming, and what to withdraw for it
+  const next = stops.slice(at).flatMap(x => x.fights).map(id => fightById[id])[0]
+  if (next && (party.size || pc.size)) {
+    const hit = id => next.counters.find(c => c.id === id && !c.trade)
+                   || next.counters.find(c => c.id === id)
+    const nm = id => cap((hit(id) || {}).final || M(id).name)
+    const sc = id => (hit(id) || {}).m ?? -1
+    const weak = [...party].filter(id => sc(id) <= 0).sort((a, b) => sc(a) - sc(b))
+    const better = [...pc].filter(id => sc(id) > 0.2).sort((a, b) => sc(b) - sc(a))
+    const free = Math.max(0, PARTY_MAX - party.size)
+    const lines = []
+    better.slice(0, free).forEach(id =>
+      lines.push(`Withdraw <b>${nm(id)}</b> — you have a free slot and it answers this fight.`))
+    better.slice(free).forEach((id, i) => {
+      if (i < weak.length) lines.push(`Box <b>${nm(weak[i])}</b> and withdraw <b>${nm(id)}</b> in its place.`)
+    })
+    if (!better.length && weak.length === party.size && party.size)
+      lines.push(`Nothing in your party or PC lands against this — catch one of the counters above.`)
+    if (lines.length) m.append($(`<div class="card"><div class="meta">Before ${esc(next.name)}</div>
+      <div class="warn">${lines.join('<br>')}</div></div>`))
+  }
+}
+
+// --- the per-Pokémon sheet: level, evolution and moves in one place ---------
+const openMon = id => { modalId = id; render() }
+const closeMon = () => { modalId = null; render() }
+
+function drawModal() {
+  const host = document.getElementById('modal')
+  if (!modalId || !DATA.mon[modalId]) { host.hidden = true; host.innerHTML = ''; return }
+  const id = modalId, sp = M(id), lv = lvOf(id)
+  const unlocked = new Set(stops.slice(0, at + 1).map(x => x.unlock).filter(Boolean))
+  const nextF = stops.slice(at).flatMap(x => x.fights).map(f => fightById[f]).filter(Boolean)[0]
+  const target = nextF ? Math.max(...roster(nextF).map(t => t.level)) - 2 : null
+  const pool = lv ? available(id, lv) : []
+  const { swaps } = lv ? moveAdvice(id, lv) : { swaps: [] }
+  const mine = sets[id] || [null, null, null, null]
+  const opt = sel => `<option value=""${sel ? '' : ' selected'}>— empty —</option>` +
+    pool.slice().sort((a, b) => a.n.localeCompare(b.n)).map(mv =>
+      `<option value="${mv.id}"${+sel === mv.id ? ' selected' : ''}>${cap(mv.n)} · ${mv.t}${
+        mv.p ? ' ' + mv.p : ' status'}${mv.hm ? ' · HM' : ''}${mv.past ? ' · relearn' : ''}</option>`).join('')
+
+  const evos = (sp.evo || []).map(o => {
+    const ok = canEvolve(id, o)
+    const note = o.trigger === 'trade' ? 'needs a trade'
+      : o.trigger === 'use-item' ? (ok ? o.how : `${o.how} — none yet`)
+      : !ok && o.level ? `at Lv ${o.level}` : o.how
+    return `<button class="evo ${ok ? '' : 'off'}" data-evo="${id}:${o.id}" ${ok ? '' : 'disabled'}>
+      <img src="${spr(o.id)}" alt="">${cap(o.name)}<small>${o.item ? ico('items/' + o.item) : ''}${esc(note)}</small></button>`
+  })
+
+  host.hidden = false
+  host.innerHTML = `<div class="sheet">
+    <div class="shead">
+      <img src="${spr(id)}" alt="">
+      <div><b>${cap(sp.name)}</b>
+        <div>${sp.types.map(ty).join('')}
+          <span class="meta">${sp.bst} BST</span></div></div>
+      <button class="x" aria-label="Close">×</button>
+    </div>
+    <div class="srow">
+      <label class="lv">Lv <input type="number" min="1" max="100" value="${lv || ''}" placeholder="–" id="mlv"></label>
+      ${lv && target && target > lv
+        ? `<span class="xp">Lv ${target} for ${esc(nextF.name.replace(/ —.*/, ''))} — ≈${battlesTo(id, lv, target)} battles</span>`
+        : lv && target ? `<span class="ok2">ready for ${esc(nextF.name.replace(/ —.*/, ''))}</span>` : ''}
+    </div>
+    ${evos.length ? `<div class="ssec"><h5>Evolve</h5><div class="evos">${evos.join('')}</div>
+      ${goal === 'living' ? `<small class="livewarn">Living Dex: you'd need to catch another ${cap(sp.name)}</small>` : ''}</div>` : ''}
+    ${lv ? `<div class="ssec"><h5>Moves</h5>
+      <div class="mslots">${[0, 1, 2, 3].map(i => `<select data-set="${id}:${i}">${opt(mine[i])}</select>`).join('')}</div>
+      <button class="g auto" data-auto="${id}">use recommended</button>
+      ${hmLock(id)}
+      ${swaps.length ? `<div class="advice">${swaps.map(sw =>
+        `<div>Teach <b>${cap(sw.n)}</b>${sw.drop ? ` over ${cap(sw.drop.n)}` : ''}
+          <span class="meta">— ${esc(sw.from)}${sw.where ? ', ' + esc(sw.where) : ''}${
+          sw.past ? (npcReady('relearner')
+            ? `. Skipped it? The ${esc(DATA.npcs.relearner.name)} has it.`
+            : `. If you skipped it, nothing brings it back until ${esc(relearnerAt())}.`) : ''}</span></div>`).join('')}</div>` : ''}
+    </div>` : `<div class="ssec"><h5>Learnset</h5>
+      <table class="spots">${(sp.learn.lv || []).map(([l, i]) => DATA.moves[i] &&
+        `<tr><td>Lv ${l}</td><td><b style="color:var(--fg)">${cap(DATA.moves[i].n)}</b>
+          ${ty(DATA.moves[i].t)} <span class="meta">${
+          DATA.moves[i].p ? DATA.moves[i].p + ' power' : DATA.moves[i].c}</span></td></tr>`).filter(Boolean).join('')}
+        ${(sp.learn.tm || []).filter(n => DATA.machines[n]).map(n =>
+        `<tr><td>${esc(DATA.machines[n].name.slice(0, 4))}</td><td><b style="color:var(--fg)">${
+          cap(DATA.moves[DATA.machines[n].move].n)}</b> <span class="meta">— ${esc(DATA.machines[n].where)}</span></td></tr>`).join('')}
+      </table>
+      <div class="meta">Set a level to plan which four it should be holding.</div></div>`}
+    <div class="sfoot">
+      <button class="g ${party.has(id) ? 'on' : ''}" data-own="party">In party</button>
+      <button class="g ${pc.has(id) ? 'on' : ''}" data-own="box">In the PC</button>
+    </div>
+  </div>`
+
+  host.querySelector('.x').onclick = closeMon
+  host.onclick = e => { if (e.target === host) closeMon() }
+  host.querySelector('#mlv').onchange = e => setLv(id, +e.target.value)
+  host.querySelectorAll('button[data-evo]').forEach(b => b.onclick = () => {
+    const [f, t] = b.dataset.evo.split(':'); modalId = +t; evolve(+f, +t)
+  })
+  host.querySelectorAll('select[data-set]').forEach(sel => sel.onchange = () => {
+    const [pid, i] = sel.dataset.set.split(':')
+    const cur = (sets[pid] || [null, null, null, null]).slice()
+    cur[+i] = sel.value ? +sel.value : null
+    sets[pid] = cur; save('sets', sets); render()
+  })
+  const auto = host.querySelector('button[data-auto]')
+  if (auto) auto.onclick = () => {
+    sets[id] = idealSet(id, lv).map(mv => mv.id).concat([null, null, null, null]).slice(0, 4)
+    save('sets', sets); render()
+  }
+  host.querySelectorAll('button[data-own]').forEach(b =>
+    b.onclick = () => setOwn(id, b.dataset.own))
+}
+
+function render() {
+  inferProgress()
+  const mob = mobile()
+  document.body.className = (mob && view === 'map' ? 'tab-map ' : '') + (showSetup ? 'showsetup' : '')
+  const goView = k => () => {
+    view = k
+    if (k !== 'find') query = ''
+    render(); scrollTo(0, 0)
+  }
+  const tabs = document.getElementById('tabs'); tabs.innerHTML = ''
+  TABS.forEach(([k, icon, label]) => {
+    const b = $(`<button class="${view === k ? 'on' : ''}"><em>${icon}</em>${label}</button>`)
+    b.onclick = goView(k)
+    tabs.append(b)
+  })
+  // desktop has the same nav down the sidebar, minus Map — the map is already there
+  const snav = document.getElementById('sidenav'); snav.innerHTML = ''
+  TABS.filter(([k]) => k !== 'map').forEach(([k, icon, label]) => {
+    const b = $(`<button class="${(view === k || (view === 'map' && k === 'route')) ? 'on' : ''}"><em>${icon}</em>${label}</button>`)
+    b.onclick = goView(k)
+    snav.append(b)
+  })
+  document.getElementById('gear').onclick = () => { showSetup = !showSetup; render() }
+  drawModal()
+  document.getElementById('region').textContent = DATA.region
+  document.getElementById('game').textContent = '· ' + DATA.game
+  document.title = `${DATA.region} Router`
+  const gsel = document.getElementById('goal'); gsel.innerHTML = ''
+  Object.entries(GOALS).forEach(([k, label]) => {
+    const b = $(`<button class="g ${goal === k ? 'on' : ''}">${label}</button>`)
+    b.onclick = () => { goal = k; save('goal', k); render() }
+    gsel.append(b)
+  })
+  const cart = document.getElementById('cart'); cart.innerHTML = ''
+  Object.entries({ FR: 'FireRed', LG: 'LeafGreen' }).forEach(([k, label]) => {
+    const b = $(`<button class="g ${game === k ? 'on' : ''}">${label}</button>`)
+    b.onclick = () => { game = k; save('game', k); useGame(); render() }
+    cart.append(b)
+  })
+  const sp = document.getElementById('starter'); sp.innerHTML = ''
+  Object.keys(DATA.rivalStarter).forEach(n => {
+    const b = $(`<button class="g ${starter === n ? 'on' : ''}" title="${cap(n)}"><img src="${spr({bulbasaur:1,charmander:4,squirtle:7}[n])}" style="width:22px;height:22px;vertical-align:middle"></button>`)
+    b.onclick = () => { starter = n; save('starter', n); render() }
+    sp.append(b)
+  })
+  document.getElementById('prog').style.width = progress / stops.length * 100 + '%'
+  document.getElementById('progtxt').textContent = `${progress}/${stops.length} stops`
+  drawMap()
+
+  const list = document.getElementById('stops'); list.innerHTML = ''
+  stops.forEach((s, i) => {
+    const b = $(`<button class="${i === at ? 'on' : ''} ${isDone(i) ? 'done' : ''}">${
+      s.badge ? ico(DATA.badgeArt[s.badge], 'badge') : ''}${i + 1}. ${esc(s.name)}</button>`)
+    b.onclick = () => go(i); list.append(b)
+  })
+
+  const m = document.getElementById('main'); m.innerHTML = ''
+  const box = document.getElementById('q')
+  if (box.value !== query) box.value = query
+  box.oninput = e => { query = e.target.value.trim(); if (!mob) view = query ? 'find' : 'route'; render(); box.focus() }
+  document.getElementById('resetbtn').onclick = () => {
+    if (!confirm('Clear your progress, party, PC, levels and settings? This cannot be undone.')) return
+    Object.keys(localStorage).filter(k => k.startsWith('kr:')).forEach(k => localStorage.removeItem(k))
+    location.reload()
+  }
+  if (view === 'find') return findView(m)
+  if (view === 'dex') return dexView(m)
+
+  if (view === 'team') return boxPanel(m, stops[at])
+  routeView(m)
+}
+
+function routeView(m) {
+  const s = stops[at]
+  const head = $(`<div class="card">
+    <h2>${esc(s.name)}</h2>
+    <div class="meta">
+      ${s.boss ? `<span class="pill b">${s.boss.name} · ${s.boss.types.map(cap).join('/')} · up to Lv ${s.boss.maxLevel}</span> ` : ''}
+      ${s.badge ? `<span class="pill">${ico(DATA.badgeArt[s.badge], 'badge')}${cap(s.badge)} Badge${
+        s.unlock ? ` — unlocks ${cap(s.unlock)}` : ''}</span>` : ''}
+    </div>
+    ${s.notes ? `<div class="notes">${esc(s.notes)}</div>` : ''}
+  </div>`)
+  const ahead = at >= progress
+  const bar = $(`<div class="prog">
+    ${isDone(at) ? '<span class="ok">✓ cleared</span>'
+      : at === progress ? '<span class="meta">you are here</span>'
+      : '<span class="meta">not reached yet</span>'}
+    ${evidence.length && at <= progress
+      ? `<span class="ev">worked out from: ${evidence.map(esc).join(' · ')}</span>` : ''}
+  </div>`)
+  const nudge = $(`<div class="nudge"></div>`)
+  if (ahead) {
+    const b = $(`<button class="g">I've cleared this stop</button>`)
+    b.onclick = () => setReached(at + 1)
+    nudge.append(b)
+  } else if (at < progress) {
+    const b = $(`<button class="g">I haven't got this far</button>`)
+    b.onclick = () => setReached(at)
+    nudge.append(b)
+  }
+  bar.append(nudge)
+  head.append(bar); m.append(head)
+
+  if (s.items.length) {
+    m.append($(`<h3>Grab these, in this order</h3>`))
+    m.append($(`<div class="card"><ol>${s.items.map(i =>
+      `<li>${ico(i.icon)}<b>${esc(i.name)}</b> <span class="meta">— ${esc(i.where)}</span><div class="why">${esc(i.why)}</div></li>`).join('')}</ol></div>`))
+  }
+
+  if (s.mons.length) {
+    m.append($(`<h3>Newly catchable — ${SORTS[sortBy]} first</h3>`))
+    const tools = $('<div class="tools"><span class="meta">rank by:</span></div>')
+    Object.entries(SORTS).forEach(([k, label]) => {
+      const b = $(`<button class="g ${sortBy === k ? 'on' : ''}">${label}</button>`)
+      b.onclick = () => { sortBy = k; save('sortBy', k); render() }
+      tools.append(b)
+    })
+    m.append(tools)
+    const key = { score: p => -p.score, effort: p => p.effort, value: p => -p.value, bst: p => -p.finalBst }[sortBy]
+    const box = $('<div class="card"></div>')
+    s.mons.slice().sort((a, b) => key(a) - key(b)).forEach((p, i) => {
+      const st = dexNeed(p.id, p.family)
+      const row = $(`<div class="mon ${st && st.s !== 'need' ? 'dim' : ''}">
+        <span class="rank">${i + 1}.</span>
+        <img class="spr" src="${spr(p.id)}" alt="${p.name}" loading="lazy">
+        <div>
+          <div><span class="nm">${cap(p.name)}</span>${p.types.map(ty).join('')}${verTag(p)}
+            <span class="meta"> · ${cap(p.where)} · ${methodIco(p.method)}${p.method === 'npc-trade' ? 'in-game trade' : cap(p.method)}${p.levels ? ` · Lv ${p.levels[0]}–${p.levels[1]}` : ''}${p.rate && p.method === 'walk' ? ` · ${p.rate}%` : ''}</span>
+          </div>
+          ${chain(p)}
+          <div class="chips">
+            <span class="chip v">useful: ${p.value.toFixed(1)}</span>
+            <span class="chip e">effort: ${p.effort.toFixed(1)}</span>
+            <span class="chip">${p.finalBst} BST</span>
+          </div>
+          ${p.covers.length ? `<div class="why">Wins you: ${p.covers.map(esc).join(' · ')}</div>` : ''}
+          <div class="cost">${p.cost.map(c => /trade|grind|babysit/i.test(c) ? `<b>${esc(c)}</b>` : esc(c)).join(' · ') || 'no real setup cost'}</div>
+          ${dexLine(p)}${dexStatusLine(p)}
+        </div>
+      </div>`)
+      const rank = row.querySelector('.rank')
+      ownButtons(p.id).forEach(b => rank.append(document.createElement('br'), b))
+      box.append(row)
+    })
+    m.append(box)
+  }
+
+  if (s.machines.length) {
+    m.append($(`<h3>TMs &amp; HMs here</h3>`))
+    m.append($(`<div class="card"><table class="spots">${s.machines.map(c =>
+      `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b></td><td>${esc(c.where)}</td></tr>`).join('')}</table></div>`))
+  }
+
+  const here = s.fights.map(id => fightById[id])
+  if (here.length) {
+    m.append($(`<h3>Fights here — and what beats them</h3>`))
+    here.forEach(f => {
+      const r = roster(f).slice().sort((a, b) => a.level - b.level)
+      const good = f.counters.filter(c => c.m > 0.2 && !c.trade)
+      const mine = good.filter(c => party.has(c.id))
+      const stored = good.filter(c => pc.has(c.id))
+      const box = $(`<div class="card">
+        <b>${esc(f.name)}</b>${f.variants ? ` <span class="meta">· roster shown for a ${cap(starter)} start</span>` : ''}
+        <div class="roster">${r.map(t =>
+          `<div><img src="${spr(t.id)}" alt="${t.name}">${cap(t.name)}<br><b>Lv ${t.level}</b></div>`).join('')}</div>
+        <div class="meta" style="margin-top:10px">Best answers you can have by now</div>
+        <div class="ctr">${f.counters.filter(c => c.m > 0).slice(0, 6).map(c =>
+          `<div class="${party.has(c.id) ? 'have' : pc.has(c.id) ? 'stored' : ''} ${c.trade ? 'trade' : ''}">
+             <img src="${spr(c.finalId)}" alt="${c.final}">${cap(c.final)}
+             <span class="src">${c.trade ? 'needs a trade<br>' : ''}${esc(c.from)}</span>
+           </div>`).join('') || '<span class="meta">Nothing obtainable yet counters this cleanly — expect a slog.</span>'}</div>
+        ${mine.length ? `<div class="ok">✓ In your party: ${mine.map(c => cap(c.final)).join(', ')}</div>` : ''}
+        ${stored.length ? `<div class="warn">📦 In your PC — withdraw before this fight: ${stored.map(c => cap(c.final)).join(', ')}</div>` : ''}
+        ${!mine.length && !stored.length ? `<div class="gap">⚠ Nothing you own answers this fight. Pick one of the above up first.</div>` : ''}
+      </div>`)
+      m.append(box)
+    })
+  }
+
+}
+render()
+</script>
