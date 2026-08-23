@@ -11,7 +11,8 @@ header{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;gap:14
 h1{font-size:16px;margin:0;font-weight:600}h1 small{color:var(--dim);font-weight:400}
 .wrap{display:grid;grid-template-columns:500px 1fr}
 aside{border-right:1px solid var(--line);padding:12px;position:sticky;top:53px;max-height:calc(100vh - 53px);overflow:auto}
-main{padding:18px 22px;max-width:880px}
+main{padding:18px 22px;max-width:880px;min-width:0}
+body.wide main{max-width:none}   /* the dexes are tables, not prose */
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 14px}
 h2{font-size:20px;margin:0 0 6px}
 h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:22px 0 8px}
@@ -242,7 +243,48 @@ img.mini{width:26px;height:26px;vertical-align:middle}
     cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
   .tabs button em{font-style:normal;font-size:17px;line-height:1}
   .tabs button.on{color:var(--acc)}
+  .tbl{max-height:68vh}
+  .colpick{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));padding:10px}
+  table.dtbl td.wrap{min-width:170px}
 }
+/* the reference dexes: one sortable, filterable, column-picked table each */
+.dexbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 8px}
+.dexbar .count{color:var(--dim);font-size:12px;margin-right:auto}
+.colpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:5px 12px;
+  padding:11px 13px;margin:0 0 10px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.colpick[hidden]{display:none}         /* a class beats [hidden] in the UA sheet */
+.colpick label{display:flex;gap:7px;align-items:center;font-size:13px;color:var(--dim);cursor:pointer}
+.colpick label.on{color:var(--fg)}
+.colpick input{accent-color:var(--acc);width:15px;height:15px}
+.tbl{overflow:auto;max-height:74vh;border:1px solid var(--line);border-radius:10px;background:var(--card);
+  -webkit-overflow-scrolling:touch}
+table.dtbl{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+table.dtbl th{position:sticky;top:0;z-index:2;height:32px;background:#1d2230;color:var(--dim);
+  font-weight:600;text-align:left;white-space:nowrap;padding:6px 10px;border-bottom:1px solid var(--line);
+  cursor:pointer;user-select:none}
+table.dtbl th:hover{color:var(--fg)}
+table.dtbl th .ar{color:var(--acc);font-size:9px}
+table.dtbl tr.frow th{top:32px;z-index:1;height:30px;background:#171b26;padding:3px 5px;cursor:auto}
+table.dtbl tr.frow input,table.dtbl tr.frow select{width:100%;min-width:64px;padding:3px 5px;font:inherit;
+  font-size:12px;border:1px solid var(--line);border-radius:6px;background:#11151d;color:var(--fg)}
+table.dtbl tr.frow input::placeholder{color:#4d5468}
+table.dtbl td{padding:5px 10px;border-bottom:1px solid #20242f;vertical-align:middle;white-space:nowrap}
+table.dtbl td.num{text-align:right;font-variant-numeric:tabular-nums}
+table.dtbl td.wrap{white-space:normal;min-width:210px;color:var(--dim)}
+table.dtbl tbody tr:hover{background:#1e2432}
+table.dtbl tbody tr.click{cursor:pointer}
+table.dtbl img.sp{width:40px;height:40px;display:block}
+table.dtbl .nm{color:var(--fg);font-weight:600}
+table.dtbl .nm.raw{text-transform:none}
+table.dtbl .none{color:#4d5468}
+table.dtbl .chip{white-space:nowrap}
+.empty{padding:18px 12px;color:var(--dim);font-size:13px}
+/* the dex facts on a Pokémon's sheet — reference, so folded away until asked for */
+.facts{border-top:1px solid var(--line);padding:10px 0 2px}
+.facts summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.facts summary:hover{color:var(--fg)}
+.facts table{margin-top:8px}
+.facts .why{display:block;white-space:normal}
 /* art: item icons, type labels, badges. Last, and typed, so the sprite-sizing
    rules above ('.hit img', '.shead img') can't blow these up. */
 img.ico{width:26px;height:26px;vertical-align:middle;margin-right:7px;flex:none}
@@ -592,6 +634,167 @@ const DEXTABS = { mon: 'Pokédex', moves: 'Movedex', items: 'Itemdex', blockers:
 const STATN = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
 // move id -> the machine that teaches it, so the movedex can say "TM26"
 const machineOf = Object.fromEntries(Object.values(DATA.machines).map(c => [c.move, c]))
+const machineByName = Object.fromEntries(Object.values(DATA.machines).map(c => [c.name, c]))
+const TYPES = Object.keys(DATA.eff)                  // this generation's types, in dex order
+const dash = '<span class="none">—</span>'
+
+// the defensive half of the chart, which is what a dex page calls "damage taken"
+const taken = (types, atk) => types.reduce((x, d) => x * DATA.eff[atk][d] / 100, 1)
+const weakTo = types => TYPES.filter(a => taken(types, a) > 1)
+const resistsIt = types => TYPES.filter(a => taken(types, a) > 0 && taken(types, a) < 1)
+const immuneTo = types => TYPES.filter(a => taken(types, a) === 0)
+const DMG = [[4, '×4'], [2, '×2'], [0.5, '×½'], [0.25, '×¼'], [0, '×0']]
+const damageTaken = types => DMG.map(([x, label]) => [label, TYPES.filter(a => taken(types, a) === x)])
+                                .filter(([, list]) => list.length)
+
+// the games store the split in eighths, and −1 for the ones that have no gender
+const genderText = g => g < 0 ? 'genderless' : g === 0 ? '100% male' : g === 8 ? '100% female'
+  : `${(100 - g * 12.5).toFixed(g % 2 ? 1 : 0)}% male`
+const evText = ev => ev.map((v, i) => v ? `${v} ${STATN[i]}` : '').filter(Boolean).join(', ')
+const listOf = a => a && a.length ? esc(a.map(cap).join(', ')) : dash
+
+// how many species in this game can hold each move — a rough "how common is it"
+const learntBy = (() => {
+  const n = {}
+  Object.values(DATA.mon).forEach(sp => {
+    new Set([...(sp.learn.lv || []).map(([, i]) => i),
+             ...(sp.learn.tm || []).map(t => (DATA.machines[t] || {}).move)])
+      .forEach(i => { if (i) n[i] = (n[i] || 0) + 1 })
+  })
+  return n
+})()
+
+// --- one table engine, three dexes ------------------------------------------
+// A column says how to read a row, how to draw it and what kind of filter box it
+// gets. Everything else — the sort, the per-column filters, which columns are on —
+// is generic and remembered per dex, so the table you built is the one you come back to.
+let dexSort = load('dexSort', {}), dexCols = load('dexCols', {})
+let dexFilt = load('dexFilt', {}), dexPick = load('dexPick', false)
+
+const col = (k, label, get, o = {}) => ({ k, label, get, filter: 'text', ...o })
+const flat = v => Array.isArray(v) ? v.join(' ') : v == null ? '' : String(v)
+
+// ">100", "<40", "80-120" or a plain number — what you actually want to ask a stat
+function numMatch(v, q) {
+  const n = +v, m = q.replace(/\s+/g, '').match(/^(>=|<=|>|<)?(-?[\d.]+)(?:[-–]([\d.]+))?$/)
+  if (!isFinite(n) || !m) return false
+  const a = +m[2]
+  if (m[3] != null) return n >= a && n <= +m[3]
+  return m[1] === '>' ? n > a : m[1] === '<' ? n < a
+    : m[1] === '>=' ? n >= a : m[1] === '<=' ? n <= a : n === a
+}
+
+function passes(c, row, q) {
+  if (!q) return true
+  const v = c.get(row)
+  if (c.filter === 'num') return numMatch(v, q)
+  if (c.filter === 'enum')
+    return (Array.isArray(v) ? v : [v]).map(x => String(x).toLowerCase()).includes(q.toLowerCase())
+  return flat(v).toLowerCase().includes(q.toLowerCase())
+}
+
+// Builds the table into `host` and returns its redraw, so the search box above can
+// filter without a full re-render — which is what keeps the caret where you left it.
+function dexTable(host, key, rows, cols, o) {
+  const sort = dexSort[key] || { k: o.sort, dir: 1 }
+  const filt = dexFilt[key] || {}
+  let on = (dexCols[key] || cols.filter(c => !c.off).map(c => c.k)).filter(k => cols.some(c => c.k === k))
+  const shown = () => cols.filter(c => on.includes(c.k))
+  const keep = () => {
+    dexSort[key] = sort; dexFilt[key] = filt; dexCols[key] = on
+    save('dexSort', dexSort); save('dexFilt', dexFilt); save('dexCols', dexCols)
+  }
+
+  const bar = $(`<div class="dexbar"><span class="count"></span>
+    <button class="g pick">columns</button><button class="g reset">reset</button></div>`)
+  const pick = $('<div class="colpick"></div>')
+  const wrap = $('<div class="tbl"></div>')
+  const table = $('<table class="dtbl"></table>')
+  wrap.append(table)
+  host.append(bar, pick, wrap)
+  pick.hidden = !dexPick
+  bar.querySelector('.pick').onclick = () => {
+    dexPick = !dexPick; save('dexPick', dexPick); pick.hidden = !dexPick
+  }
+  bar.querySelector('.reset').onclick = () => {
+    on = cols.filter(c => !c.off).map(c => c.k)
+    Object.keys(filt).forEach(k => delete filt[k])
+    sort.k = o.sort; sort.dir = 1
+    keep(); buildPick(); build(); draw()
+  }
+
+  function buildPick() {
+    pick.innerHTML = ''
+    cols.filter(c => c.label).forEach(c => {
+      const lab = $(`<label class="${on.includes(c.k) ? 'on' : ''}"><input type="checkbox"${
+        on.includes(c.k) ? ' checked' : ''}>${esc(c.label)}</label>`)
+      lab.querySelector('input').onchange = e => {
+        on = e.target.checked ? cols.filter(x => x.k === c.k || on.includes(x.k)).map(x => x.k)
+                              : on.filter(k => k !== c.k)
+        if (!e.target.checked) delete filt[c.k]      // an invisible filter is a trap
+        lab.className = e.target.checked ? 'on' : ''
+        keep(); build(); draw()
+      }
+      pick.append(lab)
+    })
+  }
+
+  function build() {
+    const cs = shown()
+    table.innerHTML = `<thead>
+      <tr>${cs.map(c => `<th data-k="${c.k}" title="${esc(c.hint || (c.label ? 'Sort by ' + c.label : ''))}">${
+        esc(c.label || '')}${sort.k === c.k ? ` <span class="ar">${sort.dir > 0 ? '▲' : '▼'}</span>` : ''}</th>`).join('')}</tr>
+      <tr class="frow">${cs.map(c => `<th>${
+        !c.filter ? '' : c.filter === 'enum'
+          ? `<select data-f="${c.k}"><option value="">any</option>${c.opts.map(x =>
+              `<option${(filt[c.k] || '') === x ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select>`
+          : `<input data-f="${c.k}" value="${esc(filt[c.k] || '')}" placeholder="${
+              c.filter === 'num' ? '>50' : '…'}" autocomplete="off">`}</th>`).join('')}</tr>
+      </thead><tbody></tbody>`
+    table.querySelectorAll('th[data-k]').forEach(th => th.onclick = () => {
+      const c = cols.find(x => x.k === th.dataset.k)
+      if (c.nosort) return
+      if (sort.k === c.k) sort.dir = -sort.dir; else { sort.k = c.k; sort.dir = c.num ? -1 : 1 }
+      keep(); build(); draw()
+    })
+    table.querySelectorAll('[data-f]').forEach(el => {
+      const on2 = () => {
+        const v = el.value.trim()
+        if (v) filt[el.dataset.f] = v; else delete filt[el.dataset.f]
+        keep(); draw()
+      }
+      if (el.tagName === 'SELECT') el.onchange = on2; else el.oninput = on2
+    })
+  }
+
+  function draw() {
+    const cs = shown(), q = dexQ.trim().toLowerCase()
+    const c = cols.find(x => x.k === sort.k) || cols[0]
+    const val = r => (c.by || c.get)(r)
+    const list = rows.filter(r => cs.every(x => passes(x, r, filt[x.k] || ''))
+                              && (!q || flat(o.search(r)).toLowerCase().includes(q)))
+    list.sort((a, b) => {
+      const x = val(a), y = val(b)
+      const n = typeof x === 'number' && typeof y === 'number' ? x - y : flat(x).localeCompare(flat(y))
+      return n * sort.dir || (a.id > b.id ? 1 : a.id < b.id ? -1 : 0)
+    })
+    table.querySelector('tbody').innerHTML = list.map((r, i) =>
+      `<tr class="${o.click ? 'click' : ''}" data-i="${i}">${cs.map(x =>
+        `<td class="${x.num ? 'num' : ''}${x.wrap ? ' wrap' : ''}">${
+          x.cell ? x.cell(r) : (flat(x.get(r)) ? esc(flat(x.get(r))) : dash)}</td>`).join('')}</tr>`).join('')
+      || `<tr><td colspan="${cs.length}" class="empty">Nothing matches. Clear a filter, or hit reset.</td></tr>`
+    if (o.click) table.querySelectorAll('tbody tr[data-i]')
+      .forEach(tr => tr.onclick = () => o.click(list[+tr.dataset.i]))
+    bar.querySelector('.count').textContent = `${list.length} of ${rows.length} ${o.noun}`
+  }
+
+  buildPick(); build(); draw()
+  return draw
+}
+
+const DEXHINT = { mon: 'search every column — name, type, ability, where…',
+                  moves: 'search every column — name, type, machine, effect…',
+                  items: 'search every column — item, kind, where, why…' }
 
 function dexView(m) {
   const tools = $('<div class="tools"></div>')
@@ -602,62 +805,130 @@ function dexView(m) {
   })
   m.append(tools)
   if (dexTab === 'blockers') return blockerView(m)
-  const inp = $(`<input class="qm" placeholder="filter by name or type…" value="${esc(dexQ)}" autocomplete="off">`)
-  inp.oninput = e => { dexQ = e.target.value.trim(); render(); const i = document.querySelector('.qm'); i.focus(); i.setSelectionRange(i.value.length, i.value.length) }
+  const inp = $(`<input class="qm" placeholder="${DEXHINT[dexTab]}" value="${esc(dexQ)}" autocomplete="off">`)
   m.append(inp)
-  const q = dexQ.toLowerCase()
-  const hit = (...fields) => !q || fields.some(f => String(f || '').toLowerCase().includes(q))
-  if (dexTab === 'mon') return monDex(m, hit)
-  if (dexTab === 'moves') return moveDex(m, hit)
-  itemDex(m, hit)
+  const redraw = dexTab === 'mon' ? monDex(m) : dexTab === 'moves' ? moveDex(m) : itemDex(m)
+  inp.oninput = e => { dexQ = e.target.value; redraw() }
 }
 
-function monDex(m, hit) {
-  const list = Object.keys(DATA.mon).map(Number).sort((a, b) => a - b)
-    .filter(id => hit(DATA.mon[id].name, DATA.mon[id].types.join(' '), '#' + id))
-  m.append($(`<h3>${list.length} of ${Object.keys(DATA.mon).length} — everything obtainable in ${DATA.game}</h3>`))
-  const box = $('<div class="card"></div>')
-  list.forEach(id => {
+// what you have done about this species, whatever the goal is
+function dexState(id) {
+  if (party.has(id)) return 'in party'
+  if (pc.has(id)) return 'in the PC'
+  if (seen.has(id)) return 'registered'
+  const n = dexNeed(id, (monById[id] || {}).family)
+  return n && n.s === 'covered' ? 'covered by evolving' : 'not caught'
+}
+const DEXSTATE = ['in party', 'in the PC', 'registered', 'covered by evolving', 'not caught']
+
+function monDex(m) {
+  const other = game === 'FR' ? 'LG' : 'FR'
+  const rows = Object.keys(DATA.mon).map(Number).map(id => {
     const sp = DATA.mon[id], own = monById[id]
-    const where = own ? `first at ${esc(own.fromStop)}`
-      : DATA.dex.exclusives[game === 'FR' ? 'LG' : 'FR'].includes(sp.name) ? 'other cartridge — trade only'
-      : 'evolve or trade for it'
-    const row = $(`<div class="hit" style="cursor:pointer">
-      <img src="${spr(id)}" alt="${sp.name}" loading="lazy">
-      <div style="flex:1">
-        <div><span class="meta">#${id}</span> <span class="nm">${cap(sp.name)}</span>${
-          sp.types.map(ty).join('')}</div>
-        <div class="chips">${(sp.stats || []).map((v, i) =>
-          `<span class="chip">${STATN[i]} ${v}</span>`).join('')}<span class="chip v">${sp.bst} BST</span></div>
-        <div class="meta">${where}</div>
-      </div></div>`)
-    row.onclick = () => openMon(id)
-    box.append(row)
+    return { ...sp, id, at: own ? own.stop : 99,
+      where: own ? `first at ${own.fromStop}`
+        : DATA.dex.exclusives[other].includes(sp.name) ? 'other cartridge — trade only'
+        : 'evolve or trade for it',
+      weak: weakTo(sp.types), resist: resistsIt(sp.types), immune: immuneTo(sp.types),
+      steps: (sp.cycles + 1) * 255, moveCount: sp.learn.lv.length + sp.learn.tm.length,
+      fromName: sp.from ? `${cap(M(sp.from).name)} — ${sp.how || 'evolves'}` : '',
+      dex: dexState(id) }
   })
-  m.append(box)
+  const cols = [
+    col('spr', '', r => r.id, { filter: null, nosort: true,
+      cell: r => `<img class="sp" src="${spr(r.id)}" alt="" loading="lazy">` }),
+    col('id', '#', r => r.id, { num: true, filter: 'num' }),
+    col('name', 'Name', r => r.name, { cell: r => `<span class="nm">${cap(r.name)}</span>` }),
+    col('types', 'Type', r => r.types, { filter: 'enum', opts: TYPES,
+      cell: r => r.types.map(ty).join(' ') }),
+    ...STATN.map((n, i) => col('s' + i, n, r => r.stats[i], { num: true, filter: 'num' })),
+    col('bst', 'BST', r => r.bst, { num: true, filter: 'num' }),
+    col('abil', 'Abilities', r => r.abil.map(a => a.name), {
+      cell: r => r.abil.map(a => `<span class="chip" title="${esc(a.text || '')}">${
+        cap(a.name)}</span>`).join(' ') || dash }),
+    col('genus', 'Classification', r => r.genus, { off: true }),
+    col('ev', 'EV yield', r => evText(r.ev), { off: true }),
+    col('eggs', 'Egg groups', r => r.eggs.map(cap), { filter: 'enum', off: true,
+      opts: [...new Set(rows.flatMap(r => r.eggs))].sort().map(cap), cell: r => listOf(r.eggs) }),
+    col('steps', 'Egg steps', r => r.steps, { num: true, filter: 'num', off: true,
+      hint: 'hatch cycles x 255 — how far you would have to walk' }),
+    col('gender', 'Gender', r => genderText(r.gender), { by: r => r.gender, off: true }),
+    col('catch', 'Catch rate', r => r.catch, { num: true, filter: 'num', off: true,
+      hint: '3 is a legendary, 255 is a Caterpie' }),
+    col('happy', 'Base friendship', r => r.happy, { num: true, filter: 'num', off: true }),
+    col('growthName', 'EXP growth', r => r.growthName, { filter: 'enum', off: true,
+      opts: [...new Set(rows.map(r => r.growthName))].filter(Boolean).sort() }),
+    col('baseExp', 'Base EXP', r => r.baseExp, { num: true, filter: 'num', off: true,
+      hint: 'what fainting one is worth (the dump carries the gen 5+ figure)' }),
+    col('height', 'Height', r => r.height / 10, { num: true, filter: 'num', off: true,
+      cell: r => (r.height / 10).toFixed(1) + ' m' }),
+    col('weight', 'Weight', r => r.weight / 10, { num: true, filter: 'num', off: true,
+      cell: r => (r.weight / 10).toFixed(1) + ' kg' }),
+    col('weak', 'Weak to', r => r.weak, { filter: 'enum', opts: TYPES, off: true,
+      cell: r => r.weak.map(ty).join(' ') || dash }),
+    col('resist', 'Resists', r => r.resist, { filter: 'enum', opts: TYPES, off: true,
+      cell: r => r.resist.map(ty).join(' ') || dash }),
+    col('immune', 'Immune to', r => r.immune, { filter: 'enum', opts: TYPES, off: true,
+      cell: r => r.immune.map(ty).join(' ') || dash }),
+    col('moveCount', 'Moves', r => r.moveCount, { num: true, filter: 'num', off: true,
+      hint: 'level-up moves plus compatible machines' }),
+    col('fromName', 'Evolves from', r => r.fromName, { off: true }),
+    col('dex', 'Yours', r => r.dex, { filter: 'enum', opts: DEXSTATE, off: true }),
+    col('where', 'First found', r => r.where, { by: r => r.at, wrap: true }),
+  ]
+  return dexTable(m, 'mon', rows, cols, {
+    sort: 'id', noun: 'species this game can give you', click: r => openMon(r.id),
+    search: r => ['#' + r.id, r.name, r.types.join(' '), r.genus, r.abil.map(a => a.name).join(' '),
+                  r.eggs.join(' '), r.where].join(' ') })
 }
 
-function moveDex(m, hit) {
-  const list = Object.keys(DATA.moves).map(Number)
-    .filter(i => hit(DATA.moves[i].n, DATA.moves[i].t, DATA.moves[i].c, (machineOf[i] || {}).name))
-    .sort((a, b) => DATA.moves[a].n.localeCompare(DATA.moves[b].n))
-  m.append($(`<h3>${list.length} of ${Object.keys(DATA.moves).length} moves</h3>`))
-  m.append($(`<div class="card"><table class="spots">${list.map(i => {
-    const mv = DATA.moves[i]
-    return `<tr><td><b style="color:var(--fg)">${cap(mv.n)}</b>${
-      machineOf[i] ? ` ${ico(machineOf[i].icon)}<span class="chip">${esc(machineOf[i].name.slice(0, 4))}</span>` : ''}</td>
-      <td>${ty(mv.t)} <span class="meta">${mv.c}${
-        mv.p ? ` · ${mv.p} power` : ''} · ${mv.a}% · ${mv.pp} PP</span></td></tr>`
-  }).join('')}</table></div>`))
+function moveDex(m) {
+  const rows = Object.keys(DATA.moves).map(Number).map(i => {
+    const mv = DATA.moves[i], mc = machineOf[i]
+    return { ...mv, id: i, tm: mc ? mc.name.slice(0, 4) : '', tmWhere: mc ? mc.where : '',
+             learners: learntBy[i] || 0 }
+  })
+  const cols = [
+    col('name', 'Move', r => r.n, { cell: r => `<span class="nm">${cap(r.n)}</span>` }),
+    col('t', 'Type', r => r.t, { filter: 'enum', opts: TYPES, cell: r => ty(r.t) }),
+    col('c', 'Class', r => r.c, { filter: 'enum', opts: ['physical', 'special', 'status'] }),
+    col('p', 'Power', r => r.p, { num: true, filter: 'num', cell: r => r.p || dash }),
+    col('a', 'Acc', r => r.a, { num: true, filter: 'num', cell: r => r.a + '%' }),
+    col('pp', 'PP', r => r.pp, { num: true, filter: 'num' }),
+    col('pri', 'Priority', r => r.pri, { num: true, filter: 'num', off: true,
+      hint: 'who moves first regardless of Speed', cell: r => r.pri > 0 ? '+' + r.pri : r.pri || dash }),
+    col('tm', 'Machine', r => r.tm, { cell: r => r.tm
+      ? `${ico((machineOf[r.id] || {}).icon)}<span class="chip">${esc(r.tm)}</span>` : dash }),
+    col('tmWhere', 'Machine at', r => r.tmWhere, { wrap: true, off: true }),
+    col('learners', 'Learnt by', r => r.learners, { num: true, filter: 'num', off: true,
+      hint: 'species in this game that can hold it' }),
+    col('fx', 'Effect', r => r.fx, { wrap: true }),
+  ]
+  return dexTable(m, 'moves', rows, cols, { sort: 'name', noun: 'moves',
+    search: r => [r.n, r.t, r.c, r.tm, r.fx].join(' ') })
 }
 
-function itemDex(m, hit) {
-  const list = DATA.catalogue.filter(c => hit(c.name, c.kind, c.where, c.why))
-  m.append($(`<h3>${list.length} of ${DATA.catalogue.length} — machines, key items and the people who matter</h3>`))
-  m.append($(`<div class="card"><table class="spots">${list.map(c =>
-    `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b><div class="meta">${esc(c.kind)}</div></td>
-     <td>${esc(c.where)}${c.stop ? ` <span class="meta">— ${esc((DATA.stopNames[c.stop] || '').replace(/ —.*/, ''))}</span>` : ''}
-     ${c.why ? `<div class="why">${esc(c.why)}</div>` : ''}</td></tr>`).join('')}</table></div>`))
+function itemDex(m) {
+  const rows = DATA.catalogue.map((c, i) => {
+    const mc = machineByName[c.name], mv = mc && DATA.moves[mc.move]
+    return { ...c, id: i, move: mv ? cap(mv.n) : '', mtype: mv ? mv.t : '', power: mv ? mv.p : 0,
+      stopName: c.stop != null ? (DATA.stopNames[c.stop] || '').replace(/ —.*/, '') : '',
+      at: c.stop != null && idx[c.stop] != null ? idx[c.stop] : 99 }
+  })
+  const cols = [
+    col('name', 'Item', r => r.name, {
+      cell: r => `${ico(r.icon)}<span class="nm raw">${esc(r.name)}</span>` }),
+    col('kind', 'Kind', r => r.kind, { filter: 'enum', opts: [...new Set(rows.map(r => r.kind))].sort() }),
+    col('move', 'Teaches', r => r.move, { cell: r => r.move ? `${esc(r.move)} ${ty(r.mtype)}` : dash }),
+    col('power', 'Power', r => r.power, { num: true, filter: 'num', off: true,
+      cell: r => r.power || dash }),
+    col('stopName', 'Stop', r => r.stopName, { by: r => r.at, hint: 'sorted the way you walk it' }),
+    col('where', 'Where', r => r.where, { wrap: true }),
+    col('why', 'Why it matters', r => r.why, { wrap: true, off: true }),
+  ]
+  return dexTable(m, 'items', rows, cols, { sort: 'stopName',
+    noun: 'machines, key items and the people who matter',
+    search: r => [r.name, r.kind, r.where, r.why, r.move, r.stopName].join(' ') })
 }
 
 function blockerView(m) {
@@ -1000,6 +1271,22 @@ function drawModal() {
           cap(DATA.moves[DATA.machines[n].move].n)}</b> <span class="meta">— ${esc(DATA.machines[n].where)}</span></td></tr>`).join('')}
       </table>
       <div class="meta">Set a level to plan which four it should be holding.</div></div>`}
+    <details class="facts"${load('facts', false) ? ' open' : ''}><summary>Dex data</summary>
+      <table class="spots">
+        ${sp.genus ? `<tr><td>Classification</td><td>${esc(sp.genus)}</td></tr>` : ''}
+        ${(sp.abil || []).length ? `<tr><td>Abilities</td><td>${sp.abil.map(a =>
+          `<b style="color:var(--fg)">${cap(a.name)}</b><span class="why">${esc(a.text || '')}</span>`).join('')}</td></tr>` : ''}
+        <tr><td>Base stats</td><td><div class="chips">${sp.stats.map((v, i) =>
+          `<span class="chip">${STATN[i]} ${v}</span>`).join('')}<span class="chip v">${sp.bst} BST</span></div></td></tr>
+        ${evText(sp.ev || []) ? `<tr><td>EV yield</td><td>${esc(evText(sp.ev))}</td></tr>` : ''}
+        <tr><td>Damage taken</td><td>${damageTaken(sp.types).map(([label, ts]) =>
+          `<div><span class="chip">${label}</span> ${ts.map(ty).join(' ')}</div>`).join('') || dash}</td></tr>
+        <tr><td>Catch rate</td><td>${sp.catch}</td></tr>
+        <tr><td>Gender</td><td>${genderText(sp.gender)}</td></tr>
+        <tr><td>Egg</td><td>${listOf(sp.eggs)} <span class="meta">— ${(sp.cycles + 1) * 255} steps</span></td></tr>
+        <tr><td>EXP</td><td>${esc(sp.growthName)} <span class="meta">— ${sp.baseExp} base EXP</span></td></tr>
+        <tr><td>Size</td><td>${(sp.height / 10).toFixed(1)} m · ${(sp.weight / 10).toFixed(1)} kg</td></tr>
+      </table></details>
     <div class="sfoot">
       <button class="g ${party.has(id) ? 'on' : ''}" data-own="party">In party</button>
       <button class="g ${pc.has(id) ? 'on' : ''}" data-own="box">In the PC</button>
@@ -1025,12 +1312,15 @@ function drawModal() {
   }
   host.querySelectorAll('button[data-own]').forEach(b =>
     b.onclick = () => setOwn(id, b.dataset.own))
+  const facts = host.querySelector('.facts')          // stays as you left it, sheet to sheet
+  facts.ontoggle = () => save('facts', facts.open)
 }
 
 function render() {
   inferProgress()
   const mob = mobile()
-  document.body.className = (mob && view === 'map' ? 'tab-map ' : '') + (showSetup ? 'showsetup' : '')
+  document.body.className = (mob && view === 'map' ? 'tab-map ' : '')
+    + (view === 'dex' && dexTab !== 'blockers' ? 'wide ' : '') + (showSetup ? 'showsetup' : '')
   const goView = k => () => {
     view = k
     if (k !== 'find') query = ''

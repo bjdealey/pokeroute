@@ -61,14 +61,24 @@ for r in rows("pokemon_species"):
     if int(r["id"]) <= MAXDEX:
         species[r["id"]] = {"id": int(r["id"]), "name": r["identifier"],
                             "from": r["evolves_from_species_id"] or None,
-                            "growth": r["growth_rate_id"]}
+                            "growth": r["growth_rate_id"],
+                            # the rest is dex-page furniture: never used to plan a run,
+                            # shown because it is what you go to a dex to look up
+                            "catch": int(r["capture_rate"]), "happy": int(r["base_happiness"] or 0),
+                            "cycles": int(r["hatch_counter"] or 0),
+                            "gender": int(r["gender_rate"]),          # -1 genderless, else eighths female
+                            "legend": r["is_legendary"] == "1" or r["is_mythical"] == "1"}
 by_name = {s["name"]: sid for sid, s in species.items()}
 
 poke_of = {r["species_id"]: r["id"] for r in rows("pokemon") if r["is_default"] == "1"}
 base_exp = {r["species_id"]: int(r["base_experience"] or 60) for r in rows("pokemon") if r["is_default"] == "1"}
+size = {r["species_id"]: (int(r["height"]), int(r["weight"]))       # decimetres, hectograms
+        for r in rows("pokemon") if r["is_default"] == "1"}
 stats = collections.defaultdict(dict)
+ev_yield = collections.defaultdict(dict)          # `effort` is the run-planner model
 for r in rows("pokemon_stats"):
     stats[r["pokemon_id"]][r["stat_id"]] = int(r["base_stat"])
+    ev_yield[r["pokemon_id"]][r["stat_id"]] = int(r["effort"])
 ptypes = collections.defaultdict(list)
 for r in sorted(rows("pokemon_types"), key=lambda r: int(r["slot"])):
     ptypes[r["pokemon_id"]].append(types[r["type_id"]])
@@ -91,6 +101,38 @@ for sid, s in species.items():
     s["bst"] = sum(stats[pid].values()) if pid else 0
     s["types"] = ptypes.get(pid, [])
     s["off"] = (stats[pid].get("2", 0) + stats[pid].get("4", 0)) if pid else 0
+
+# --- what a dex page says and a route planner never needed --------------------
+# Abilities are generation-dependent twice over: an ability can postdate the game
+# (Sturdy's ally Battle Armor is fine, Gen 5's hidden slot is not), and a Pokémon's
+# own line-up moved between generations. pokemon_abilities_past corrects the second.
+abilities = {r["id"]: r for r in rows("abilities") if int(r["generation_id"]) <= GEN}
+ability_slots = collections.defaultdict(dict)
+for r in rows("pokemon_abilities"):
+    ability_slots[r["pokemon_id"]][r["slot"]] = r["ability_id"] if r["is_hidden"] != "1" else ""
+_past_ab = collections.defaultdict(list)
+for r in rows("pokemon_abilities_past"):
+    _past_ab[r["pokemon_id"]].append(r)
+for pid, rs in _past_ab.items():
+    gens = sorted({int(x["generation_id"]) for x in rs if int(x["generation_id"]) >= GEN})
+    if gens:                                   # the earliest correction still in force
+        for x in rs:
+            if int(x["generation_id"]) == gens[0]:
+                ability_slots[pid][x["slot"]] = x["ability_id"] if x["is_hidden"] != "1" else ""
+
+def abilities_of(pid):
+    out = []
+    for slot in sorted(ability_slots.get(pid, {}), key=int):
+        a = abilities.get(ability_slots[pid][slot])
+        if a and a["identifier"] not in [x["name"] for x in out]:
+            out.append({"name": a["identifier"], "text": a["text"]})
+    return out
+
+egg_groups = {r["species_id"]: r["groups"].split("|") for r in rows("egg_groups")}
+genus = {r["species_id"]: r["genus"] for r in rows("species_genera")}
+# growth_rates.csv is six rows of names; the curve itself is already in experience.csv
+GROWTH = {1: "slow", 2: "medium", 3: "fast", 4: "medium slow",
+          5: "erratic", 6: "fluctuating"}
 
 # how each species is made
 evo = {}
@@ -414,7 +456,8 @@ for r in rows("movedex"):
     movedex[int(r["id"])] = {"n": r["name"], "t": types[r["type_id"]],
                              "p": int(r["power"]) if r["power"] else 0,
                              "a": int(r["accuracy"]) if r["accuracy"] else 100,
-                             "pp": int(r["pp"] or 0), "c": r["class"]}
+                             "pp": int(r["pp"] or 0), "c": r["class"],
+                             "pri": int(r.get("priority") or 0), "fx": r.get("effect", "")}
 learn = {}
 for r in rows("learnset"):
     lv = [[int(x.split(":")[0]), int(x.split(":")[1])] for x in r["levelup"].split("|") if x]
@@ -515,11 +558,20 @@ def species_row(sid):
                      "item": ev.get("item")})
     # ponytail: current-gen base stats — a handful moved in gen 6+ and there is no
     # pokemon_stats_past.csv in the dump to correct them with.
+    h, w = size.get(sid, (0, 0))
     return {"name": sp["name"], "types": sp["types"], "bst": sp["bst"],
             "stats": [stats[pid].get(str(i), 0) for i in range(1, 7)] if pid else [0] * 6,
             "growth": int(sp["growth"]), "baseExp": base_exp.get(sid, 60),
             "hms": hm_moves.get(str(pid), []), "evo": opts,
             "from": int(sp["from"]) if sp["from"] in species else None,
+            "how": evo_text(sid),
+            # the dex page: everything you would otherwise go and look up elsewhere
+            "ev": [ev_yield[pid].get(str(i), 0) for i in range(1, 7)] if pid else [0] * 6,
+            "abil": abilities_of(pid) if pid else [], "eggs": egg_groups.get(sid, []),
+            "genus": genus.get(sid, ""), "height": h, "weight": w,
+            "catch": sp["catch"], "happy": sp["happy"], "cycles": sp["cycles"],
+            "gender": sp["gender"], "legend": sp["legend"],
+            "growthName": GROWTH.get(int(sp["growth"]), ""),
             "learn": learn.get(str(pid), {"lv": [], "tm": []})}
 
 blockers = {"exclusives": exclusives, "tradeEvos": trade_evos,
@@ -576,6 +628,10 @@ mon_table = {i: species_row(str(i)) for i in sorted(in_family)}
 se_chart = {a: sorted(b for b in types.values()
                       if efficacy.get((type_id[a], type_id[b]), 100) > 100)
             for a in types.values()}
+# the dex wants the defensive side as well ("damage taken"), so ship the chart itself
+GEN_TYPES = [n for i, n in types.items() if int(i) <= (17 if GEN < 6 else 18)]
+eff_chart = {a: {d: efficacy.get((type_id[a], type_id[d]), 100) for d in GEN_TYPES}
+             for a in GEN_TYPES}
 growths = sorted({m["growth"] for m in mon_table.values()})
 exp_table = {g: [exp_at[(str(g), l)] for l in range(1, 101)] for g in growths}
 for tag, g in games.items():
@@ -583,7 +639,7 @@ for tag, g in games.items():
 
 payload = ("const DATA=" + json.dumps({"game": route["game"], "region": route["region"],
                                        "map": route["map"],
-                                       "mon": mon_table, "moves": movedex, "exp": exp_table, "se": se_chart,
+                                       "mon": mon_table, "moves": movedex, "exp": exp_table, "se": se_chart, "eff": eff_chart,
                                        "machines": machine_name, "stoneStop": STONE_STOP,
                                        "typeArt": type_art, "methodArt": method_art, "badgeArt": badge_art, "spriteSets": CFG["spriteSets"], "npcs": {n["id"]: dict(n, at=idx_of[n["stop"]]) for n in route.get("npcs", [])},
                                        "games": games, "rivalStarter": route["rivalStarter"],
