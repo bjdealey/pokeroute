@@ -391,6 +391,9 @@ img.mini{width:26px;height:26px;vertical-align:middle}
   border-radius:6px;background:var(--field);color:var(--fg)}
 .srow .xp{color:var(--warn);font-size:13px}
 .srow .ok2{color:var(--good);font-size:13px}
+.srow .natsel{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--dim)}
+.srow .natsel select{padding:6px 8px;font:inherit;font-size:13px;border:1px solid var(--line);
+  border-radius:6px;background:var(--field);color:var(--fg);max-width:180px}
 .ssec{padding:12px 0;border-top:1px solid var(--line)}
 .ssec h5{margin:0 0 9px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);
   display:flex;align-items:center;gap:7px;font-weight:650}
@@ -780,6 +783,7 @@ let pc = new Set(load('pc', load('box', [])))
 let goal = load('goal', 'national'); if (goal === 'story') goal = 'national'  // Story is no longer a picker option
 let levels = load('levels', {})
 let sets = load('sets', {})
+let natures = load('natures', {})   // id → nature name; drives physical/special move scoring
 // what the dex has registered: you keep the entry after evolving, you don't keep the Pokémon
 let seen = new Set(load('seen', [...load('party', []), ...load('pc', [])]))
 const M = id => DATA.mon[id] || { name: '#' + id, types: [], bst: 0, growth: 2, baseExp: 60, hms: [], learn: { lv: [], tm: [] } }
@@ -1472,6 +1476,20 @@ const HM_MOVES = new Set(Object.entries(DATA.machines).filter(([n]) => +n > 100)
 const npcReady = k => at >= DATA.npcs[k].at
 const relearnerAt = () => DATA.npcs.relearner.where.split(' — ')[0]   // "Two Island"
 
+// Nature → [raised, lowered] stat index into stats[] (1 Atk, 2 Def, 3 SpA, 4 SpD, 5 Spe);
+// 0 = neutral. Only Atk and SpA matter for move choice, but the whole set makes a real picker.
+const NATURES = {
+  hardy: [0, 0], lonely: [1, 2], brave: [1, 5], adamant: [1, 3], naughty: [1, 4],
+  bold: [2, 1], docile: [0, 0], relaxed: [2, 5], impish: [2, 3], lax: [2, 4],
+  timid: [5, 1], hasty: [5, 2], serious: [0, 0], jolly: [5, 3], naive: [5, 4],
+  modest: [3, 1], mild: [3, 2], quiet: [3, 5], bashful: [0, 0], rash: [3, 4],
+  calm: [4, 1], gentle: [4, 2], sassy: [4, 5], careful: [4, 3], quirky: [0, 0],
+}
+const natMult = (id, idx) => {
+  const n = NATURES[natures[id]]
+  return !n ? 1 : n[0] === idx ? 1.1 : n[1] === idx ? 0.9 : 1
+}
+
 function soonMoves(id, lv) {
   return M(id).learn.lv.filter(([l]) => l > lv && l <= lv + 12)
     .map(([l, i]) => DATA.moves[i] && { ...DATA.moves[i], id: +i, from: 'learns at ' + l, lv: l })
@@ -1489,15 +1507,27 @@ function moveScore(id, m) {
   // flat damping for their drawback rather than a real model. effect_id would fix it.
   if (m.p >= 140) v *= 0.55
   if (sp.types.includes(m.t)) v *= 1.5                              // STAB
+  // A physical move hits with Atk, a special one with SpA — both nature-adjusted. Scored
+  // against the mon's stronger side, so a physical attacker rates its physical STAB full
+  // and its special moves down, and a special attacker the other way round.
+  const atk = (sp.stats?.[1] ?? 1) * natMult(id, 1), spa = (sp.stats?.[3] ?? 1) * natMult(id, 3)
+  if (m.c === 'physical' || m.c === 'special')
+    v *= (m.c === 'physical' ? atk : spa) / Math.max(atk, spa)
   v += [...foes].filter(t => (DATA.se[m.t] || []).includes(t)).length * 0.35
   return v
 }
 
-// The four it should be holding: best damaging move per type, then fill.
+// The four it should be holding: best damaging move per type, then fill. Only ever a set
+// you could actually assemble right now — an HM can't be dropped without the Move Deleter,
+// and a level-up move you've passed can't be re-taught without the Relearner, so until you
+// reach them those slots stay put and those moves are off the table.
 function idealSet(id, lv) {
-  const pool = available(id, lv).sort((a, b) => moveScore(id, b) - moveScore(id, a))
-  const best = []
-  const add = m => { if (best.length < 4 && !best.includes(m)) best.push(m) }
+  const held = new Set(sets[id] || [])
+  const locked = npcReady('deleter') ? [] : [...held].filter(i => HM_MOVES.has(i) && DATA.moves[i])
+  const teachable = m => (!m.past || npcReady('relearner') || held.has(m.id)) && !locked.includes(m.id)
+  const pool = available(id, lv).filter(teachable).sort((a, b) => moveScore(id, b) - moveScore(id, a))
+  const best = locked.map(i => ({ ...DATA.moves[i], id: i }))   // HMs you can't clear yet stay
+  const add = m => { if (best.length < 4 && !best.some(x => x.id === m.id)) best.push(m) }
   // one damaging move per type first — a third same-type attack is dead weight
   pool.filter(m => m.p).forEach(m => { if (!best.some(x => x.t === m.t)) add(m) })
   // ponytail: no move-effect data, so status moves fill spare slots newest-first
@@ -1519,6 +1549,14 @@ function hmLock(id) {
       : `nothing can overwrite ${held.length > 1 ? 'them' : 'it'} until you reach the Move Deleter (${esc(d.where)}).`}</div></div>`
 }
 
+// Nature picker — it only tips physical vs special, so the label spells out the +/− stat.
+function natSelect(id) {
+  const lab = n => { const x = NATURES[n]; return x && x[0] ? ` (+${STATN[x[0]]} −${STATN[x[1]]})` : '' }
+  const opts = `<option value="">— nature —</option>` + Object.keys(NATURES).sort().map(n =>
+    `<option value="${n}"${natures[id] === n ? ' selected' : ''}>${cap(n)}${lab(n)}</option>`).join('')
+  return `<label class="natsel">Nature <select data-nat="${id}" aria-label="Nature">${opts}</select></label>`
+}
+
 // Put a move into a set: first empty slot, else over the weakest thing that is not
 // itself an HM (those can't be overwritten without the Move Deleter).
 function teach(id, moveId) {
@@ -1537,7 +1575,10 @@ function moveAdvice(id, lv) {
   const cur = (sets[id] || []).map(i => i && { ...DATA.moves[i], id: i }).filter(Boolean)
   if (!cur.length) return { cur: [], swaps: [] }
   const held = new Set(cur.map(m => m.id))
-  const cand = available(id, lv).concat(soonMoves(id, lv)).filter(m => !held.has(m.id))
+  // a skipped level-up move can't be taught until the Relearner — until then, only suggest
+  // things you can actually put on it now (learnt-by-level, upcoming, or a reachable machine)
+  const cand = available(id, lv).concat(soonMoves(id, lv))
+    .filter(m => !held.has(m.id) && (!m.past || npcReady('relearner')))
   // an HM slot can't be swapped out on a whim, so it isn't the "weakest" candidate
   const swappable = cur.filter(m => !HM_MOVES.has(m.id))
   const weakest = (swappable.length ? swappable : cur)
@@ -2041,6 +2082,7 @@ function drawModal() {
     </div>
     <div class="srow">
       <label class="lv">Lv <input type="number" min="1" max="100" value="${lv || ''}" placeholder="–" id="mlv"></label>
+      ${natSelect(id)}
       ${lv && target && target > lv
         ? `<span class="xp">Lv ${target} for ${esc(nextF.name.replace(/ —.*/, ''))} — ≈${battlesTo(id, lv, target)} battles</span>`
         : lv && target ? `<span class="ok2">ready for ${esc(nextF.name.replace(/ —.*/, ''))}</span>` : ''}
@@ -2119,6 +2161,11 @@ function drawModal() {
   if (auto) auto.onclick = () => {
     sets[id] = idealSet(id, lv).map(mv => mv.id).concat([null, null, null, null]).slice(0, 4)
     save('sets', sets); render()
+  }
+  const nat = host.querySelector('select[data-nat]')
+  if (nat) nat.onchange = () => {
+    if (nat.value) natures[id] = nat.value; else delete natures[id]
+    save('natures', natures); render()
   }
   host.querySelectorAll('button[data-own]').forEach(b =>
     b.onclick = () => setOwn(id, b.dataset.own))
