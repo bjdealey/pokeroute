@@ -634,6 +634,10 @@ img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-f
 .covpill.bad{border-color:#7a3b3b}
 .covpill img.ty{margin-left:0}
 .covpill small{color:var(--dim);margin-left:6px}
+.hits{font-weight:600;color:var(--dim);white-space:nowrap}
+.hits.ko1{color:var(--good)}
+.hits.ko2{color:var(--acc2)}
+.se{color:var(--good);font-size:11px;margin-left:3px}
 </style>
 <svg class="isprite" aria-hidden="true" focusable="false" width="0" height="0"><defs>
 <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4.2 3.5 6.6v13.2L9 17.4l6 2.4 5.5-2.4V4.2L15 6.6z"/><path d="M9 4.2v13.2M15 6.6v13.2"/></symbol>
@@ -1552,6 +1556,42 @@ function moveScore(id, m) {
   return v
 }
 
+// --- Gen 3 damage. In gen 3 physical/special is by move TYPE, not the modern per-move
+// class, so we split on type here rather than trusting DATA.moves[].c. Stats assume
+// 0 IV / 0 EV (the app tracks neither) — approximate but consistent both sides.
+const GEN3_PHYS = new Set(['normal', 'fighting', 'flying', 'poison', 'ground', 'rock', 'bug', 'ghost', 'steel'])
+const statAt = (base, lvl, nat = 1, hp = false) => {
+  const core = Math.floor(2 * base * lvl / 100)
+  return hp ? core + lvl + 10 : Math.floor((core + 5) * nat)
+}
+// How many hits for `id` (at its set level+nature, best set move) to KO one foe. me->foe
+// only — foes carry no movesets. null if no level, no damaging move, or foe isn't in the dex
+// (a trainer can field the other cartridge's exclusive, e.g. Agatha's Arbok on LeafGreen).
+function koPlan(id, foe) {
+  const me = M(id), lv = lvOf(id), foeSp = M(foe.id)
+  if (!lv || !foeSp.stats) return null
+  const foeHP = statAt(foeSp.stats[0], foe.level, 1, true)
+  let best = null
+  for (const mid of sets[id] || []) {
+    const mv = mid && DATA.moves[mid]
+    if (!mv || !mv.p) continue
+    const eff = taken(foe.types, mv.t)
+    if (!eff) continue                                              // immune
+    const phys = GEN3_PHYS.has(mv.t)
+    const a = statAt(me.stats[phys ? 1 : 3], lv, natMult(id, phys ? 1 : 3))
+    const d = statAt(foeSp.stats[phys ? 2 : 4], foe.level)
+    const stab = me.types.includes(mv.t) ? 1.5 : 1
+    let dmg = Math.floor((Math.floor(2 * lv / 5) + 2) * mv.p * a / d)  // floor 2·L/5 first, per cartridge
+    dmg = Math.floor(dmg / 50) + 2
+    dmg = Math.floor(Math.floor(dmg * stab) * eff)                     // STAB then type, each floored
+    if (dmg > 0 && (!best || dmg > best.dmg)) best = { move: mv, eff, dmg }
+  }
+  if (!best) return null
+  return { move: best.move, eff: best.eff, hp: foeHP,
+    min: Math.max(1, Math.ceil(foeHP / best.dmg)),                  // full-roll (best case)
+    max: Math.max(1, Math.ceil(foeHP / Math.floor(best.dmg * 0.85))) }  // low-roll (worst case)
+}
+
 // The four it should be holding: best damaging move per type, then fill. Only ever a set
 // you could actually assemble right now — an HM can't be dropped without the Move Deleter,
 // and a level-up move you've passed can't be re-taught without the Relearner, so until you
@@ -2129,6 +2169,25 @@ function drawModal() {
       <img src="${spr(o.id)}" alt="">${cap(o.name)}<small>${o.item ? ico('items/' + o.item) : ''}${esc(note)}</small></button>`
   })
 
+  const koSection = (() => {
+    if (!lv || !nextF) return ''
+    const title = `<h5>${I('target')}vs ${esc(nextF.name.replace(/ —.*/, ''))}</h5>`
+    if (!(sets[id] || []).some(mid => mid && DATA.moves[mid]?.p))
+      return `<div class="ssec">${title}<div class="meta">Set a damaging move to see how it fares.</div></div>`
+    const rows = roster(nextF).map(f => {
+      const ko = koPlan(id, f)
+      const n = ko && (ko.min === ko.max ? `${ko.min}` : `${ko.min}–${ko.max}`)
+      const cls = ko && ko.max === 1 ? 'ko1' : ko && ko.max === 2 ? 'ko2' : ''
+      return `<tr><td><img src="${spr(f.id)}" class="mini" alt=""> <b style="color:var(--fg)">${
+        cap(f.name)}</b> <span class="meta">Lv ${f.level}</span></td><td>${ko
+        ? `${cap(ko.move.n)} ${ty(ko.move.t)} <span class="hits ${cls}">${n} hit${n === '1' ? '' : 's'} to KO</span>${
+          ko.eff > 1 ? `<span class="se">×${ko.eff}</span>` : ''}`
+        : '<span class="meta">no move dents it</span>'}</td></tr>`
+    }).join('')
+    return `<div class="ssec">${title}<table class="spots">${rows}</table>
+      <div class="meta">Best set move, hits to KO — assumes no EVs/IVs, no crit or weather.</div></div>`
+  })()
+
   host.hidden = false
   host.innerHTML = `<div class="sheet">
     <div class="shead">
@@ -2169,6 +2228,7 @@ function drawModal() {
           cap(DATA.moves[DATA.machines[n].move].n)}</b> <span class="meta">— ${esc(DATA.machines[n].where)}</span></td></tr>`).join('')}
       </table>
       <div class="meta">Set a level to plan which four it should be holding.</div></div>`}
+    ${koSection}
     <details class="facts"${load('facts', false) ? ' open' : ''}><summary>${I('chev-down', 'mk')}Dex data</summary>
       <table class="spots">
         ${sp.genus ? `<tr><td>Classification</td><td>${esc(sp.genus)}</td></tr>` : ''}
