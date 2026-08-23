@@ -11,7 +11,7 @@ which you can skip evolving entirely, where every TM and HM is, and what beats
 each of the 19 named fights.
 
 Pick your **goal**, **cartridge** and **starter** in the header. All three change what
-the app shows you. **✨ shiny** beside them redraws every sprite in the app in its
+the app shows you. **Shiny** beside them redraws every sprite in the app in its
 shiny colours, and stays that way until you turn it off.
 
     open dist/frlg.html
@@ -22,15 +22,48 @@ One self-contained HTML file. Everything is kept in localStorage.
 
 **On a phone** it's a five-tab app — **Map**, **Here**, **Team**, **Find**, **Dex** —
 with a bottom tab bar, one screen at a time, and the cartridge/goal/starter settings
-tucked behind the ⚙ in the header. Party slots go single-column, the PC drops to five
+tucked behind the gear in the header. Party slots go single-column, the PC drops to five
 across, and every control is sized for a thumb. Dragging between party and PC is
-desktop-only (HTML5 drag has no touch equivalent); the `party` / `PC` buttons on every
+desktop-only (HTML5 drag has no touch equivalent); the `Party` / `PC` buttons on every
 Pokémon do the same job.
 
 **On a desktop** (wider than 860px) it's the two-column layout, and the sidebar carries
 the navigation: the same **Here / Team / Find / Dex** buttons the phone puts in its tab
 bar, then the search box, the town map and the stop list. One view at a time on the
-right, so the party and the dexes are a click away rather than a scroll.
+right, so the party and the dexes are a click away rather than a scroll. Every stop
+page ends with **previous stop / next stop**, so walking the route never means going
+back to the list.
+
+## The interface
+
+**One icon set, drawn not typed.** Every piece of chrome — the five tabs, the settings
+gear, the search field, the sort arrows in the dexes, the checks against a cleared stop,
+the warning on a fight you can't answer — is an inline SVG `<symbol>` defined once at the
+top of the page and used by reference. They inherit the colour of the text beside them
+and are sized in `em`, so they scale with it. Emoji were doing this job before and
+rendered differently on every platform; these don't. Sprites, item art, type labels and
+badges are unchanged — they're real game art, and stay PNGs.
+
+**The header** carries the run: the game, and a progress meter reading `14/23 stops · 61%`
+that fills as the app works out how far you've got. Below it, goal, cartridge and starter
+are three labelled segmented controls rather than a row of loose buttons.
+
+**The sidebar** is nav, search, map, route. The stop list numbers each stop, marks the
+cleared ones with a check, pins the one you're standing on, and scrolls the current stop
+into view when you move — at stop 20 of 23 you don't go hunting for it.
+
+**Keyboard.** The whole app is reachable without the mouse, and the shortcuts are printed
+at the foot of the sidebar:
+
+| key | does |
+| --- | --- |
+| `1`–`5` | switch view |
+| `/` | jump to the search box |
+| `[` `]` | previous / next stop |
+| `Esc` | close the sheet, the settings panel, or the search |
+
+Typing in a field only ever sees `Esc`, so the dex filters and the level boxes still take
+digits and slashes.
 
 ## Building
 
@@ -93,7 +126,7 @@ now ("needs Lv 38 — ≈25 battles", "ready to become Ivysaur", "tap to set its
   and switches the sheet to the new form.
 - **Moves.** Four dropdowns listing everything it could legally be holding right now —
   moves learnt by its level, plus TMs and HMs it is compatible with *that you could
-  already have picked up*. Set what it knows, or hit **use recommended**. Once a set is
+  already have picked up*. Set what it knows, or hit **use recommended set**. Once a set is
   stored the sheet tells you what to change: *"Teach Razor Leaf over Vine Whip — level
   22"*, naming the move, its source and the slot it should replace. Ranked on power x
   accuracy, x1.5 for STAB, plus a bonus for hitting the types in the next four fights;
@@ -144,8 +177,8 @@ game file can say which icon to use:
 
 **Shiny.** Every species is inlined twice, ordinary and shiny, from the same
 generation-III sprite sets — `versions/generation-iii/firered-leafgreen/shiny/` first,
-Emerald behind it, exactly the fallback the ordinary sprites use. The ✨ button in the
-header swaps the lot; the Pokédex's Shiny column always shows the shiny form regardless,
+Emerald behind it, exactly the fallback the ordinary sprites use. The **Shiny** button in
+the header swaps the lot; the Pokédex's Shiny column always shows the shiny form regardless,
 which is the point of having a column. A species with no shiny art draws its ordinary
 self rather than a hole. It costs about 230 KB on the page.
 
@@ -171,7 +204,7 @@ which:
 same table: **sortable, filterable column by column, and yours to configure.** Click a
 heading to sort by it, type under a heading to filter on that column alone — number
 columns take `>100`, `<40` or `80-120`, type and class columns become a dropdown — and
-the `columns` button opens everything the table *could* show, to tick on and off. The
+the **Columns** button opens everything the table *could* show, to tick on and off. The
 search box above still matches every column at once. Your sort, your filters and your
 columns are remembered per dex, so the table you built is the one you come back to.
 
@@ -182,7 +215,7 @@ columns are remembered per dex, so the table you built is the one you come back 
   it is weak to, resists and is immune to, how many moves it can hold, what it evolves
   from, and whether it is in your party, your PC, registered, or covered by evolving
   something you already have. A **Shiny** column draws the shiny form beside the ordinary
-  one, whichever way the header's ✨ is set, so you can compare the two. Tap a row for its
+  one, whichever way the header's **Shiny** button is set, so you can compare the two. Tap a row for its
   sheet — the learnset, and the same facts folded away under **Dex data**, including the
   full damage-taken chart and both forms side by side.
 - **Movedex** — every move in the generation: type, class, power, accuracy, PP, what it

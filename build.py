@@ -22,17 +22,55 @@ if len(sys.argv) < 2:                         # no argument: build every game th
     built = sorted(f[:-5] for f in os.listdir(GAMES_DIR) if f.endswith(".json"))
     for g in built:
         subprocess.run([sys.executable, __file__, g], check=True)
-    # the front page, so GitHub Pages has something at the root
-    links = "".join(
-        f'<li><a href="dist/{g}.html">{json.load(open(os.path.join(GAMES_DIR, g + ".json")))["game"]}</a></li>'
-        for g in built)
+    # the front page, so GitHub Pages has something at the root. Same palette and
+    # same pokeball mark as the app it opens, so the two read as one thing.
+    def card(g):
+        r = json.load(open(os.path.join(GAMES_DIR, g + ".json")))
+        n = len(r.get("stops", []))
+        return (f'<a class="game" href="dist/{g}.html">'
+                f'<span class="nm">{r["game"]}</span>'
+                f'<span class="sub">{r.get("region", "")} \u00b7 {n} stops</span>'
+                f'<svg class="i" viewBox="0 0 24 24"><path d="m9.6 5.4 6.6 6.6-6.6 6.6"/></svg></a>')
+    links = "".join(card(g) for g in built)
+    ball = ('<svg class="mark" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/>'
+            '<path d="M3.2 12h5.4M15.4 12h5.4"/><circle cx="12" cy="12" r="2.9"/></svg>')
     open(os.path.join(HERE, "index.html"), "w").write(
-        '<!doctype html><meta charset="utf-8"><title>pokeroute</title>'
+        '<!doctype html><html lang="en"><meta charset="utf-8"><title>pokeroute</title>'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        '<style>body{background:#0e1117;color:#e6e9f0;font:16px system-ui;padding:40px;line-height:1.6}'
-        'a{color:#7ec4ff}li{font-size:20px;margin:6px 0}</style>'
-        f'<h1>pokeroute</h1><p>A run planner for Pok\u00e9mon games.</p><ul>{links}</ul>'
-        '<p><a href="https://github.com/bjdealey/pokeroute">Source on GitHub</a></p>')
+        '<meta name="description" content="A run planner for Pok\u00e9mon games.">'
+        '<meta name="color-scheme" content="dark">'
+        '<style>'
+        ':root{--bg:#0d1017;--card:#161b26;--card2:#1c2230;--line:#252b3a;--line2:#333c50;'
+        '--fg:#e7eaf2;--dim:#8b93a7;--dim2:#69718a;--acc:#6ea8fe;--acc2:#a8ccff}'
+        '*{box-sizing:border-box}'
+        'body{margin:0;background:var(--bg);color:var(--fg);line-height:1.6;'
+        'font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;'
+        'display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px 20px}'
+        'main{width:100%;max-width:520px}'
+        '.brand{display:flex;align-items:center;gap:12px;margin-bottom:6px}'
+        '.mark{width:34px;height:34px;color:var(--acc)}'
+        'svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}'
+        'h1{font-size:27px;margin:0;font-weight:650;letter-spacing:-.02em}'
+        'p.lede{color:var(--dim);margin:0 0 26px;font-size:15.5px}'
+        'h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim2);'
+        'font-weight:650;margin:0 0 10px}'
+        '.game{display:flex;align-items:center;gap:4px;text-decoration:none;color:inherit;'
+        'background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px;'
+        'margin-bottom:10px;transition:border-color .14s,background .14s,transform .14s}'
+        '.game:hover{background:var(--card2);border-color:var(--line2);transform:translateY(-1px)}'
+        '.game .nm{font-weight:650;font-size:17px}'
+        '.game .sub{color:var(--dim);font-size:13px;margin-left:auto}'
+        '.game .i{width:18px;height:18px;color:var(--dim2);margin-left:12px;flex:none}'
+        '.game:hover .i{color:var(--acc)}'
+        'footer{margin-top:26px;color:var(--dim2);font-size:13.5px}'
+        'footer a{color:var(--acc);text-decoration:none}footer a:hover{color:var(--acc2);'
+        'text-decoration:underline}'
+        '</style>'
+        f'<main><div class="brand">{ball}<h1>pokeroute</h1></div>'
+        '<p class="lede">A run planner for Pok\u00e9mon games \u2014 what to catch, '
+        'what to skip, and what beats the next fight.</p>'
+        f'<h2>Open a game</h2>{links}'
+        '<footer><a href="https://github.com/bjdealey/pokeroute">Source on GitHub</a></footer></main>')
     raise SystemExit
 GAME = sys.argv[1].removesuffix(".json")
 route = json.load(open(os.path.join(GAMES_DIR, GAME + ".json")))

@@ -3,21 +3,56 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Route Planner</title>
 <style>
-:root{--bg:#0f1219;--card:#181c26;--line:#282d3c;--fg:#e6e8ef;--dim:#8b91a3;--acc:#6ea8fe;--good:#4ade80;--warn:#fbbf24;--sea:#2f6ba8}
+:root{
+  --bg:#0d1017;--bg2:#111520;--card:#161b26;--card2:#1c2230;--line:#252b3a;--line2:#333c50;
+  --fg:#e7eaf2;--dim:#8b93a7;--dim2:#69718a;--acc:#6ea8fe;--acc2:#a8ccff;--accbg:#16203a;
+  --good:#4ade80;--goodbg:#122a1e;--warn:#fbbf24;--warnbg:#2a2213;--bad:#f87171;--sea:#2f6ba8;
+  --r:10px;--r2:14px;--hdr:56px;
+  --sh:0 1px 2px rgba(0,0,0,.32),0 8px 24px -14px rgba(0,0,0,.7);
+  --ring:0 0 0 2px var(--bg),0 0 0 4px var(--acc)}
 *{box-sizing:border-box}
-body{margin:0;font:15px/1.5 system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg)}
+body{margin:0;font:15px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:#2b3244;border-radius:8px;border:2px solid var(--bg)}
+*::-webkit-scrollbar-thumb:hover{background:#3a445c}
+kbd{font:600 10px/1.6 ui-monospace,Menlo,monospace;background:var(--card2);border:1px solid var(--line2);
+  border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--dim);vertical-align:1px}
+/* the icon set: one inline SVG sprite, sized in em so it tracks its text */
+svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em}
+svg.isprite{position:absolute;width:0;height:0;overflow:hidden}
 img{image-rendering:pixelated}
-header{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;flex-wrap:wrap;position:sticky;top:0;background:var(--bg);z-index:9}
-h1{font-size:16px;margin:0;font-weight:600}h1 small{color:var(--dim);font-weight:400}
-.wrap{display:grid;grid-template-columns:500px 1fr}
-aside{border-right:1px solid var(--line);padding:12px;position:sticky;top:53px;max-height:calc(100vh - 53px);overflow:auto}
-main{padding:18px 22px;max-width:880px;min-width:0}
+header{min-height:var(--hdr);padding:8px 18px;border-bottom:1px solid var(--line);display:flex;gap:16px;
+  align-items:center;position:sticky;top:0;background:#0d1017f2;backdrop-filter:blur(10px);z-index:9}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .mark{width:26px;height:26px;color:var(--acc);stroke-width:1.6;flex:none}
+.ttl{min-width:0;line-height:1.15}
+h1{font-size:15.5px;margin:0;font-weight:650;letter-spacing:-.01em;white-space:nowrap}
+.ttl small{display:block;color:var(--dim);font-size:11.5px;letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hprog{display:flex;align-items:center;gap:10px;margin-left:auto;width:230px;flex:none}
+.hprog .bar{height:6px;background:var(--card2);border:1px solid var(--line);border-radius:99px}
+.hprog .bar i{background:linear-gradient(90deg,var(--acc),#8be9a4);transition:width .35s ease}
+.hprog .meta{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:12px}
+.wrap{display:grid;grid-template-columns:474px 1fr}
+aside{border-right:1px solid var(--line);background:var(--bg2);padding:14px 14px 20px;position:sticky;
+  top:var(--hdr);max-height:calc(100vh - var(--hdr));overflow:auto;scrollbar-gutter:stable}
+main{padding:20px 24px 40px;max-width:900px;min-width:0}
 body.wide main{max-width:none}   /* the dexes are tables, not prose */
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 14px}
-h2{font-size:20px;margin:0 0 6px}
-h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:15px 17px;
+  margin:0 0 14px;box-shadow:var(--sh)}
+h2{font-size:21px;margin:0 0 6px;letter-spacing:-.015em}
+h3{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:26px 0 10px;
+  display:flex;align-items:center;gap:8px;font-weight:650}
+h3 svg.i{width:14px;height:14px;color:var(--acc);opacity:.85}
+h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
 .meta{color:var(--dim);font-size:13px}
-.notes{border-left:3px solid var(--acc);padding-left:12px;margin:12px 0;color:#c3c8d6}
+.notes{display:flex;gap:10px;align-items:flex-start;border-left:3px solid var(--acc);background:#141b2b;
+  border-radius:0 9px 9px 0;padding:10px 13px;margin:12px 0;color:#c3c8d6;font-size:14px;line-height:1.55}
+.notes svg.i{width:16px;height:16px;margin-top:2px;flex:none;color:var(--acc);opacity:.9}
 ol,ul{margin:0;padding-left:20px}li{margin:7px 0}
 .why{color:var(--dim);font-size:13px}
 /* map */
@@ -59,26 +94,66 @@ svg.map .here-dot{fill:none;stroke:#fff;stroke-width:1.3}
 @media(prefers-reduced-motion:reduce){svg.map .halo{animation:none;opacity:.85}}
 svg.map g.n:hover .mk{stroke:#fff;stroke-width:1}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--dim);padding:6px 2px 4px}
-.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;border:1px solid #17324f}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;
+  border:1px solid #17324f;border-radius:2px}
+/* walking the route: the same move as [ and ], where your eye already is */
+.stepnav{display:flex;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.stepnav .stepbtn{flex:1;justify-content:space-between;text-align:left;padding:11px 14px;
+  border-radius:12px;gap:12px;min-height:52px}
+.stepnav .stepbtn span{display:flex;flex:1;flex-direction:column;gap:2px;color:var(--fg);
+  font-size:13.5px;font-weight:600;min-width:0;align-items:flex-start;text-align:left}
+.stepnav .stepbtn small{color:var(--dim2);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  font-weight:650}
+.stepnav .stepbtn svg.i{width:17px;height:17px;color:var(--dim)}
+.stepnav .stepbtn svg.flip{transform:rotate(180deg)}
+.stepnav .stepbtn:last-child:not(:only-child) span{align-items:flex-end;text-align:right}
+.stepnav .stepbtn:hover svg.i{color:var(--acc)}
 /* stop list */
-.stops button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--dim);padding:5px 8px;border-radius:6px;cursor:pointer;font:inherit;font-size:13px}
-.stops button:hover{background:var(--card);color:var(--fg)}
-.stops button.on{background:var(--acc);color:#0b0d12;font-weight:600}
-.stops button.done{color:#4c5364;text-decoration:line-through}
+.stops{display:flex;flex-direction:column;gap:1px}
+.stops button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;
+  border:0;border-left:2px solid transparent;color:var(--dim);padding:7px 9px;border-radius:8px;
+  cursor:pointer;font:inherit;font-size:13px;transition:background .12s,color .12s}
+.stops button:hover{background:var(--card2);color:var(--fg)}
+.stops .ix{flex:none;width:20px;height:20px;display:grid;place-items:center;border-radius:6px;
+  background:var(--card2);color:var(--dim2);font:600 10.5px/1 ui-monospace,Menlo,monospace;
+  font-variant-numeric:tabular-nums}
+.stops .snm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stops .sicon{flex:none;width:14px;height:14px;color:var(--good)}
+.stops button.done{color:var(--dim2)}
+.stops button.done .snm{text-decoration:line-through;text-decoration-color:#3d4457}
+.stops button.done .ix{background:var(--goodbg);color:var(--good)}
+.stops button.on{background:var(--accbg);color:var(--acc2);font-weight:600;border-left-color:var(--acc)}
+.stops button.on .ix{background:var(--acc);color:#0b0d12}
+.stops button.on .snm{text-decoration:none}
 /* mons */
-.mon{display:grid;grid-template-columns:26px 56px 1fr;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.mon{display:grid;grid-template-columns:62px 56px 1fr;gap:12px;align-items:start;padding:12px 0;
+  border-bottom:1px solid var(--line)}
 .mon:last-child{border:0}
-.rank{color:var(--dim);font-variant-numeric:tabular-nums;padding-top:14px}
+.rank{display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--dim);
+  font-variant-numeric:tabular-nums;padding-top:6px}
+.rank .no{width:22px;height:22px;display:grid;place-items:center;border-radius:7px;background:var(--card2);
+  border:1px solid var(--line);font-size:11px;font-weight:650;color:var(--dim)}
+.rank button.g{padding:3px 7px;font-size:11px;width:100%;justify-content:center;gap:4px}
+.rank button.g svg.i{width:12px;height:12px}
 .spr{width:56px;height:56px;object-fit:contain}
 .nm{font-weight:600;text-transform:capitalize}
 .t{font-size:11px;padding:1px 7px;border-radius:20px;background:#2a3040;color:#c9d1e4;text-transform:capitalize;margin-left:5px}
 .chain{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin:4px 0}
 .chain img{width:32px;height:32px}
 .chain span{color:var(--dim);font-size:12px}
-.pill{font-size:12px;padding:2px 9px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
-.pill.b{border-color:var(--warn);color:var(--warn)}
-button.g{background:var(--card);border:1px solid var(--line);color:var(--dim);border-radius:6px;padding:2px 8px;cursor:pointer;font:inherit;font-size:12px}
-button.g.on{border-color:var(--good);color:var(--good)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 10px;border-radius:20px;
+  border:1px solid var(--line);background:var(--card2);color:var(--dim)}
+.pill.b{border-color:#6b5320;background:var(--warnbg);color:var(--warn)}
+.pill svg.i{width:13px;height:13px}
+button.g{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--line2);
+  color:var(--dim);border-radius:8px;padding:5px 11px;cursor:pointer;font:inherit;font-size:12.5px;
+  line-height:1.4;transition:background .13s,color .13s,border-color .13s}
+button.g:hover{background:#232a3b;color:var(--fg);border-color:#3d465c}
+button.g:active{transform:translateY(1px)}
+button.g.on{border-color:var(--good);color:var(--good);background:var(--goodbg)}
+button.g.danger:hover{border-color:#7a3b3b;color:#ffb4b4;background:#2a1618}
+button.g svg.i{width:14px;height:14px}
+button.g[disabled]{opacity:.45;cursor:not-allowed}
 .prog{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:13px}
 .prog .ok{color:var(--good);margin-top:0}
 .prog .ev{color:#6f7890;font-size:12px}
@@ -86,11 +161,18 @@ button.g.on{border-color:var(--good);color:var(--good)}
 .bar{height:4px;background:var(--line);border-radius:3px;overflow:hidden;flex:1;min-width:110px}
 .bar i{display:block;height:100%;background:var(--good)}
 /* party / PC, in the shape of the in-game screens */
-.pkui{background:linear-gradient(#33578c,#1d3557);border:3px solid #0b1626;border-radius:12px;padding:12px;margin-bottom:14px}
-.pkui h4{margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#bcd6f5;font-weight:700}
+.pkui{background:linear-gradient(#33578c,#1d3557);border:3px solid #0b1626;border-radius:14px;padding:13px;
+  margin-bottom:14px;box-shadow:var(--sh)}
+.pkui h4{margin:0 0 10px;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:#bcd6f5;
+  font-weight:700;display:flex;align-items:center;gap:7px}
+.pkui h4 svg.i{width:14px;height:14px;opacity:.9}
+.pkui h4 .ct{margin-left:auto;letter-spacing:.02em;text-transform:none;font-weight:600;color:#8fb4e2;
+  background:#12294a;border-radius:20px;padding:2px 9px;font-size:11px}
 .slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .slot{display:flex;gap:9px;align-items:center;background:#eef3fa;color:#152238;border:2px solid #0b1626;
-  border-radius:14px;padding:6px 10px;min-height:56px;cursor:pointer;user-select:none}
+  border-radius:14px;padding:6px 10px;min-height:56px;cursor:pointer;user-select:none;
+  transition:background .12s,transform .12s}
+.slot:hover{background:#fff;transform:translateY(-1px)}
 .slot img{width:44px;height:44px;flex:none}
 .slot b{display:block;font-size:13px;text-transform:capitalize;line-height:1.2}
 .slot .who{min-width:0}
@@ -108,48 +190,77 @@ button.g.on{border-color:var(--good);color:var(--good)}
 .evo.off{background:#e3e8ef;border-color:#9aa6b6;color:#7d879a;cursor:not-allowed}
 .evo.off small{color:#8d97a8}
 .livewarn{color:#a8511c;display:block;margin-top:3px}
-.cell .rdy{position:absolute;top:1px;right:2px;font-size:9px;color:#8fe27a;font-style:normal}
-.mslots{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.mslots select{width:100%;padding:5px 7px;font:inherit;font-size:12px;border:1px solid var(--line);
-  border-radius:6px;background:#11151d;color:var(--fg)}
+.cell .rdy{position:absolute;top:2px;right:2px;color:#8fe27a;line-height:0}
+.cell .rdy svg.i{width:12px;height:12px;stroke-width:2.1;filter:drop-shadow(0 0 2px #0b1626)}
+.mslots{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mslot{display:flex;flex-direction:column;gap:4px}
+.mslot span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim2);font-weight:650}
+.mslots select{width:100%;padding:7px 8px;font:inherit;font-size:12.5px;border:1px solid var(--line);
+  border-radius:8px;background:#11151d;color:var(--fg);cursor:pointer}
+.mslots select:hover{border-color:var(--line2)}
 .advice{margin-top:9px;font-size:13px;color:#c3c8d6;border-left:3px solid var(--good);padding-left:10px}
 .advice b{color:var(--good)}
-.note{margin-top:9px;font-size:12px;color:#c9a86a;background:#211d14;border:1px solid #3d3320;
-  border-radius:6px;padding:6px 9px}
+.note{display:flex;align-items:flex-start;gap:8px;margin-top:9px;font-size:12px;color:#c9a86a;
+  background:#211d14;border:1px solid #3d3320;border-radius:8px;padding:7px 10px;line-height:1.5}
+.note svg.i{width:14px;height:14px;margin-top:2px;flex:none}
 .spots tr.later td{opacity:.55}
 img.mini{width:26px;height:26px;vertical-align:middle}
+.spots tr:hover td{background:#1b2130}
+.spots td:first-child{border-radius:7px 0 0 7px}
+.spots td:last-child{border-radius:0 7px 7px 0}
 .give{margin-left:8px;border-color:var(--good);color:var(--good)}
-.carrying{color:var(--good);font-size:12px;margin-left:8px}
+.carrying{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-size:12px;margin-left:8px}
+.carrying svg.i{width:13px;height:13px;stroke-width:2.1}
 .slot small{color:#4a5a73;font-size:11px;line-height:1.3;display:block}
 .slot .hm{color:#1c5fa8;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
-.slot.empty{background:#2d4f80;border-style:dashed;border-color:#5d84bb;color:#7ea3d4;
-  justify-content:center;align-items:center;font-size:11px;cursor:default}
-.pcgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;max-width:430px}
-.cell{aspect-ratio:1;background:#2a4a7d;border:2px solid #0b1626;border-radius:8px;
-  display:grid;place-items:center;cursor:grab;position:relative}
+.slot.empty{background:#2b4a79;border-style:dashed;border-color:#5d84bb;color:#8cb2e0;gap:6px;
+  justify-content:center;align-items:center;font-size:11.5px;cursor:default}
+.slot.empty:hover{background:#2b4a79;transform:none}
+.slot.empty svg.i{width:14px;height:14px;opacity:.8}
+.pcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.cell{aspect-ratio:1;background:#2a4a7d;border:2px solid #0b1626;border-radius:9px;
+  display:grid;place-items:center;cursor:grab;position:relative;transition:background .12s,transform .12s}
+.cell:hover{background:#35598f;transform:translateY(-1px)}
 .cell.empty{background:#223d68;border-color:#33547f;cursor:default}
+.cell.empty:hover{background:#223d68;transform:none}
 .cell img{width:82%;height:82%;object-fit:contain}
-.cell span{position:absolute;bottom:0;left:0;right:0;font-size:7px;text-align:center;color:#bcd6f5;
+.cell span{position:absolute;bottom:1px;left:0;right:0;font-size:8.5px;text-align:center;color:#bcd6f5;
   text-transform:capitalize;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .pkui.drop{outline:3px dashed #ffd34d;outline-offset:2px}
-.notice{color:var(--warn);font-size:12px;margin-top:8px}
+.notice{display:flex;align-items:flex-start;gap:8px;color:#ffd77a;background:var(--warnbg);
+  border:1px solid #493a1c;border-radius:10px;padding:9px 12px;font-size:12.5px;margin:0 0 14px}
+.notice svg.i{width:15px;height:15px;margin-top:2px;flex:none;color:var(--warn)}
+.drophint{display:flex;align-items:center;gap:7px;color:var(--dim2);font-size:11.5px;margin:-6px 0 14px}
+.drophint svg.i{width:14px;height:14px}
 /* one-line slots; the detail lives in the sheet */
 .slot .who{flex:1;min-width:0}
 .slot .lvtag{font-size:11px;color:#4a5a73;margin-left:6px;font-weight:600}
-.slot .rdytag{font-size:10px;color:#1d7a3c;margin-left:6px;font-weight:700}
-.slot .chev{color:#8fa6c4;font-size:19px;line-height:1;flex:none}
+.slot .rdytag{display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#12602f;
+  background:#cbeed6;border-radius:20px;padding:1px 7px 1px 5px;margin-left:6px;font-weight:700;
+  vertical-align:1px}
+.slot .rdytag svg.i{width:11px;height:11px;stroke-width:2.2}
+.slot .chev{color:#8fa6c4;flex:none;line-height:0}
+.slot .chev svg.i{width:17px;height:17px}
+.slot .lvtag{background:#dde6f2;border-radius:20px;padding:1px 7px}
 .slot small{display:block;color:#4a5a73;font-size:11px;line-height:1.35}
 /* the sheet */
-.modal{position:fixed;inset:0;z-index:40;background:#000a;display:flex;align-items:center;
-  justify-content:center;padding:16px;overflow:auto}
+.modal{position:fixed;inset:0;z-index:40;background:#070a12cc;backdrop-filter:blur(4px);display:flex;
+  align-items:center;justify-content:center;padding:16px;overflow:auto;animation:fade .16s ease}
 .modal[hidden]{display:none}
-.sheet{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;
-  width:min(520px,100%);max-height:90vh;overflow:auto}
-.shead{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+@keyframes fade{from{opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px) scale(.985)}}
+.sheet{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:0 18px 18px;
+  width:min(540px,100%);max-height:90vh;overflow:auto;box-shadow:0 24px 60px -20px #000c;
+  animation:rise .18s cubic-bezier(.2,.8,.3,1)}
+@media(prefers-reduced-motion:reduce){.modal,.sheet{animation:none}}
+.shead{display:flex;align-items:center;gap:13px;padding:14px 0 12px;position:sticky;top:0;z-index:3;
+  background:var(--card);border-bottom:1px solid var(--line)}
 .shead img{width:64px;height:64px}
-.shead b{font-size:19px;text-transform:capitalize}
-.shead .x{margin-left:auto;background:none;border:0;color:var(--dim);font-size:26px;line-height:1;
-  cursor:pointer;padding:0 6px}
+.shead b{font-size:20px;text-transform:capitalize;letter-spacing:-.01em}
+.shead .x{margin-left:auto;align-self:flex-start;background:var(--card2);border:1px solid var(--line);
+  color:var(--dim);cursor:pointer;padding:7px;border-radius:9px;display:flex;line-height:0}
+.shead .x svg.i{width:16px;height:16px}
+.shead .x:hover{color:var(--fg);border-color:var(--line2);background:#232a3b}
 .srow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--line)}
 .srow .lv{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--dim)}
 .srow .lv input{width:62px;padding:6px 8px;font:inherit;font-size:14px;border:1px solid var(--line);
@@ -157,7 +268,9 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .srow .xp{color:var(--warn);font-size:13px}
 .srow .ok2{color:var(--good);font-size:13px}
 .ssec{padding:12px 0;border-top:1px solid var(--line)}
-.ssec h5{margin:0 0 8px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.ssec h5{margin:0 0 9px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);
+  display:flex;align-items:center;gap:7px;font-weight:650}
+.ssec h5 svg.i{width:13px;height:13px;color:var(--acc);opacity:.85}
 .ssec .auto{margin-top:8px}
 .sfoot{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
 .sfoot button{flex:1;min-height:38px}
@@ -179,51 +292,102 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .ctr img{width:44px;height:44px;display:block;margin:0 auto}
 .ctr .src{font-size:10px;color:#666e85;display:block;text-transform:none;line-height:1.25}
 .gap{color:var(--warn);font-size:13px;margin-top:8px}
+.swapline{display:flex;gap:7px;align-items:flex-start;padding:3px 0}
+.swapline svg.i{width:14px;height:14px;margin-top:3px;flex:none;opacity:.7}
 .warn{color:#e8b45f;font-size:13px;margin-top:8px}
 .ctr div.stored{border-color:#4a5a7a;background:#151d2b}
 .dex .covered{color:#78849b}.dex .have{color:var(--good)}.dex .need{color:#c9d1e4}
 .mon.dim{opacity:.45}
-.ok{color:var(--good);font-size:13px;margin-top:8px}
+.ok{display:inline-flex;align-items:center;gap:6px;color:var(--good);font-size:13px;margin-top:8px}
+.prog .meta{display:inline-flex;align-items:center;gap:6px}
+.prog svg.i{width:14px;height:14px}
+/* the three verdict lines under a fight card, told apart at a glance */
+.verdict{display:flex;align-items:flex-start;gap:8px;margin-top:10px;font-size:13px;
+  border-radius:9px;padding:8px 11px;line-height:1.5}
+.verdict svg.i{width:15px;height:15px;margin-top:2px;flex:none}
+.verdict.good{color:#9df0bb;background:var(--goodbg);border:1px solid #1f4a31}
+.verdict.hold{color:#cfe0ff;background:#16203a;border:1px solid #2c3f63}
+.verdict.bad{color:#ffcf87;background:var(--warnbg);border:1px solid #4a3a1c}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:3px 0}
 .chip{font-size:11px;padding:1px 7px;border-radius:5px;background:#232838;color:var(--dim)}
 .chip.v{color:#9fd0ff}.chip.e{color:#ffcf87}
 .cost{color:#7d859c;font-size:12px;margin-top:2px}
 .cost b{color:var(--warn);font-weight:500}
-.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-#q{width:100%;margin-bottom:10px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);
-   background:var(--card);color:var(--fg);font:inherit;font-size:13px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tools .lbl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim2);font-weight:650}
+.tools .seg{margin:0}
+.qbox{position:relative;display:flex;align-items:center;margin-bottom:14px}
+.qbox .qico{position:absolute;left:11px;width:15px;height:15px;color:var(--dim2);pointer-events:none}
+#q{width:100%;padding:9px 62px 9px 34px;border-radius:10px;border:1px solid var(--line);
+   background:var(--card);color:var(--fg);font:inherit;font-size:13px;transition:border-color .13s}
+#q:hover{border-color:var(--line2)}
 #q::placeholder{color:#5d6478}
-.qm{width:100%;margin-bottom:12px;padding:11px 12px;border-radius:9px;border:1px solid var(--line);
-  background:var(--card);color:var(--fg);font:inherit;font-size:15px}
+.qbox .qx{position:absolute;right:32px;background:none;border:0;color:var(--dim2);cursor:pointer;
+  padding:4px;display:flex;border-radius:6px}
+.qbox .qx:hover{color:var(--fg)}
+.qbox .qx[hidden]{display:none}
+.qbox .qkbd{position:absolute;right:9px;pointer-events:none}
+.secttl{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim2);font-weight:650;margin:0 0 7px}
+.secttl svg.i{width:13px;height:13px;color:var(--acc);opacity:.8}
+.secttl .ct{margin-left:auto;letter-spacing:0;text-transform:none;font-weight:500;color:var(--dim2)}
+.kbdhint{display:flex;gap:8px;align-items:flex-start;margin-top:14px;padding-top:12px;
+  border-top:1px solid var(--line);color:var(--dim2);font-size:11px;line-height:1.7}
+.kbdhint svg.i{width:14px;height:14px;margin-top:3px;flex:none}
+.qmbox{position:relative;display:flex;align-items:center;margin-bottom:14px}
+.qmbox svg.i{position:absolute;left:14px;width:17px;height:17px;color:var(--dim2);pointer-events:none}
+.qm{width:100%;padding:11px 14px 11px 41px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card);color:var(--fg);font:inherit;font-size:14.5px;transition:border-color .13s}
+.qm:hover{border-color:var(--line2)}
 .qm::placeholder{color:#5d6478}
-.dex{font-size:12px;margin-top:3px;line-height:1.5}
+.dex{font-size:12px;margin-top:5px;line-height:1.6}
+.dex span{display:inline-flex;align-items:flex-start;gap:5px}
+.dex svg.i{width:13px;height:13px;margin-top:2px;flex:none}
 .dex .later{color:#7fb3e8}.dex .only{color:var(--warn)}.dex .skip{color:var(--good)}
 .ver{font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid var(--line);color:var(--dim);margin-left:5px}
 .ver.x{border-color:#a05; color:#f79}
-.spots td{padding:4px 10px 4px 0;font-size:13px;vertical-align:top}
+.spots td{padding:5px 14px 5px 0;font-size:13px;vertical-align:top}
 .spots td:first-child{color:var(--dim);white-space:nowrap}
 .hit{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
 .hit img{width:48px;height:48px}
-.gear{display:none;font-size:16px;line-height:1;padding:4px 9px}
-.setup{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 18px;
-  border-bottom:1px solid var(--line);background:var(--card)}
+button.g.gear{display:none;padding:7px 9px}
+button.g.gear svg.i{width:16px;height:16px}
+.setup{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:9px 18px;
+  border-bottom:1px solid var(--line);background:var(--bg2)}
+.fld{display:flex;align-items:center;gap:9px}
+.fld .lbl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim2);font-weight:650}
+.seg{display:inline-flex;flex-wrap:wrap;gap:2px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:3px;max-width:100%}
+.seg button.g{background:none;border:1px solid transparent;border-radius:7px;padding:4px 11px;font-size:12.5px}
+.seg button.g:hover{background:#222937;color:var(--fg);border-color:transparent}
+.seg button.g.on{background:var(--accbg);border-color:#2f4a7a;color:var(--acc2);font-weight:600}
+.seg.starters button.g{padding:3px 6px}
+.seg.starters button.g.on{background:var(--accbg);box-shadow:inset 0 0 0 1px #2f4a7a}
+.setupend{display:flex;gap:8px;align-items:center;margin-left:auto}
+#shinybtn.on{border-color:#b08a2e;color:#ffd77a;background:#2a2213}
 .tabs{display:none}
-.side{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
-.side button{background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--dim);
-  font:inherit;font-size:12px;padding:8px 4px;cursor:pointer;display:flex;flex-direction:column;
-  align-items:center;gap:4px}
-.side button em{font-style:normal;font-size:17px;line-height:1}
-.side button:hover{color:var(--fg);border-color:#39415a}
-.side button.on{color:var(--acc);border-color:var(--acc);background:#161c2a}
+.side{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:5px}
+.side button{background:none;border:1px solid transparent;border-radius:9px;color:var(--dim);
+  font:inherit;font-size:11.5px;font-weight:600;padding:9px 4px 8px;cursor:pointer;display:flex;
+  flex-direction:column;align-items:center;gap:5px;transition:background .13s,color .13s}
+.side button svg.i{width:19px;height:19px;stroke-width:1.6}
+.side button:hover{color:var(--fg);background:#212836}
+.side button.on{color:var(--acc2);background:var(--accbg);box-shadow:inset 0 0 0 1px #2f4a7a}
 @media(max-width:860px){
   .wrap{grid-template-columns:1fr}
-  aside{position:static;border-right:0;max-height:none;padding:10px 12px 84px}
-  #q,.side{display:none}              /* the bottom tab bar is the nav here */
-  main{padding:12px 12px 84px;max-width:none}
-  header{padding:10px 12px;gap:10px}
+  aside{position:static;border-right:0;background:var(--bg);max-height:none;padding:12px 12px 88px}
+  .qbox,.side,.kbdhint{display:none}   /* the bottom tab bar is the nav here */
+  main{padding:14px 12px 88px;max-width:none}
+  header{padding:8px 12px;gap:10px;flex-wrap:wrap;min-height:auto}
   h1{font-size:15px}
-  .gear{display:block;margin-left:auto}
-  .setup{display:none;padding:12px}
+  .brand .mark{width:23px;height:23px}
+  .hprog{order:3;flex-basis:100%;max-width:none;margin:0 0 2px}
+  button.g.gear{display:inline-flex;margin-left:auto}
+  .setup{display:none;padding:12px;gap:12px;flex-direction:column;align-items:stretch}
+  .fld{justify-content:space-between}
+  .setupend{margin:2px 0 0}
+  .setupend button.g{flex:1;justify-content:center;min-height:38px}
   body.showsetup .setup{display:flex}
   body:not(.tab-map) aside{display:none}
   body.tab-map main{display:none}
@@ -231,25 +395,34 @@ img.mini{width:26px;height:26px;vertical-align:middle}
   button.g{min-height:34px;padding:6px 12px;font-size:13px}
   .mslots select{min-height:38px;font-size:13px}
   .slot .lv input{width:56px;min-height:30px;font-size:13px}
-  .mon{grid-template-columns:24px 48px 1fr;gap:8px}
+  .mon{grid-template-columns:56px 48px 1fr;gap:9px}
   .spr{width:48px;height:48px}
   .slots{grid-template-columns:1fr}
   .slot.empty{min-height:34px;padding:4px}
-  .pcgrid{grid-template-columns:repeat(5,1fr);max-width:none}
+  .pcgrid{grid-template-columns:repeat(5,minmax(0,1fr));max-width:none}
+  table.spots{width:100%}
+  .spots td:first-child{white-space:normal}
+  .spots td{padding-right:8px}
   .ctr div{width:70px}
   .tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;
-    background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-  .tabs button{background:none;border:0;color:var(--dim);font:inherit;font-size:11px;padding:9px 2px 8px;
-    cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
-  .tabs button em{font-style:normal;font-size:17px;line-height:1}
+    background:#161b26f2;backdrop-filter:blur(12px);border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -6px 20px -12px #000}
+  .tabs button{background:none;border:0;color:var(--dim2);font:inherit;font-size:10.5px;font-weight:600;
+    padding:9px 2px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;
+    position:relative;transition:color .13s}
+  .tabs button svg.i{width:21px;height:21px;stroke-width:1.6}
   .tabs button.on{color:var(--acc)}
+  .tabs button.on::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:26px;height:2.5px;border-radius:0 0 3px 3px;background:var(--acc)}
   .tbl{max-height:68vh}
   .colpick{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));padding:10px}
   table.dtbl td.wrap{min-width:170px}
 }
 /* the reference dexes: one sortable, filterable, column-picked table each */
-.dexbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 8px}
-.dexbar .count{color:var(--dim);font-size:12px;margin-right:auto}
+.dexbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+.dexbar .count{color:var(--dim);font-size:12px;margin-right:auto;font-variant-numeric:tabular-nums;
+  min-width:0;flex:1}
+.dexbar .count b{color:var(--fg);font-weight:650}
 .colpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:5px 12px;
   padding:11px 13px;margin:0 0 10px;background:var(--card);border:1px solid var(--line);border-radius:10px}
 .colpick[hidden]{display:none}         /* a class beats [hidden] in the UA sheet */
@@ -263,7 +436,9 @@ table.dtbl th{position:sticky;top:0;z-index:2;height:32px;background:#1d2230;col
   font-weight:600;text-align:left;white-space:nowrap;padding:6px 10px;border-bottom:1px solid var(--line);
   cursor:pointer;user-select:none}
 table.dtbl th:hover{color:var(--fg)}
-table.dtbl th .ar{color:var(--acc);font-size:9px}
+table.dtbl th .ar{color:var(--acc);line-height:0}
+table.dtbl th .ar svg.i{width:11px;height:11px}
+table.dtbl th[data-k]:hover .ar{color:var(--acc2)}
 table.dtbl tr.frow th{top:32px;z-index:1;height:30px;background:#171b26;padding:3px 5px;cursor:auto}
 table.dtbl tr.frow input,table.dtbl tr.frow select{width:100%;min-width:64px;padding:3px 5px;font:inherit;
   font-size:12px;border:1px solid var(--line);border-radius:6px;background:#11151d;color:var(--fg)}
@@ -278,10 +453,20 @@ table.dtbl .nm{color:var(--fg);font-weight:600}
 table.dtbl .nm.raw{text-transform:none}
 table.dtbl .none{color:#4d5468}
 table.dtbl .chip{white-space:nowrap}
-.empty{padding:18px 12px;color:var(--dim);font-size:13px}
+.empty{padding:26px 12px;color:var(--dim);font-size:13px;text-align:center}
+/* an empty state that says what to do next, not just that there is nothing */
+.blank{display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;
+  padding:34px 20px;color:var(--dim)}
+.blank svg.i{width:30px;height:30px;color:var(--dim2);stroke-width:1.4}
+.blank b{color:var(--fg);font-size:15px;font-weight:600}
+.blank span{font-size:13px;max-width:34ch;line-height:1.6}
 /* the dex facts on a Pokémon's sheet — reference, so folded away until asked for */
 .facts{border-top:1px solid var(--line);padding:10px 0 2px}
-.facts summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.facts summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);
+  display:flex;align-items:center;gap:7px;list-style:none;font-weight:650;padding:2px 0}
+.facts summary::-webkit-details-marker{display:none}
+.facts summary svg.mk{width:13px;height:13px;transition:transform .15s}
+.facts[open] summary svg.mk{transform:rotate(180deg)}
 .facts summary:hover{color:var(--fg)}
 .facts table{margin-top:8px}
 .facts .why{display:block;white-space:normal}
@@ -294,23 +479,78 @@ img.ty{height:12px;width:auto;vertical-align:middle;margin-left:5px}  /* native 
 .shead img.ty{height:24px}
 img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-fit:contain;display:inline}
 </style>
+<svg class="isprite" aria-hidden="true" focusable="false" width="0" height="0"><defs>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4.2 3.5 6.6v13.2L9 17.4l6 2.4 5.5-2.4V4.2L15 6.6z"/><path d="M9 4.2v13.2M15 6.6v13.2"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.2s7-6.3 7-11.2a7 7 0 1 0-14 0c0 4.9 7 11.2 7 11.2z"/><circle cx="12" cy="9.8" r="2.6"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24"><path d="M4.6 8h14.8l-1 12.4a1.5 1.5 0 0 1-1.5 1.4H7.1a1.5 1.5 0 0 1-1.5-1.4z"/><path d="M8.5 8.4V6a3.5 3.5 0 0 1 7 0v2.4"/><path d="M4.9 12.4h14.2"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m20 20-4.4-4.4"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4.5 5.2A2.2 2.2 0 0 1 6.7 3H19.5v14.4H6.7a2.2 2.2 0 0 0-2.2 2.2z"/><path d="M4.5 19.6A2.2 2.2 0 0 1 6.7 17.4H19.5V21H6.7a2.2 2.2 0 0 1-2.2-1.4z"/><path d="M8.6 7.5h6.6"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.1"/><path d="M19.1 14.6a1.6 1.6 0 0 0 .32 1.76l.06.06a1.94 1.94 0 1 1-2.74 2.74l-.06-.06a1.6 1.6 0 0 0-1.76-.32 1.6 1.6 0 0 0-.97 1.46v.16a1.94 1.94 0 0 1-3.88 0v-.09a1.6 1.6 0 0 0-1.03-1.45 1.6 1.6 0 0 0-1.76.32l-.06.06A1.94 1.94 0 1 1 4.48 16.5l.06-.06a1.6 1.6 0 0 0 .32-1.76 1.6 1.6 0 0 0-1.46-.97H3.2a1.94 1.94 0 0 1 0-3.88h.09a1.6 1.6 0 0 0 1.45-1.03 1.6 1.6 0 0 0-.32-1.76l-.06-.06A1.94 1.94 0 1 1 7.1 4.24l.06.06a1.6 1.6 0 0 0 1.76.32h.08a1.6 1.6 0 0 0 .97-1.46V3.2a1.94 1.94 0 0 1 3.88 0v.09a1.6 1.6 0 0 0 .97 1.46 1.6 1.6 0 0 0 1.76-.32l.06-.06a1.94 1.94 0 1 1 2.74 2.74l-.06.06a1.6 1.6 0 0 0-.32 1.76v.08a1.6 1.6 0 0 0 1.46.97h.16a1.94 1.94 0 0 1 0 3.88h-.09a1.6 1.6 0 0 0-1.46.97z"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M10.6 3.2 12.3 8l4.8 1.7-4.8 1.7-1.7 4.8-1.7-4.8L4.1 9.7 8.9 8z"/><path d="M17.9 14.6l.85 2.35 2.35.85-2.35.85-.85 2.35-.85-2.35-2.35-.85 2.35-.85z"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.2 6.8h15.6"/><path d="M9.6 6.8V5.1a1.3 1.3 0 0 1 1.3-1.3h2.2a1.3 1.3 0 0 1 1.3 1.3v1.7"/><path d="m6.4 6.8.92 12.2a1.6 1.6 0 0 0 1.6 1.5h6.16a1.6 1.6 0 0 0 1.6-1.5l.92-12.2"/><path d="M10.5 10.5v6M13.5 10.5v6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m4.8 12.4 4.6 4.6L19.2 7.2"/></symbol>
+<symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="m8 12.2 2.8 2.8 5.4-5.6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4.3 2.8 20.1h18.4z"/><path d="M12 10v4.6"/><path d="M12 17.3h.01"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M3.4 7.5 12 3.6l8.6 3.9v9L12 20.4l-8.6-3.9z"/><path d="m3.4 7.5 8.6 3.9 8.6-3.9"/><path d="M12 11.4v9"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.4" y="10.4" width="15.2" height="10" rx="2.2"/><path d="M8.2 10.4V7.6a3.8 3.8 0 0 1 7.6 0v2.8"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.9v5.4l3.3 1.9"/></symbol>
+<symbol id="i-evolve" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M12 16.4V8.2"/><path d="m8.4 11.8 3.6-3.6 3.6 3.6"/></symbol>
+<symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9.6 5.4 6.6 6.6-6.6 6.6"/></symbol>
+<symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m5.4 9.2 6.6 6.6 6.6-6.6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="m6.4 6.4 11.2 11.2M17.6 6.4 6.4 17.6"/></symbol>
+<symbol id="i-diamond" viewBox="0 0 24 24"><path d="M12 3.4 20.6 12 12 20.6 3.4 12z"/></symbol>
+<symbol id="i-columns" viewBox="0 0 24 24"><rect x="3.4" y="5" width="17.2" height="14" rx="2"/><path d="M9.1 5v14M14.9 5v14"/></symbol>
+<symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20.4 12a8.4 8.4 0 1 1-2.6-6.1"/><path d="M20.6 4.2v5.2h-5.2"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.4v13.2M5.4 12h13.2"/></symbol>
+<symbol id="i-swords" viewBox="0 0 24 24"><path d="m3.6 17.6 2.8 2.8 12-12-2.8-2.8z"/><path d="M15.6 5.6h4.8v4.8"/><path d="m20.4 17.6-2.8 2.8-4.6-4.6"/><path d="M8.4 5.6H3.6v4.8"/><path d="m6.2 8.6 4.6 4.6"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M6.2 21V3.6"/><path d="M6.2 4.4h12.2l-2.4 3.9 2.4 3.9H6.2"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M9.4 6.4h11M9.4 12h11M9.4 17.6h11"/><path d="m3.6 6.2 1.2 1.2 2-2.2M3.6 11.8l1.2 1.2 2-2.2M3.6 17.4l1.2 1.2 2-2.2"/></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><circle cx="12" cy="12" r="2.6"/></symbol>
+<symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4.6v14"/><path d="m6.6 13.2 5.4 5.4 5.4-5.4"/></symbol>
+<symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19.4v-14"/><path d="m6.6 10.8 5.4-5.4 5.4 5.4"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M4.4 8.4h14.4"/><path d="m15.4 5 3.4 3.4-3.4 3.4"/><path d="M19.6 15.6H5.2"/><path d="m8.6 12.2-3.4 3.4 3.4 3.4"/></symbol>
+<symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2.8" y="6" width="18.4" height="12" rx="2.2"/><path d="M7 10h.01M10.5 10h.01M14 10h.01M17.5 10h.01M8.4 14h7.2"/></symbol>
+<symbol id="i-pokeball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M3.2 12h5.4M15.4 12h5.4"/><circle cx="12" cy="12" r="2.9"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r=".9"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M12 11.2v5"/><path d="M12 7.8h.01"/></symbol>
+<symbol id="i-caret-up" viewBox="0 0 24 24"><path d="M12 8.4 17.4 15H6.6z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-caret-down" viewBox="0 0 24 24"><path d="M12 15.6 6.6 9h10.8z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.4 12H2.2M21.8 12h-2.2M6.6 6.6 5.1 5.1M18.9 18.9l-1.5-1.5M6.6 17.4l-1.5 1.5M18.9 5.1l-1.5 1.5"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.4 13.6A8.6 8.6 0 1 1 10.4 3.6a6.9 6.9 0 0 0 10 10z"/></symbol>
+</defs></svg>
 <header>
-  <h1><span id="region"></span> Router <small id="game"></small></h1>
-  <button class="g gear" id="gear" aria-label="Settings">⚙</button>
-  <div class="bar"><i id="prog"></i></div>
-  <span class="meta" id="progtxt"></span>
+  <div class="brand">
+    <svg class="i mark" aria-hidden="true"><use href="#i-pokeball"></use></svg>
+    <div class="ttl">
+      <h1><span id="region"></span> Router</h1>
+      <small id="game"></small>
+    </div>
+  </div>
+  <div class="hprog">
+    <div class="bar" role="progressbar" aria-label="Run progress" id="progbar"><i id="prog"></i></div>
+    <span class="meta" id="progtxt"></span>
+  </div>
+  <button class="g gear" id="gear" aria-label="Settings" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-gear"></use></svg></button>
 </header>
 <div class="setup" id="setup">
-  <span class="meta">goal:</span><span id="goal"></span>
-  <span id="cart"></span>
-  <span class="meta">starter:</span><span id="starter"></span>
-  <button class="g" id="shinybtn" title="Draw every sprite in its shiny colours">✨ shiny</button>
-  <button class="g" id="resetbtn">Reset all progress</button>
+  <div class="fld"><span class="lbl">Goal</span><div class="seg" id="goal" role="group" aria-label="Goal"></div></div>
+  <div class="fld"><span class="lbl">Cartridge</span><div class="seg" id="cart" role="group" aria-label="Cartridge"></div></div>
+  <div class="fld"><span class="lbl">Starter</span><div class="seg starters" id="starter" role="group" aria-label="Starter"></div></div>
+  <div class="setupend">
+    <button class="g" id="shinybtn" title="Draw every sprite in its shiny colours"><svg class="i" aria-hidden="true"><use href="#i-sparkles"></use></svg>Shiny</button>
+    <button class="g danger" id="resetbtn" title="Clear everything this app remembers"><svg class="i" aria-hidden="true"><use href="#i-trash"></use></svg>Reset</button>
+  </div>
 </div>
 <div class="wrap">
   <aside id="aside">
-    <nav class="side" id="sidenav"></nav>
-    <input id="q" placeholder="where do I find… (Pokémon, TM, move)" autocomplete="off">
+    <nav class="side" id="sidenav" role="tablist" aria-label="Sections"></nav>
+    <div class="qbox">
+      <svg class="i qico" aria-hidden="true"><use href="#i-search"></use></svg>
+      <input id="q" placeholder="Find a Pokémon, TM or move" autocomplete="off" aria-label="Search the whole game">
+      <button class="qx" id="qx" aria-label="Clear search" hidden><svg class="i" aria-hidden="true"><use href="#i-x"></use></svg></button>
+      <kbd class="qkbd">/</kbd>
+    </div>
+    <div class="secttl"><svg class="i" aria-hidden="true"><use href="#i-map"></use></svg>Town map</div>
     <div class="mapwrap">
       <div class="maphead" id="maphead"></div>
       <svg class="map" id="map" viewBox="-2 6 104 96" shape-rendering="crispEdges"></svg>
@@ -321,11 +561,16 @@ img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-f
       <span><i style="background:#b9c9b2"></i>not been yet</span>
       <span><i style="background:#fff36b"></i>you are here</span>
     </div>
+    <div class="secttl"><svg class="i" aria-hidden="true"><use href="#i-flag"></use></svg>Route<span class="ct" id="stopct"></span></div>
     <div class="stops" id="stops"></div>
+    <div class="kbdhint">
+      <svg class="i" aria-hidden="true"><use href="#i-keyboard"></use></svg>
+      <span><kbd>1</kbd>–<kbd>5</kbd> switch view · <kbd>/</kbd> search · <kbd>[</kbd> <kbd>]</kbd> prev / next stop · <kbd>Esc</kbd> close</span>
+    </div>
   </aside>
   <main id="main"></main>
 </div>
-<nav class="tabs" id="tabs"></nav>
+<nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
 <div class="modal" id="modal" hidden></div>
 <script>/*DATA*/</script>
 <script>
@@ -334,8 +579,11 @@ const save = (k, v) => { try { localStorage.setItem('kr:' + k, JSON.stringify(v)
 const load = (k, d) => { try { return JSON.parse(localStorage.getItem('kr:' + k)) ?? d } catch { return d } }
 const cap = s => s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))
+// one inline SVG sprite at the top of the page; every icon in the app is a <use> of it,
+// sized in em so it tracks whatever text it sits beside and inherits its colour.
+const I = (n, cls = '') => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${n}"></use></svg>`
 
-// ✨ in the header swaps every sprite in the app; the dex can show a shiny beside
+// The Shiny button in the header swaps every sprite in the app; the dex can show a shiny beside
 // the ordinary one whichever way that is set. A species with no shiny draws itself.
 let shinyOn = load('shiny', false)
 const spr = id => (shinyOn ? SHINY[id] : null) || SPR[id] || ''
@@ -458,12 +706,43 @@ let query = ''
 let notice = ''
 let view = 'route'
 const mobile = () => matchMedia('(max-width: 860px)').matches
-const TABS = [['map', '🗺', 'Map'], ['route', '📍', 'Here'], ['team', '🎒', 'Team'],
-              ['find', '🔍', 'Find'], ['dex', '📕', 'Dex']]
+const TABS = [['map', 'map', 'Map'], ['route', 'pin', 'Here'], ['team', 'bag', 'Team'],
+              ['find', 'search', 'Find'], ['dex', 'book', 'Dex']]
 let showSetup = false
 let dexTab = load('dexTab', 'mon'), dexQ = ''
 let modalId = null
-addEventListener('keydown', e => { if (e.key === 'Escape' && modalId) closeMon() })
+// Keyboard: 1-5 pick a view, / searches, [ ] walk the route, Esc backs out of whatever
+// is open. Typing in a field only ever sees Escape, so filters and level boxes still work.
+addEventListener('keydown', e => {
+  const el = document.activeElement
+  const typing = el && (/^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) || el.isContentEditable)
+  if (e.key === 'Escape') {
+    if (modalId) return closeMon()
+    if (typing) return el.blur()
+    if (showSetup) { showSetup = false; return render() }
+    if (query) { query = ''; view = 'route'; return render() }
+    return
+  }
+  if (typing || e.metaKey || e.ctrlKey || e.altKey) return
+  if (e.key === '/') {
+    e.preventDefault()
+    if (mobile()) { view = 'find'; render(); const f = document.querySelector('.qm'); if (f) f.focus() }
+    else document.getElementById('q').focus()
+    return
+  }
+  if (e.key === '[' || e.key === ']') {
+    e.preventDefault()
+    return go(Math.min(stops.length - 1, Math.max(0, at + (e.key === ']' ? 1 : -1))))
+  }
+  const keys = mobile() ? TABS : TABS.filter(([k]) => k !== 'map')
+  const n = +e.key
+  if (n >= 1 && n <= keys.length) {
+    e.preventDefault()
+    view = keys[n - 1][0]
+    if (view !== 'find') query = ''
+    render(); scrollTo(0, 0)
+  }
+})
 matchMedia('(max-width: 860px)').addEventListener('change', () => render())
 const SORTS = { score: 'best payoff', effort: 'least effort', value: 'most useful', bst: 'raw power' }
 
@@ -570,30 +849,30 @@ function chain(m) {
 function dexStatusLine(p) {
   const n = dexNeed(p.id, p.family)
   if (!n) return ''
-  if (n.s === 'have') return `<div class="dex"><span class="have">✓ you have this one</span></div>`
-  if (n.s === 'covered') return `<div class="dex"><span class="covered">◇ National Dex: already covered — evolving your ${cap(DATA.names[n.by] || '')} registers it. Only catch it if you want it for a fight.</span></div>`
+  if (n.s === 'have') return `<div class="dex"><span class="have">${I('check')} you have this one</span></div>`
+  if (n.s === 'covered') return `<div class="dex"><span class="covered">${I('diamond')} National Dex: already covered — evolving your ${cap(DATA.names[n.by] || '')} registers it. Only catch it if you want it for a fight.</span></div>`
   if (goal === 'living' && p.family.length > 1)
-    return `<div class="dex"><span class="need">◆ Living Dex: ${p.family.map(id => cap(DATA.names[id] || '')).join(', ')} all need their own slot — ${p.family.filter(owns).length}/${p.family.length} so far.</span></div>`
+    return `<div class="dex"><span class="need">${I('diamond')} Living Dex: ${p.family.map(id => cap(DATA.names[id] || '')).join(', ')} all need their own slot — ${p.family.filter(owns).length}/${p.family.length} so far.</span></div>`
   return ''
 }
 
 function dexLine(p) {
   const out = []
   if (p.onlyChance)
-    out.push(`<span class="only">⚠ only chance in the game — skip it here and it's a trade later</span>`)
+    out.push(`<span class="only">${I('alert')} only chance in the game — skip it here and it's a trade later</span>`)
   else if (p.also.length)
-    out.push(`<span class="later">⏳ also at ${p.also.map(a => esc(a.name.replace(/ —.*/, ''))).join(', ')} — safe to skip if you don't need it now</span>`)
+    out.push(`<span class="later">${I('clock')} also at ${p.also.map(a => esc(a.name.replace(/ —.*/, ''))).join(', ')} — safe to skip if you don't need it now</span>`)
   if (p.wildEvo) {
     const w = p.wildEvo
     const how = w.method === 'walk' ? 'in the grass' : w.method === 'npc-trade' ? 'by trade' : `with the ${cap(w.method)}`
     const where = `${cap(w.where)}, Lv ${w.levels[0]}–${w.levels[1]}` +
       (w.at > p.spots[0].at ? ` (from ${esc(w.stop.replace(/ —.*/, ''))} onward)` : '')
     if (goal === 'national')
-      out.push(`<span class="skip">↷ evolving this one fills all ${p.fills.length} dex entries — no need to catch ${cap(w.name)} separately.</span>`)
+      out.push(`<span class="skip">${I('swap')} evolving this one fills all ${p.fills.length} dex entries — no need to catch ${cap(w.name)} separately.</span>`)
     else if (goal === 'living')
-      out.push(`<span class="skip">↷ a Living Dex needs its own ${cap(w.name)} — catch one ${how} at ${where} rather than raising a second ${cap(p.name)}.</span>`)
+      out.push(`<span class="skip">${I('swap')} a Living Dex needs its own ${cap(w.name)} — catch one ${how} at ${where} rather than raising a second ${cap(p.name)}.</span>`)
     else
-      out.push(`<span class="skip">↷ no need to evolve it — ${cap(w.name)} is catchable ${how} at ${where}</span>`)
+      out.push(`<span class="skip">${I('swap')} no need to evolve it — ${cap(w.name)} is catchable ${how} at ${where}</span>`)
   }
   return out.length ? `<div class="dex">${out.join('<br>')}</div>` : ''
 }
@@ -606,19 +885,33 @@ function verTag(p) {
 
 function findView(m) {
   if (mobile()) {
-    const inp = $(`<input class="qm" placeholder="Pokémon, TM, item, move…" value="${esc(query)}" autocomplete="off">`)
-    inp.oninput = e => { query = e.target.value.trim(); render(); document.querySelector('.qm').focus() }
-    m.append(inp)
+    const wrap = $(`<div class="qmbox">${I('search')}<input class="qm" placeholder="Pokémon, TM, item, move…" value="${
+      esc(query)}" autocomplete="off" aria-label="Search the whole game"></div>`)
+    wrap.querySelector('input').oninput = e => {
+      query = e.target.value.trim(); render(); document.querySelector('.qm').focus()
+    }
+    m.append(wrap)
   }
   const q = query.toLowerCase()
   const hits = Object.values(monById).filter(p => p.name.includes(q) || p.final.includes(q)).slice(0, 12)
   const gear = DATA.catalogue.filter(c => c.name.toLowerCase().includes(q) || c.where.toLowerCase().includes(q))
-  if (!query) { m.append($(`<div class="card meta">Search for a Pokémon, an item, a TM or a move name.</div>`)); return }
-  m.append($(`<h3>Where to find “${esc(query)}”</h3>`))
+  if (!query) {
+    m.append($(`<div class="card"><div class="blank">${I('search')}<b>Search the whole game</b>
+      <span>A Pokémon, an item, a TM or a move — you get every place and every level it turns up at,
+      on your cartridge.</span></div></div>`))
+    return
+  }
+  m.append($(`<h3>${I('target')}Where to find “${esc(query)}”</h3>`))
   if (gear.length) m.append($(`<div class="card"><table class="spots">${gear.slice(0, 14).map(c =>
     `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b></td><td>${esc(c.where)}${
       c.stop ? ` <span class="meta">— ${esc((DATA.stopNames[c.stop] || '').replace(/ —.*/, ''))}</span>` : ''}</td></tr>`).join('')}</table></div>`))
-  if (!hits.length && !gear.length) { m.append($(`<div class="card meta">Nothing in ${game} matches. It may be a ${game === 'FR' ? 'LeafGreen' : 'FireRed'} exclusive — check the blockers panel.</div>`)); return }
+  if (!hits.length && !gear.length) {
+    m.append($(`<div class="card"><div class="blank">${I('alert')}<b>Nothing in ${
+      game === 'FR' ? 'FireRed' : 'LeafGreen'} matches</b>
+      <span>It may be a ${game === 'FR' ? 'LeafGreen' : 'FireRed'} exclusive — the Dex tab's
+      Blockers panel lists all of them.</span></div></div>`))
+    return
+  }
   hits.forEach(p => {
     const box = $(`<div class="card">
       <div class="hit"><img src="${spr(p.id)}" alt="${p.name}">
@@ -711,15 +1004,22 @@ function dexTable(host, key, rows, cols, o) {
   }
 
   const bar = $(`<div class="dexbar"><span class="count"></span>
-    <button class="g pick">columns</button><button class="g reset">reset</button></div>`)
+    <button class="g pick" aria-expanded="${!!dexPick}" title="Choose which columns this table shows">${
+      I('columns')}Columns</button>
+    <button class="g reset" title="Back to the default sort, filters and columns">${
+      I('rotate')}Reset</button></div>`)
   const pick = $('<div class="colpick"></div>')
   const wrap = $('<div class="tbl"></div>')
   const table = $('<table class="dtbl"></table>')
   wrap.append(table)
   host.append(bar, pick, wrap)
   pick.hidden = !dexPick
-  bar.querySelector('.pick').onclick = () => {
+  const pickBtn = bar.querySelector('.pick')
+  pickBtn.classList.toggle('on', !!dexPick)
+  pickBtn.onclick = () => {
     dexPick = !dexPick; save('dexPick', dexPick); pick.hidden = !dexPick
+    pickBtn.setAttribute('aria-expanded', dexPick)
+    pickBtn.classList.toggle('on', dexPick)
   }
   bar.querySelector('.reset').onclick = () => {
     on = cols.filter(c => !c.off).map(c => c.k)
@@ -748,7 +1048,8 @@ function dexTable(host, key, rows, cols, o) {
     const cs = shown()
     table.innerHTML = `<thead>
       <tr>${cs.map(c => `<th data-k="${c.k}" title="${esc(c.hint || (c.label ? 'Sort by ' + c.label : ''))}">${
-        esc(c.label || '')}${sort.k === c.k ? ` <span class="ar">${sort.dir > 0 ? '▲' : '▼'}</span>` : ''}</th>`).join('')}</tr>
+        esc(c.label || '')}${sort.k === c.k
+          ? ` <span class="ar">${I(sort.dir > 0 ? 'caret-up' : 'caret-down')}</span>` : ''}</th>`).join('')}</tr>
       <tr class="frow">${cs.map(c => `<th>${
         !c.filter ? '' : c.filter === 'enum'
           ? `<select data-f="${c.k}"><option value="">any</option>${c.opts.map(x =>
@@ -790,7 +1091,7 @@ function dexTable(host, key, rows, cols, o) {
       || `<tr><td colspan="${cs.length}" class="empty">Nothing matches. Clear a filter, or hit reset.</td></tr>`
     if (o.click) table.querySelectorAll('tbody tr[data-i]')
       .forEach(tr => tr.onclick = () => o.click(list[+tr.dataset.i]))
-    bar.querySelector('.count').textContent = `${list.length} of ${rows.length} ${o.noun}`
+    bar.querySelector('.count').innerHTML = `<b>${list.length}</b> of ${rows.length} ${esc(o.noun)}`
   }
 
   buildPick(); build(); draw()
@@ -801,19 +1102,25 @@ const DEXHINT = { mon: 'search every column — name, type, ability, where…',
                   moves: 'search every column — name, type, machine, effect…',
                   items: 'search every column — item, kind, where, why…' }
 
+const DEXICON = { mon: 'pokeball', moves: 'swords', items: 'disc', blockers: 'lock' }
+
 function dexView(m) {
   const tools = $('<div class="tools"></div>')
+  const seg = $('<div class="seg" role="tablist" aria-label="Reference dexes"></div>')
   Object.entries(DEXTABS).forEach(([k, label]) => {
-    const b = $(`<button class="g ${dexTab === k ? 'on' : ''}">${label}</button>`)
+    const b = $(`<button class="g ${dexTab === k ? 'on' : ''}" role="tab" aria-selected="${
+      dexTab === k}">${I(DEXICON[k])}${label}</button>`)
     b.onclick = () => { dexTab = k; save('dexTab', k); dexQ = ''; render(); scrollTo(0, 0) }
-    tools.append(b)
+    seg.append(b)
   })
+  tools.append(seg)
   m.append(tools)
   if (dexTab === 'blockers') return blockerView(m)
-  const inp = $(`<input class="qm" placeholder="${DEXHINT[dexTab]}" value="${esc(dexQ)}" autocomplete="off">`)
-  m.append(inp)
+  const wrap = $(`<div class="qmbox">${I('search')}<input class="qm" placeholder="${
+    DEXHINT[dexTab]}" value="${esc(dexQ)}" autocomplete="off" aria-label="Search this dex"></div>`)
+  m.append(wrap)
   const redraw = dexTab === 'mon' ? monDex(m) : dexTab === 'moves' ? moveDex(m) : itemDex(m)
-  inp.oninput = e => { dexQ = e.target.value; redraw() }
+  wrap.querySelector('input').oninput = e => { dexQ = e.target.value; redraw() }
 }
 
 // what you have done about this species, whatever the goal is
@@ -940,7 +1247,7 @@ function itemDex(m) {
 
 function blockerView(m) {
   const d = DATA.dex, other = game === 'FR' ? 'LG' : 'FR'
-  m.append($(`<h3>What stands between you and a full dex</h3>`))
+  m.append($(`<h3>${I('lock')}What stands between you and a full dex</h3>`))
   m.append($(`<div class="card">
     <b>Version exclusives</b>
     <div class="why">These ${d.exclusives[other].length} live only in ${other === 'FR' ? 'FireRed' : 'LeafGreen'}. On ${game === 'FR' ? 'FireRed' : 'LeafGreen'} they are trade-only.</div>
@@ -1019,10 +1326,10 @@ function hmLock(id) {
   const held = (sets[id] || []).filter(i => HM_MOVES.has(i)).map(i => cap(DATA.moves[i].n))
   if (!held.length) return ''
   const d = DATA.npcs.deleter
-  return `<div class="note">🔒 ${held.join(' and ')} ${held.length > 1 ? 'are HMs' : 'is an HM'} — ${
+  return `<div class="note">${I('lock')}<div>${held.join(' and ')} ${held.length > 1 ? 'are HMs' : 'is an HM'} — ${
     npcReady('deleter')
       ? `only the Move Deleter can clear ${held.length > 1 ? 'them' : 'it'} (${esc(d.where)}).`
-      : `nothing can overwrite ${held.length > 1 ? 'them' : 'it'} until you reach the Move Deleter (${esc(d.where)}).`}</div>`
+      : `nothing can overwrite ${held.length > 1 ? 'them' : 'it'} until you reach the Move Deleter (${esc(d.where)}).`}</div></div>`
 }
 
 // Put a move into a set: first empty slot, else over the weakest thing that is not
@@ -1082,12 +1389,14 @@ function hmPlan() {
 
 
 function ownButtons(id) {
-  const mk = (label, where, on) => {
-    const b = $(`<button class="g ${on ? 'on' : ''}" title="${where === 'party' ? 'carry it' : 'store it in the PC'}">${label}</button>`)
+  const mk = (label, icon, where, on) => {
+    const b = $(`<button class="g ${on ? 'on' : ''}" aria-pressed="${on}" title="${
+      on ? 'Drop it' : where === 'party' ? 'Carry it in your party' : 'Store it in the PC'}">${
+      I(on ? 'check' : icon)}${label}</button>`)
     b.onclick = () => setOwn(id, on ? null : where)
     return b
   }
-  return [mk('party', 'party', party.has(id)), mk('PC', 'box', pc.has(id))]
+  return [mk('Party', 'bag', 'party', party.has(id)), mk('PC', 'box', 'box', pc.has(id))]
 }
 
 
@@ -1109,29 +1418,30 @@ function boxPanel(m, s) {
     return `<div class="slot" draggable="true" data-id="${id}" data-open="${id}">
       <img src="${spr(id)}" alt="${sp.name}">
       <div class="who">
-        <b>${cap(sp.name)}</b>${lv ? `<span class="lvtag">Lv ${lv}</span>` : ''}${ready ? '<span class="rdytag">▲ evolve</span>' : ''}
+        <b>${cap(sp.name)}</b>${lv ? `<span class="lvtag">Lv ${lv}</span>` : ''}${
+          ready ? `<span class="rdytag">${I('evolve')}evolve</span>` : ''}
         <small>${esc(status)}</small>
         ${carries.length ? `<small class="hm">${carries.map(cap).join(' · ')}</small>` : ''}
-      </div><span class="chev">›</span></div>`
+      </div><span class="chev">${I('chev-right')}</span></div>`
   }
 
-  m.append($(`<h3>Party &amp; PC</h3>`))
   const empties = Math.max(0, PARTY_MAX - party.size)
   const partyUI = $(`<div class="pkui" data-to="party">
-    <h4>Party — ${party.size}/${PARTY_MAX}</h4>
+    <h4>${I('bag')}Party<span class="ct">${party.size}/${PARTY_MAX}</span></h4>
     <div class="slots">${[...party].map(slot).join('')}${
-      Array.from({ length: empties }, () => '<div class="slot empty">empty</div>').join('')}</div>
+      Array.from({ length: empties }, () => `<div class="slot empty">${I('plus')}empty slot</div>`).join('')}</div>
   </div>`)
 
   const CELLS = 30, stored = [...pc]
   const pcUI = $(`<div class="pkui" data-to="box">
-    <h4>PC — Box 1 · ${stored.length} stored</h4>
+    <h4>${I('box')}PC — Box 1<span class="ct">${stored.length} stored</span></h4>
     <div class="pcgrid">${Array.from({ length: Math.max(CELLS, stored.length) }, (_, i) => {
       const id = stored[i]
       return id
         ? `<div class="cell" draggable="true" data-id="${id}" data-open="${id}" title="${cap(M(id).name)}">
              <img src="${spr(id)}" alt="${M(id).name}">
-             ${(M(id).evo || []).some(o => canEvolve(id, o)) ? '<em class="rdy">▲</em>' : ''}
+             ${(M(id).evo || []).some(o => canEvolve(id, o))
+               ? `<em class="rdy" title="ready to evolve">${I('evolve')}</em>` : ''}
              <span>${cap(M(id).name)}</span></div>`
         : '<div class="cell empty"></div>'
     }).join('')}</div>
@@ -1158,12 +1468,14 @@ function boxPanel(m, s) {
     })
     m.append(el)
   })
-  if (notice) m.append($(`<div class="notice">${esc(notice)}</div>`))
+  if (notice) m.append($(`<div class="notice">${I('alert')}<div>${esc(notice)}</div></div>`))
+  if (!mobile() && (party.size || pc.size))
+    m.append($(`<div class="drophint">${I('swap')}Drag a Pokémon between the party and the PC, or use the buttons on any catch row.</div>`))
 
   // who carries the field moves
   const plan = hmPlan()
   if (party.size) {
-    m.append($(`<h3>Field moves — who carries what</h3>`))
+    m.append($(`<h3>${I('disc')}Field moves — who carries what</h3>`))
     const hmCard = $(`<div class="card"><table class="spots">${plan.map(h => {
       const need = h.at <= at
       const who = h.pick
@@ -1174,10 +1486,10 @@ function boxPanel(m, s) {
           ? `<img src="${spr(who.id)}" class="mini" alt=""> <b style="text-transform:capitalize">${cap(M(who.id).name)}</b>${
                who.inPC ? ' <span class="warn">— in your PC</span>' : ''}
              ${(sets[who.id] || []).includes(h.c.move)
-               ? '<span class="carrying">✓ carrying it</span>'
+               ? `<span class="carrying">${I('check')} carrying it</span>`
                : !lvOf(who.id) ? '<span class="meta"> — set its level to assign</span>'
                : !need ? ''
-               : `<button class="g give" data-give="${who.id}:${h.c.move}">teach it</button>`}
+               : `<button class="g give" data-give="${who.id}:${h.c.move}">${I('plus')}teach it</button>`}
              <div class="meta">${h.move.p && who.gain > 0
                ? `free — ${cap(h.move.n)} earns its slot here anyway`
                : who.displaced ? `costs it ${cap(who.displaced.n)}`
@@ -1208,8 +1520,11 @@ function boxPanel(m, s) {
     })
     if (!better.length && weak.length === party.size && party.size)
       lines.push(`Nothing in your party or PC lands against this — catch one of the counters above.`)
-    if (lines.length) m.append($(`<div class="card"><div class="meta">Before ${esc(next.name)}</div>
-      <div class="warn">${lines.join('<br>')}</div></div>`))
+    if (lines.length) {
+      m.append($(`<h3>${I('swap')}Before ${esc(next.name)}</h3>`))
+      m.append($(`<div class="card"><div class="warn" style="margin:0">${
+        lines.map(l => `<div class="swapline">${I('chev-right')}<div>${l}</div></div>`).join('')}</div></div>`))
+    }
   }
 }
 
@@ -1248,7 +1563,7 @@ function drawModal() {
       <div><b>${cap(sp.name)}</b>
         <div>${sp.types.map(ty).join('')}
           <span class="meta">${sp.bst} BST</span></div></div>
-      <button class="x" aria-label="Close">×</button>
+      <button class="x" aria-label="Close">${I('x')}</button>
     </div>
     <div class="srow">
       <label class="lv">Lv <input type="number" min="1" max="100" value="${lv || ''}" placeholder="–" id="mlv"></label>
@@ -1256,11 +1571,13 @@ function drawModal() {
         ? `<span class="xp">Lv ${target} for ${esc(nextF.name.replace(/ —.*/, ''))} — ≈${battlesTo(id, lv, target)} battles</span>`
         : lv && target ? `<span class="ok2">ready for ${esc(nextF.name.replace(/ —.*/, ''))}</span>` : ''}
     </div>
-    ${evos.length ? `<div class="ssec"><h5>Evolve</h5><div class="evos">${evos.join('')}</div>
+    ${evos.length ? `<div class="ssec"><h5>${I('evolve')}Evolve</h5><div class="evos">${evos.join('')}</div>
       ${goal === 'living' ? `<small class="livewarn">Living Dex: you'd need to catch another ${cap(sp.name)}</small>` : ''}</div>` : ''}
-    ${lv ? `<div class="ssec"><h5>Moves</h5>
-      <div class="mslots">${[0, 1, 2, 3].map(i => `<select data-set="${id}:${i}">${opt(mine[i])}</select>`).join('')}</div>
-      <button class="g auto" data-auto="${id}">use recommended</button>
+    ${lv ? `<div class="ssec"><h5>${I('swords')}Moves</h5>
+      <div class="mslots">${[0, 1, 2, 3].map(i =>
+        `<label class="mslot"><span>Slot ${i + 1}</span><select data-set="${id}:${i}" aria-label="Move slot ${
+          i + 1}">${opt(mine[i])}</select></label>`).join('')}</div>
+      <button class="g auto" data-auto="${id}">${I('sparkles')}Use recommended set</button>
       ${hmLock(id)}
       ${swaps.length ? `<div class="advice">${swaps.map(sw =>
         `<div>Teach <b>${cap(sw.n)}</b>${sw.drop ? ` over ${cap(sw.drop.n)}` : ''}
@@ -1268,7 +1585,7 @@ function drawModal() {
           sw.past ? (npcReady('relearner')
             ? `. Skipped it? The ${esc(DATA.npcs.relearner.name)} has it.`
             : `. If you skipped it, nothing brings it back until ${esc(relearnerAt())}.`) : ''}</span></div>`).join('')}</div>` : ''}
-    </div>` : `<div class="ssec"><h5>Learnset</h5>
+    </div>` : `<div class="ssec"><h5>${I('list')}Learnset</h5>
       <table class="spots">${(sp.learn.lv || []).map(([l, i]) => DATA.moves[i] &&
         `<tr><td>Lv ${l}</td><td><b style="color:var(--fg)">${cap(DATA.moves[i].n)}</b>
           ${ty(DATA.moves[i].t)} <span class="meta">${
@@ -1278,7 +1595,7 @@ function drawModal() {
           cap(DATA.moves[DATA.machines[n].move].n)}</b> <span class="meta">— ${esc(DATA.machines[n].where)}</span></td></tr>`).join('')}
       </table>
       <div class="meta">Set a level to plan which four it should be holding.</div></div>`}
-    <details class="facts"${load('facts', false) ? ' open' : ''}><summary>Dex data</summary>
+    <details class="facts"${load('facts', false) ? ' open' : ''}><summary>${I('chev-down', 'mk')}Dex data</summary>
       <table class="spots">
         ${sp.genus ? `<tr><td>Classification</td><td>${esc(sp.genus)}</td></tr>` : ''}
         ${(sp.abil || []).length ? `<tr><td>Abilities</td><td>${sp.abil.map(a =>
@@ -1297,8 +1614,10 @@ function drawModal() {
           <img src="${shinySpr(id)}" alt="shiny" style="width:44px;height:44px"></td></tr>
       </table></details>
     <div class="sfoot">
-      <button class="g ${party.has(id) ? 'on' : ''}" data-own="party">In party</button>
-      <button class="g ${pc.has(id) ? 'on' : ''}" data-own="box">In the PC</button>
+      <button class="g ${party.has(id) ? 'on' : ''}" aria-pressed="${party.has(id)}" data-own="party">${
+        I(party.has(id) ? 'check' : 'bag')}In party</button>
+      <button class="g ${pc.has(id) ? 'on' : ''}" aria-pressed="${pc.has(id)}" data-own="box">${
+        I(pc.has(id) ? 'check' : 'box')}In the PC</button>
     </div>
   </div>`
 
@@ -1334,21 +1653,30 @@ function render() {
     view = k
     if (k !== 'find') query = ''
     render(); scrollTo(0, 0)
+    if (k === 'find') {                    // land in the box that drives this view
+      const f = mobile() ? document.querySelector('.qm') : document.getElementById('q')
+      if (f) f.focus()
+    }
   }
+  const navBtn = (k, icon, label, on) =>
+    $(`<button role="tab" aria-selected="${on}" aria-label="${label}" class="${on ? 'on' : ''}">${
+      I(icon)}${label}</button>`)
   const tabs = document.getElementById('tabs'); tabs.innerHTML = ''
   TABS.forEach(([k, icon, label]) => {
-    const b = $(`<button class="${view === k ? 'on' : ''}"><em>${icon}</em>${label}</button>`)
+    const b = navBtn(k, icon, label, view === k)
     b.onclick = goView(k)
     tabs.append(b)
   })
   // desktop has the same nav down the sidebar, minus Map — the map is already there
   const snav = document.getElementById('sidenav'); snav.innerHTML = ''
   TABS.filter(([k]) => k !== 'map').forEach(([k, icon, label]) => {
-    const b = $(`<button class="${(view === k || (view === 'map' && k === 'route')) ? 'on' : ''}"><em>${icon}</em>${label}</button>`)
+    const b = navBtn(k, icon, label, view === k || (view === 'map' && k === 'route'))
     b.onclick = goView(k)
     snav.append(b)
   })
-  document.getElementById('gear').onclick = () => { showSetup = !showSetup; render() }
+  const gear = document.getElementById('gear')
+  gear.setAttribute('aria-expanded', showSetup)
+  gear.onclick = () => { showSetup = !showSetup; render() }
   drawModal()
   document.getElementById('region').textContent = DATA.region
   document.getElementById('game').textContent = '· ' + DATA.game
@@ -1374,20 +1702,41 @@ function render() {
   const sh = document.getElementById('shinybtn')
   sh.className = 'g' + (shinyOn ? ' on' : '')
   sh.onclick = () => { shinyOn = !shinyOn; save('shiny', shinyOn); render() }
-  document.getElementById('prog').style.width = progress / stops.length * 100 + '%'
-  document.getElementById('progtxt').textContent = `${progress}/${stops.length} stops`
+  const pc100 = Math.round(progress / stops.length * 100)
+  document.getElementById('prog').style.width = pc100 + '%'
+  document.getElementById('progtxt').textContent = `${progress}/${stops.length} stops · ${pc100}%`
+  const pbar = document.getElementById('progbar')
+  pbar.setAttribute('aria-valuenow', progress)
+  pbar.setAttribute('aria-valuemax', stops.length)
+  pbar.title = `${progress} of ${stops.length} stops cleared`
   drawMap()
 
   const list = document.getElementById('stops'); list.innerHTML = ''
+  document.getElementById('stopct').textContent = `${progress}/${stops.length} cleared`
   stops.forEach((s, i) => {
-    const b = $(`<button class="${i === at ? 'on' : ''} ${isDone(i) ? 'done' : ''}">${
-      s.badge ? ico(DATA.badgeArt[s.badge], 'badge') : ''}${i + 1}. ${esc(s.name)}</button>`)
+    const done = isDone(i)
+    const b = $(`<button class="${i === at ? 'on' : ''} ${done ? 'done' : ''}"${
+      i === at ? ' aria-current="true"' : ''}>
+      <span class="ix">${i + 1}</span>
+      <span class="snm">${s.badge ? ico(DATA.badgeArt[s.badge], 'badge') : ''}${esc(s.name)}</span>
+      ${done ? I('check', 'sicon') : i === progress ? I('pin', 'sicon') : ''}</button>`)
     b.onclick = () => go(i); list.append(b)
   })
+  const cur = list.querySelector('button.on')
+  if (cur && !mob) {
+    const box = document.getElementById('aside')
+    const top = cur.offsetTop, bot = top + cur.offsetHeight
+    if (top < box.scrollTop || bot > box.scrollTop + box.clientHeight)
+      box.scrollTop = top - (box.clientHeight - cur.offsetHeight) / 2   // the sidebar, not the page
+  }
 
   const m = document.getElementById('main'); m.innerHTML = ''
   const box = document.getElementById('q')
   if (box.value !== query) box.value = query
+  const qx = document.getElementById('qx')
+  qx.hidden = !query
+  document.querySelector('.qkbd').hidden = !!query
+  qx.onclick = () => { query = ''; view = 'route'; render(); document.getElementById('q').focus() }
   box.oninput = e => { query = e.target.value.trim(); if (!mob) view = query ? 'find' : 'route'; render(); box.focus() }
   document.getElementById('resetbtn').onclick = () => {
     if (!confirm('Clear your progress, party, PC, levels and settings? This cannot be undone.')) return
@@ -1406,27 +1755,27 @@ function routeView(m) {
   const head = $(`<div class="card">
     <h2>${esc(s.name)}</h2>
     <div class="meta">
-      ${s.boss ? `<span class="pill b">${s.boss.name} · ${s.boss.types.map(cap).join('/')} · up to Lv ${s.boss.maxLevel}</span> ` : ''}
+      ${s.boss ? `<span class="pill b">${I('swords')}${s.boss.name} · ${s.boss.types.map(cap).join('/')} · up to Lv ${s.boss.maxLevel}</span> ` : ''}
       ${s.badge ? `<span class="pill">${ico(DATA.badgeArt[s.badge], 'badge')}${cap(s.badge)} Badge${
         s.unlock ? ` — unlocks ${cap(s.unlock)}` : ''}</span>` : ''}
     </div>
-    ${s.notes ? `<div class="notes">${esc(s.notes)}</div>` : ''}
+    ${s.notes ? `<div class="notes">${I('info')}<div>${esc(s.notes)}</div></div>` : ''}
   </div>`)
   const ahead = at >= progress
   const bar = $(`<div class="prog">
-    ${isDone(at) ? '<span class="ok">✓ cleared</span>'
-      : at === progress ? '<span class="meta">you are here</span>'
-      : '<span class="meta">not reached yet</span>'}
+    ${isDone(at) ? `<span class="ok">${I('check-circle')} cleared</span>`
+      : at === progress ? `<span class="meta">${I('pin')} you are here</span>`
+      : `<span class="meta">${I('clock')} not reached yet</span>`}
     ${evidence.length && at <= progress
       ? `<span class="ev">worked out from: ${evidence.map(esc).join(' · ')}</span>` : ''}
   </div>`)
   const nudge = $(`<div class="nudge"></div>`)
   if (ahead) {
-    const b = $(`<button class="g">I've cleared this stop</button>`)
+    const b = $(`<button class="g">${I('check')}I've cleared this stop</button>`)
     b.onclick = () => setReached(at + 1)
     nudge.append(b)
   } else if (at < progress) {
-    const b = $(`<button class="g">I haven't got this far</button>`)
+    const b = $(`<button class="g">${I('rotate')}I haven't got this far</button>`)
     b.onclick = () => setReached(at)
     nudge.append(b)
   }
@@ -1434,26 +1783,28 @@ function routeView(m) {
   head.append(bar); m.append(head)
 
   if (s.items.length) {
-    m.append($(`<h3>Grab these, in this order</h3>`))
+    m.append($(`<h3>${I('list')}Grab these, in this order</h3>`))
     m.append($(`<div class="card"><ol>${s.items.map(i =>
       `<li>${ico(i.icon)}<b>${esc(i.name)}</b> <span class="meta">— ${esc(i.where)}</span><div class="why">${esc(i.why)}</div></li>`).join('')}</ol></div>`))
   }
 
   if (s.mons.length) {
-    m.append($(`<h3>Newly catchable — ${SORTS[sortBy]} first</h3>`))
-    const tools = $('<div class="tools"><span class="meta">rank by:</span></div>')
+    m.append($(`<h3>${I('pokeball')}Newly catchable — ${SORTS[sortBy]} first</h3>`))
+    const tools = $('<div class="tools"><span class="lbl">Rank by</span></div>')
+    const seg = $('<div class="seg" role="group" aria-label="Rank by"></div>')
     Object.entries(SORTS).forEach(([k, label]) => {
-      const b = $(`<button class="g ${sortBy === k ? 'on' : ''}">${label}</button>`)
+      const b = $(`<button class="g ${sortBy === k ? 'on' : ''}" aria-pressed="${sortBy === k}">${label}</button>`)
       b.onclick = () => { sortBy = k; save('sortBy', k); render() }
-      tools.append(b)
+      seg.append(b)
     })
+    tools.append(seg)
     m.append(tools)
     const key = { score: p => -p.score, effort: p => p.effort, value: p => -p.value, bst: p => -p.finalBst }[sortBy]
     const box = $('<div class="card"></div>')
     s.mons.slice().sort((a, b) => key(a) - key(b)).forEach((p, i) => {
       const st = dexNeed(p.id, p.family)
       const row = $(`<div class="mon ${st && st.s !== 'need' ? 'dim' : ''}">
-        <span class="rank">${i + 1}.</span>
+        <span class="rank"><span class="no">${i + 1}</span></span>
         <img class="spr" src="${spr(p.id)}" alt="${p.name}" loading="lazy">
         <div>
           <div><span class="nm">${cap(p.name)}</span>${p.types.map(ty).join('')}${verTag(p)}
@@ -1471,21 +1822,29 @@ function routeView(m) {
         </div>
       </div>`)
       const rank = row.querySelector('.rank')
-      ownButtons(p.id).forEach(b => rank.append(document.createElement('br'), b))
+      ownButtons(p.id).forEach(b => rank.append(b))
       box.append(row)
     })
     m.append(box)
   }
 
   if (s.machines.length) {
-    m.append($(`<h3>TMs &amp; HMs here</h3>`))
+    m.append($(`<h3>${I('disc')}TMs &amp; HMs here</h3>`))
     m.append($(`<div class="card"><table class="spots">${s.machines.map(c =>
       `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b></td><td>${esc(c.where)}</td></tr>`).join('')}</table></div>`))
   }
 
+  const step = (i, dir, label) => {
+    const b = $(`<button class="g stepbtn">${dir < 0 ? I('chev-right', 'flip') : ''}
+      <span><small>${label}</small>${esc(stops[i].name)}</span>
+      ${dir > 0 ? I('chev-right') : ''}</button>`)
+    b.onclick = () => go(i)
+    return b
+  }
+
   const here = s.fights.map(id => fightById[id])
   if (here.length) {
-    m.append($(`<h3>Fights here — and what beats them</h3>`))
+    m.append($(`<h3>${I('swords')}Fights here — and what beats them</h3>`))
     here.forEach(f => {
       const r = roster(f).slice().sort((a, b) => a.level - b.level)
       const good = f.counters.filter(c => c.m > 0.2 && !c.trade)
@@ -1501,14 +1860,18 @@ function routeView(m) {
              <img src="${spr(c.finalId)}" alt="${c.final}">${cap(c.final)}
              <span class="src">${c.trade ? 'needs a trade<br>' : ''}${esc(c.from)}</span>
            </div>`).join('') || '<span class="meta">Nothing obtainable yet counters this cleanly — expect a slog.</span>'}</div>
-        ${mine.length ? `<div class="ok">✓ In your party: ${mine.map(c => cap(c.final)).join(', ')}</div>` : ''}
-        ${stored.length ? `<div class="warn">📦 In your PC — withdraw before this fight: ${stored.map(c => cap(c.final)).join(', ')}</div>` : ''}
-        ${!mine.length && !stored.length ? `<div class="gap">⚠ Nothing you own answers this fight. Pick one of the above up first.</div>` : ''}
+        ${mine.length ? `<div class="verdict good">${I('check-circle')}<div>In your party: <b>${mine.map(c => cap(c.final)).join(', ')}</b></div></div>` : ''}
+        ${stored.length ? `<div class="verdict hold">${I('box')}<div>In your PC — withdraw before this fight: <b>${stored.map(c => cap(c.final)).join(', ')}</b></div></div>` : ''}
+        ${!mine.length && !stored.length ? `<div class="verdict bad">${I('alert')}<div>Nothing you own answers this fight. Pick one of the above up first.</div></div>` : ''}
       </div>`)
       m.append(box)
     })
   }
 
+  const nav = $('<div class="stepnav"></div>')
+  if (at > 0) nav.append(step(at - 1, -1, 'Previous stop'))
+  if (at < stops.length - 1) nav.append(step(at + 1, 1, 'Next stop'))
+  if (nav.children.length) m.append(nav)
 }
 render()
 </script>
