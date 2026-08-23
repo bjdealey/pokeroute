@@ -627,6 +627,13 @@ img.ico{width:26px;height:26px;vertical-align:middle;margin-right:7px;flex:none}
 img.ty{height:12px;width:auto;vertical-align:middle;margin-left:5px}  /* native size — 32x12 */
 .shead img.ty{height:24px}
 img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-fit:contain;display:inline}
+.cov{display:flex;flex-direction:column;gap:13px}
+.covsec h4{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--dim);font-weight:700;margin:0 0 7px;text-transform:uppercase;letter-spacing:.05em}
+.covrow{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.covpill{display:inline-flex;align-items:center;background:var(--card2);border:1px solid var(--line2);border-radius:8px;padding:3px 8px}
+.covpill.bad{border-color:#7a3b3b}
+.covpill img.ty{margin-left:0}
+.covpill small{color:var(--dim);margin-left:6px}
 </style>
 <svg class="isprite" aria-hidden="true" focusable="false" width="0" height="0"><defs>
 <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4.2 3.5 6.6v13.2L9 17.4l6 2.4 5.5-2.4V4.2L15 6.6z"/><path d="M9 4.2v13.2M15 6.6v13.2"/></symbol>
@@ -1146,6 +1153,23 @@ const immuneTo = types => TYPES.filter(a => taken(types, a) === 0)
 const DMG = [[4, '×4'], [2, '×2'], [0.5, '×½'], [0.25, '×¼'], [0, '×0']]
 const damageTaken = types => DMG.map(([x, label]) => [label, TYPES.filter(a => taken(types, a) === x)])
                                 .filter(([, list]) => list.length)
+
+// Team-wide type holes: attacking types nobody in the party resists, and defending
+// types no set move hits super-effectively. Pure over party + sets.
+function teamCoverage() {
+  const ids = [...party]
+  const threats = TYPES.map(a => {
+    const mults = ids.map(id => taken(M(id).types, a))
+    return { t: a, weak: mults.filter(x => x > 1).length, safe: mults.filter(x => x < 1).length }
+  }).filter(x => x.safe === 0 && x.weak > 0).sort((a, b) => b.weak - a.weak)
+  const covered = new Set()
+  let anyMove = false
+  ids.forEach(id => (sets[id] || []).forEach(mid => {
+    const mv = mid && DATA.moves[mid]
+    if (mv && mv.p) { anyMove = true; (DATA.se[mv.t] || []).forEach(t => covered.add(t)) }
+  }))
+  return { threats, blind: TYPES.filter(t => !covered.has(t)), anyMove }
+}
 
 // the games store the split in eighths, and −1 for the ones that have no gender
 const genderText = g => g < 0 ? 'genderless' : g === 0 ? '100% male' : g === 8 ? '100% female'
@@ -1783,6 +1807,24 @@ function boxPanel(m, s) {
   if (notice) m.append($(`<div class="notice">${I('alert')}<div>${esc(notice)}</div></div>`))
   if (!mobile() && (party.size || pc.size))
     m.append($(`<div class="drophint">${I('swap')}Drag a Pokémon between the party and the PC, or use the buttons on any catch row.</div>`))
+
+  // team-wide type holes to fix
+  if (party.size) {
+    const cov = teamCoverage(), n = party.size
+    const def = cov.threats.length
+      ? cov.threats.map(t => `<span class="covpill bad">${ty(t.t)}<small>${t.weak}/${n} weak</small></span>`).join('')
+      : `<div class="meta">Someone on your team resists every attacking type.</div>`
+    const off = !cov.anyMove
+      ? `<div class="meta">Set movesets (or "use recommended set") to map offensive coverage.</div>`
+      : cov.blind.length
+        ? cov.blind.map(t => `<span class="covpill">${ty(t)}</span>`).join('')
+        : `<div class="meta">Your set moves land a super-effective hit on every type.</div>`
+    m.append($(`<h3>${I('target')}Team coverage</h3>`))
+    m.append($(`<div class="card cov">
+      <div class="covsec"><h4>${I('alert')}Weak to — nothing on the team resists</h4><div class="covrow">${def}</div></div>
+      <div class="covsec"><h4>${I('swords')}No super-effective answer</h4><div class="covrow">${off}</div></div>
+    </div>`))
+  }
 
   // who carries the field moves
   const plan = hmPlan()
