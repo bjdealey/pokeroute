@@ -7,16 +7,23 @@
   --bg:#0d1017;--bg2:#111520;--card:#161b26;--card2:#1c2230;--line:#252b3a;--line2:#333c50;
   --fg:#e7eaf2;--dim:#8b93a7;--dim2:#69718a;--acc:#6ea8fe;--acc2:#a8ccff;--accbg:#16203a;
   --good:#4ade80;--goodbg:#122a1e;--warn:#fbbf24;--warnbg:#2a2213;--bad:#f87171;--sea:#2f6ba8;
-  --r:10px;--r2:14px;--hdr:56px;
+  --r:10px;--r2:14px;--hdr:56px;--rail:198px;--drawer:326px;
   --sh:0 1px 2px rgba(0,0,0,.32),0 8px 24px -14px rgba(0,0,0,.7);
-  --ring:0 0 0 2px var(--bg),0 0 0 4px var(--acc)}
+  --ring:0 0 0 2px var(--bg),0 0 0 4px var(--acc);
+  --hover:#212836;--field:#11151d;--hdrbg:#0d1017f2;--tabbar:#161b26f2;color-scheme:dark}
+:root[data-theme="light"]{
+  --bg:#f7f8fa;--bg2:#eef1f5;--card:#ffffff;--card2:#f1f4f8;--line:#e3e7ee;--line2:#cdd4df;
+  --fg:#1b2230;--dim:#586274;--dim2:#8a93a3;--acc:#2f6fe0;--acc2:#1d4ed8;--accbg:#e9f0fc;
+  --good:#16a34a;--goodbg:#e6f6ec;--warn:#b7791f;--warnbg:#fbf2d9;--bad:#dc2626;--sea:#5b93c9;
+  --hover:#eceff4;--field:#ffffff;--hdrbg:#f7f8faf2;--tabbar:#f7f8faf2;
+  --sh:0 1px 2px rgba(20,30,50,.05),0 10px 24px -14px rgba(20,30,50,.16);color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;font:15px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 :focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px}
 *::-webkit-scrollbar{width:10px;height:10px}
 *::-webkit-scrollbar-track{background:transparent}
-*::-webkit-scrollbar-thumb{background:#2b3244;border-radius:8px;border:2px solid var(--bg)}
+*::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px;border:2px solid var(--bg)}
 *::-webkit-scrollbar-thumb:hover{background:#3a445c}
 kbd{font:600 10px/1.6 ui-monospace,Menlo,monospace;background:var(--card2);border:1px solid var(--line2);
   border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--dim);vertical-align:1px}
@@ -26,7 +33,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 svg.isprite{position:absolute;width:0;height:0;overflow:hidden}
 img{image-rendering:pixelated}
 header{min-height:var(--hdr);padding:8px 18px;border-bottom:1px solid var(--line);display:flex;gap:16px;
-  align-items:center;position:sticky;top:0;background:#0d1017f2;backdrop-filter:blur(10px);z-index:9}
+  align-items:center;position:sticky;top:0;background:var(--hdrbg);backdrop-filter:blur(10px);z-index:9}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
 .brand .mark{width:26px;height:26px;color:var(--acc);stroke-width:1.6;flex:none}
 .ttl{min-width:0;line-height:1.15}
@@ -37,11 +44,32 @@ h1{font-size:15.5px;margin:0;font-weight:650;letter-spacing:-.01em;white-space:n
 .hprog .bar{height:6px;background:var(--card2);border:1px solid var(--line);border-radius:99px}
 .hprog .bar i{background:linear-gradient(90deg,var(--acc),#8be9a4);transition:width .35s ease}
 .hprog .meta{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:12px}
-.wrap{display:grid;grid-template-columns:474px 1fr}
-aside{border-right:1px solid var(--line);background:var(--bg2);padding:14px 14px 20px;position:sticky;
-  top:var(--hdr);max-height:calc(100vh - var(--hdr));overflow:auto;scrollbar-gutter:stable}
-main{padding:20px 24px 40px;max-width:900px;min-width:0}
+.wrap{display:grid;grid-template-columns:var(--rail) minmax(0,1fr) var(--drawer)}
+body.railcollapsed{--rail:58px}
+body.drawerclosed{--drawer:0}
+main{padding:20px 24px 40px;max-width:900px;min-width:0;margin-inline:auto;width:100%}
 body.wide main{max-width:none}   /* the dexes are tables, not prose */
+/* content-first: map + route ride in a collapsible drawer on the RIGHT */
+aside{grid-column:3;border-left:1px solid var(--line);background:var(--bg2);padding:14px 14px 20px;position:sticky;
+  top:var(--hdr);max-height:calc(100vh - var(--hdr));overflow:auto;scrollbar-gutter:stable}
+.drawerhd{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);font-weight:700;margin:0 0 12px}
+.drawerhd>.i{width:14px;height:14px;color:var(--acc)}
+.drawertog{margin-left:auto;width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line);
+  border-radius:8px;background:var(--card);color:var(--dim2);cursor:pointer}
+.drawertog:hover{color:var(--fg);border-color:var(--acc)}
+.drawertog .i{width:15px;height:15px}
+.drawertab{display:none}
+@media(min-width:861px){
+  body.drawerclosed #aside{display:none}
+  .drawertab{position:fixed;right:0;top:calc(var(--hdr) + 76px);display:none;align-items:center;gap:8px;
+    padding:14px 9px;border:1px solid var(--line);border-right:0;border-radius:11px 0 0 11px;background:var(--bg2);
+    color:var(--dim);cursor:pointer;writing-mode:vertical-rl;font:inherit;font-size:12px;font-weight:600;
+    letter-spacing:.04em;box-shadow:-6px 0 20px -12px #000;z-index:15}
+  .drawertab:hover{color:var(--fg);border-color:var(--acc)}
+  .drawertab .i{width:16px;height:16px}
+  body.drawerclosed .drawertab{display:flex}
+}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:15px 17px;
   margin:0 0 14px;box-shadow:var(--sh)}
 h2{font-size:21px;margin:0 0 6px;letter-spacing:-.015em}
@@ -50,8 +78,8 @@ h3{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim
 h3 svg.i{width:14px;height:14px;color:var(--acc);opacity:.85}
 h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
 .meta{color:var(--dim);font-size:13px}
-.notes{display:flex;gap:10px;align-items:flex-start;border-left:3px solid var(--acc);background:#141b2b;
-  border-radius:0 9px 9px 0;padding:10px 13px;margin:12px 0;color:#c3c8d6;font-size:14px;line-height:1.55}
+.notes{display:flex;gap:10px;align-items:flex-start;border-left:3px solid var(--acc);background:var(--card2);
+  border-radius:0 9px 9px 0;padding:10px 13px;margin:12px 0;color:var(--fg);font-size:14px;line-height:1.55}
 .notes svg.i{width:16px;height:16px;margin-top:2px;flex:none;color:var(--acc);opacity:.9}
 ol,ul{margin:0;padding-left:20px}li{margin:7px 0}
 .why{color:var(--dim);font-size:13px}
@@ -148,8 +176,11 @@ svg.map g.n:hover .mk{stroke:#fff;stroke-width:1}
 button.g{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--line2);
   color:var(--dim);border-radius:8px;padding:5px 11px;cursor:pointer;font:inherit;font-size:12.5px;
   line-height:1.4;transition:background .13s,color .13s,border-color .13s}
-button.g:hover{background:#232a3b;color:var(--fg);border-color:#3d465c}
+button.g:hover{background:var(--hover);color:var(--fg);border-color:#3d465c}
 button.g:active{transform:translateY(1px)}
+/* press-down feedback on the primary tap targets - respond on the press, not the release */
+.slot:not(.empty):active,.cell:not(.empty):active,.pickcell:active,
+.tabs button:active,.side button:active,.stops button:active{transform:scale(.97);transition:transform .08s ease-out}
 button.g.on{border-color:var(--good);color:var(--good);background:var(--goodbg)}
 button.g.danger:hover{border-color:#7a3b3b;color:#ffb4b4;background:#2a1618}
 button.g svg.i{width:14px;height:14px}
@@ -196,7 +227,7 @@ button.g[disabled]{opacity:.45;cursor:not-allowed}
 .mslot{display:flex;flex-direction:column;gap:4px}
 .mslot span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim2);font-weight:650}
 .mslots select{width:100%;padding:7px 8px;font:inherit;font-size:12.5px;border:1px solid var(--line);
-  border-radius:8px;background:#11151d;color:var(--fg);cursor:pointer}
+  border-radius:8px;background:var(--field);color:var(--fg);cursor:pointer}
 .mslots select:hover{border-color:var(--line2)}
 .advice{margin-top:9px;font-size:13px;color:#c3c8d6;border-left:3px solid var(--good);padding-left:10px}
 .advice b{color:var(--good)}
@@ -217,7 +248,7 @@ img.mini{width:26px;height:26px;vertical-align:middle}
   justify-content:center;align-items:center;font-size:11.5px;cursor:default}
 .slot.empty:hover{background:#2b4a79;transform:none}
 .slot.empty svg.i{width:14px;height:14px;opacity:.8}
-.pcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.pcgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .cell{aspect-ratio:1;background:#2a4a7d;border:2px solid #0b1626;border-radius:9px;
   display:grid;place-items:center;cursor:grab;position:relative;transition:background .12s,transform .12s}
 .cell:hover{background:#35598f;transform:translateY(-1px)}
@@ -226,7 +257,79 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .cell img{width:82%;height:82%;object-fit:contain}
 .cell span{position:absolute;bottom:1px;left:0;right:0;font-size:8.5px;text-align:center;color:#bcd6f5;
   text-transform:capitalize;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+/* PC = the living dex: a box per 30 species, ghost cells for what you still need */
+.pcbox{margin-bottom:12px}
+.pcbox:last-child{margin-bottom:0}
+.boxhd{display:flex;align-items:center;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:#bcd6f5;font-weight:800;margin:0 2px 6px}
+.boxhd .ct{margin-left:auto;font-weight:600;color:#8fb4e2;letter-spacing:.02em}
+.dexprog{height:6px;border-radius:5px;background:#16294a;border:1px solid #0b1626;overflow:hidden;margin:0 0 12px}
+.dexprog i{display:block;height:100%;background:linear-gradient(90deg,#5f87c9,#8fe27a)}
+.cell.need,.cell.reg{cursor:pointer}
+.cell.need{background:#203a63;border-color:#2e4a75}
+.cell.need img{opacity:.14;filter:grayscale(1) brightness(1.6)}
+.cell.need span{color:#6f93c4;font-variant-numeric:tabular-nums;text-transform:none}
+.cell.reg img{opacity:.4;filter:grayscale(.55)}
+.cell .tag{position:absolute;top:2px;left:2px;line-height:0;border-radius:5px;padding:1px;
+  background:#0b1626cc}
+.cell .tag svg.i{width:11px;height:11px;stroke-width:2.2}
+.cell .tag.pty{color:#ffd77a}
+.cell .tag.reg{color:#8fe27a;left:auto;right:2px}
+.cell.dupe{outline:2px dashed #e2a15f;outline-offset:-2px}
+.place{display:flex;align-items:center;gap:9px;background:var(--card2);border-radius:10px;
+  padding:9px 12px;margin:2px 0 4px}
+.place svg.i{width:16px;height:16px;flex:none;color:var(--acc2)}
+.place b{font-size:13px;text-transform:capitalize}
+.place .meta{display:block;font-size:11.5px}
+/* add-from-anywhere search at the top of the Team view */
+.addbar{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px}
+.addbar>svg.i{position:absolute;left:12px;top:12px;width:16px;height:16px;color:var(--dim2);pointer-events:none;z-index:1}
+.addq{flex:1;min-width:170px;padding:9px 12px 9px 36px;background:var(--card2);border:1px solid var(--line);
+  border-radius:10px;color:var(--fg);font:inherit}
+.addq::placeholder{color:#5d6478}
+.shinytog{flex:none}
+.shinytog.on{border-color:#b08a2e;color:#ffd77a;background:#2a2213}
+.addhits{flex-basis:100%;display:flex;flex-direction:column;gap:6px}
+.addhits:empty{display:none}
+.addhit{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:6px 10px}
+.addhit img{width:38px;height:38px;flex:none;cursor:pointer}
+.addhit .who{min-width:0;cursor:pointer}
+.addhit b{text-transform:capitalize;font-size:13.5px}
+.addhit .meta{display:block;font-size:11px}
+.addhit .addbtns{margin-left:auto;display:flex;gap:6px;flex:none}
+.addnone{color:var(--dim2);font-size:12.5px;padding:4px 2px}
+/* Dex-mode toggle + box pager, inside the PC panel */
+.pcgoal{width:100%;margin:0 0 12px}
+.pcgoal button.g{flex:1;justify-content:center;padding:7px 4px}
+.pager{display:flex;align-items:center;gap:8px;margin:2px 0 12px}
+.pager .pnums{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;flex:1}
+.pg,.pn{background:var(--card);border:1px solid var(--line2);color:var(--dim);cursor:pointer;
+  border-radius:8px;font:inherit;font-weight:700;transition:background .12s,color .12s,border-color .12s}
+.pg{display:grid;place-items:center;width:34px;height:34px;flex:none}
+.pg svg.i{width:18px;height:18px}
+.pprev svg.i{transform:rotate(180deg)}
+.pn{min-width:30px;height:30px;font-size:13px;font-variant-numeric:tabular-nums}
+.pg:hover:not(:disabled),.pn:hover{color:var(--fg);border-color:var(--acc);background:var(--hover)}
+.pg:disabled{opacity:.35;cursor:default}
+.pn.on{color:var(--acc2);background:var(--accbg);border-color:#2f4a7a;box-shadow:inset 0 0 0 1px #2f4a7a}
+.pcbox + .pager{margin:12px 0 0}
+/* owned-Pokémon picker for filling a party slot */
+.pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px;margin-top:4px}
+.pickcell{background:var(--card2);border:1px solid var(--line);border-radius:10px;cursor:pointer;
+  padding:6px 4px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--fg);font:inherit}
+.pickcell:hover{border-color:var(--acc);background:var(--hover)}
+.pickcell img{width:52px;height:52px}
+.pickcell span{font-size:10.5px;text-transform:capitalize;overflow:hidden;white-space:nowrap;
+  text-overflow:ellipsis;max-width:100%}
 .pkui.drop{outline:3px dashed #ffd34d;outline-offset:2px}
+.pkui.nofit{outline:3px dashed var(--bad);outline-offset:2px}   /* full party: can't drop here */
+.pkui [data-drag]{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.pkui [data-drag] img{-webkit-user-drag:none}   /* sprites are draggable by default; stop native DnD hijacking the gesture */
+.slot.lift,.cell.lift{box-shadow:0 0 0 2px var(--acc),0 6px 16px -6px rgba(0,0,0,.45)}  /* touch: armed to drag */
+.dragghost{position:fixed;left:0;top:0;z-index:60;pointer-events:none;will-change:transform;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.45))}
+.dragghost img{display:block;image-rendering:pixelated;transform:scale(1.08)}
 .notice{display:flex;align-items:flex-start;gap:8px;color:#ffd77a;background:var(--warnbg);
   border:1px solid #493a1c;border-radius:10px;padding:9px 12px;font-size:12.5px;margin:0 0 14px}
 .notice svg.i{width:15px;height:15px;margin-top:2px;flex:none;color:var(--warn)}
@@ -249,10 +352,29 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .modal[hidden]{display:none}
 @keyframes fade{from{opacity:0}}
 @keyframes rise{from{opacity:0;transform:translateY(10px) scale(.985)}}
+@keyframes fall{to{opacity:0;transform:translateY(10px) scale(.985)}}   /* mirror of rise, for a symmetric exit */
+@keyframes defade{to{opacity:0}}
 .sheet{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:0 18px 18px;
   width:min(540px,100%);max-height:90vh;overflow:auto;box-shadow:0 24px 60px -20px #000c;
   animation:rise .18s cubic-bezier(.2,.8,.3,1)}
-@media(prefers-reduced-motion:reduce){.modal,.sheet{animation:none}}
+/* leaving: play the entrance in reverse, then unmount (see closeMon); inverse easing of rise */
+.modal.leaving{animation:defade .16s ease forwards}
+.sheet.leaving{animation:fall .16s cubic-bezier(.7,0,.8,.2) forwards}
+@media(prefers-reduced-motion:reduce){.modal,.sheet,.modal.leaving,.sheet.leaving{animation:none}}
+@keyframes slideup{from{transform:translateY(100%)}}
+@keyframes slidedown{to{transform:translateY(100%)}}
+/* mobile: the sheet docks to the bottom edge, rounds only its top, wears a grab
+   handle, and is draggable to dismiss (see bindSheetDrag). Desktop stays a centred dialog. */
+@media(max-width:860px){
+  .modal{align-items:flex-end;padding:0}
+  .sheet{width:100%;max-height:92vh;border-radius:18px 18px 0 0;border-bottom:0;
+    padding-bottom:calc(18px + env(safe-area-inset-bottom));animation:slideup .26s cubic-bezier(.2,.8,.3,1)}
+  .sheet.leaving{animation:slidedown .2s cubic-bezier(.7,0,.8,.2) forwards}
+  .shead{padding-top:20px;cursor:grab;touch-action:none}
+  .shead::before{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);
+    width:38px;height:4px;border-radius:99px;background:var(--line2)}
+}
+@media(max-width:860px) and (prefers-reduced-motion:reduce){.sheet,.sheet.leaving{animation:none}}
 .shead{display:flex;align-items:center;gap:13px;padding:14px 0 12px;position:sticky;top:0;z-index:3;
   background:var(--card);border-bottom:1px solid var(--line)}
 .shead img{width:64px;height:64px}
@@ -260,11 +382,11 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .shead .x{margin-left:auto;align-self:flex-start;background:var(--card2);border:1px solid var(--line);
   color:var(--dim);cursor:pointer;padding:7px;border-radius:9px;display:flex;line-height:0}
 .shead .x svg.i{width:16px;height:16px}
-.shead .x:hover{color:var(--fg);border-color:var(--line2);background:#232a3b}
+.shead .x:hover{color:var(--fg);border-color:var(--line2);background:var(--hover)}
 .srow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--line)}
 .srow .lv{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--dim)}
 .srow .lv input{width:62px;padding:6px 8px;font:inherit;font-size:14px;border:1px solid var(--line);
-  border-radius:6px;background:#11151d;color:var(--fg)}
+  border-radius:6px;background:var(--field);color:var(--fg)}
 .srow .xp{color:var(--warn);font-size:13px}
 .srow .ok2{color:var(--good);font-size:13px}
 .ssec{padding:12px 0;border-top:1px solid var(--line)}
@@ -294,9 +416,9 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .gap{color:var(--warn);font-size:13px;margin-top:8px}
 .swapline{display:flex;gap:7px;align-items:flex-start;padding:3px 0}
 .swapline svg.i{width:14px;height:14px;margin-top:3px;flex:none;opacity:.7}
-.warn{color:#e8b45f;font-size:13px;margin-top:8px}
+.warn{color:var(--warn);font-size:13px;margin-top:8px}
 .ctr div.stored{border-color:#4a5a7a;background:#151d2b}
-.dex .covered{color:#78849b}.dex .have{color:var(--good)}.dex .need{color:#c9d1e4}
+.dex .covered{color:var(--dim2)}.dex .have{color:var(--good)}.dex .need{color:var(--acc2)}
 .mon.dim{opacity:.45}
 .ok{display:inline-flex;align-items:center;gap:6px;color:var(--good);font-size:13px;margin-top:8px}
 .prog .meta{display:inline-flex;align-items:center;gap:6px}
@@ -307,10 +429,10 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .verdict svg.i{width:15px;height:15px;margin-top:2px;flex:none}
 .verdict.good{color:#9df0bb;background:var(--goodbg);border:1px solid #1f4a31}
 .verdict.hold{color:#cfe0ff;background:#16203a;border:1px solid #2c3f63}
-.verdict.bad{color:#ffcf87;background:var(--warnbg);border:1px solid #4a3a1c}
+.verdict.bad{color:var(--warn);background:var(--warnbg);border:1px solid var(--warn)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:3px 0}
-.chip{font-size:11px;padding:1px 7px;border-radius:5px;background:#232838;color:var(--dim)}
-.chip.v{color:#9fd0ff}.chip.e{color:#ffcf87}
+.chip{font-size:11px;padding:1px 7px;border-radius:5px;background:var(--hover);color:var(--dim)}
+.chip.v{color:var(--acc)}.chip.e{color:var(--warn)}
 .cost{color:#7d859c;font-size:12px;margin-top:2px}
 .cost b{color:var(--warn);font-weight:500}
 .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
@@ -343,52 +465,66 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .dex{font-size:12px;margin-top:5px;line-height:1.6}
 .dex span{display:inline-flex;align-items:flex-start;gap:5px}
 .dex svg.i{width:13px;height:13px;margin-top:2px;flex:none}
-.dex .later{color:#7fb3e8}.dex .only{color:var(--warn)}.dex .skip{color:var(--good)}
+.dex .later{color:var(--acc)}.dex .only{color:var(--warn)}.dex .skip{color:var(--good)}
 .ver{font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid var(--line);color:var(--dim);margin-left:5px}
 .ver.x{border-color:#a05; color:#f79}
 .spots td{padding:5px 14px 5px 0;font-size:13px;vertical-align:top}
 .spots td:first-child{color:var(--dim);white-space:nowrap}
 .hit{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
 .hit img{width:48px;height:48px}
-button.g.gear{display:none;padding:7px 9px}
+button.g.gear{padding:7px 9px}
 button.g.gear svg.i{width:16px;height:16px}
-.setup{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:9px 18px;
-  border-bottom:1px solid var(--line);background:var(--bg2)}
-.fld{display:flex;align-items:center;gap:9px}
-.fld .lbl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim2);font-weight:650}
+button.g.gear[aria-expanded="true"]{color:var(--acc2);background:var(--accbg);border-color:#2f4a7a}
 .seg{display:inline-flex;flex-wrap:wrap;gap:2px;background:var(--card);border:1px solid var(--line);
   border-radius:10px;padding:3px;max-width:100%}
 .seg button.g{background:none;border:1px solid transparent;border-radius:7px;padding:4px 11px;font-size:12.5px}
-.seg button.g:hover{background:#222937;color:var(--fg);border-color:transparent}
+.seg button.g:hover{background:var(--hover);color:var(--fg);border-color:transparent}
 .seg button.g.on{background:var(--accbg);border-color:#2f4a7a;color:var(--acc2);font-weight:600}
-.seg.starters button.g{padding:3px 6px}
-.seg.starters button.g.on{background:var(--accbg);box-shadow:inset 0 0 0 1px #2f4a7a}
-.setupend{display:flex;gap:8px;align-items:center;margin-left:auto}
-#shinybtn.on{border-color:#b08a2e;color:#ffd77a;background:#2a2213}
+/* the gear opens a settings dropdown */
+.setscrim{display:none}
+body.showsetup .setscrim{display:block;position:fixed;inset:0;z-index:39}
+.setup{position:fixed;right:12px;top:64px;z-index:40;display:none;flex-direction:column;gap:11px;
+  width:min(264px,calc(100vw - 24px));padding:13px;background:var(--card);border:1px solid var(--line2);
+  border-radius:13px;box-shadow:0 22px 50px -20px #000d;transform-origin:top right}
+body.showsetup .setup{display:flex;animation:popin .18s cubic-bezier(.2,.8,.3,1)}
+@keyframes popin{from{opacity:0;transform:scale(.92)}}
+@media(prefers-reduced-motion:reduce){body.showsetup .setup{animation:none}}
+.setttl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.setlbl{font-size:12.5px;color:var(--fg);font-weight:600}
+.setsep{height:1px;background:var(--line);margin:1px -13px}
+.setup .danger{width:100%;justify-content:center}
 .tabs{display:none}
-.side{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;
-  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:5px}
+/* desktop: a collapsible section rail to the left of the map */
+.rail{position:sticky;top:var(--hdr);align-self:start;height:calc(100vh - var(--hdr));
+  background:var(--bg2);border-right:1px solid var(--line);padding:12px 10px;
+  display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.railtog{align-self:flex-end;background:var(--card);border:1px solid var(--line);border-radius:9px;
+  color:var(--dim);cursor:pointer;width:34px;height:34px;display:grid;place-items:center;flex:none;
+  transition:color .13s,border-color .13s}
+.railtog:hover{color:var(--fg);border-color:var(--acc)}
+.railtog svg.i{width:17px;height:17px;transition:transform .18s}
+body:not(.railcollapsed) .railtog svg.i{transform:rotate(180deg)}   /* points ← to collapse */
+body.railcollapsed .railtog{align-self:center}
+.side{display:flex;flex-direction:column;gap:4px}
 .side button{background:none;border:1px solid transparent;border-radius:9px;color:var(--dim);
-  font:inherit;font-size:11.5px;font-weight:600;padding:9px 4px 8px;cursor:pointer;display:flex;
-  flex-direction:column;align-items:center;gap:5px;transition:background .13s,color .13s}
-.side button svg.i{width:19px;height:19px;stroke-width:1.6}
-.side button:hover{color:var(--fg);background:#212836}
+  font:inherit;font-size:14px;font-weight:600;padding:10px 12px;cursor:pointer;display:flex;
+  align-items:center;gap:11px;text-align:left;white-space:nowrap;overflow:hidden;transition:background .13s,color .13s}
+.side button svg.i{width:20px;height:20px;stroke-width:1.7;flex:none}
+.side button:hover{color:var(--fg);background:var(--hover)}
 .side button.on{color:var(--acc2);background:var(--accbg);box-shadow:inset 0 0 0 1px #2f4a7a}
+body.railcollapsed .side button{justify-content:center;padding:10px 0}
+body.railcollapsed .side .nlbl{display:none}
 @media(max-width:860px){
   .wrap{grid-template-columns:1fr}
-  aside{position:static;border-right:0;background:var(--bg);max-height:none;padding:12px 12px 88px}
-  .qbox,.side,.kbdhint{display:none}   /* the bottom tab bar is the nav here */
+  aside{position:static;grid-column:auto;border:0;background:var(--bg);max-height:none;padding:12px 12px 88px}
+  .qbox,.rail,.kbdhint,.drawerhd{display:none}   /* the bottom tab bar is the nav here */
   main{padding:14px 12px 88px;max-width:none}
   header{padding:8px 12px;gap:10px;flex-wrap:wrap;min-height:auto}
   h1{font-size:15px}
   .brand .mark{width:23px;height:23px}
   .hprog{order:3;flex-basis:100%;max-width:none;margin:0 0 2px}
-  button.g.gear{display:inline-flex;margin-left:auto}
-  .setup{display:none;padding:12px;gap:12px;flex-direction:column;align-items:stretch}
-  .fld{justify-content:space-between}
-  .setupend{margin:2px 0 0}
-  .setupend button.g{flex:1;justify-content:center;min-height:38px}
-  body.showsetup .setup{display:flex}
+  button.g.gear{margin-left:auto}
   body:not(.tab-map) aside{display:none}
   body.tab-map main{display:none}
   /* thumbs, not cursors */
@@ -405,7 +541,7 @@ button.g.gear svg.i{width:16px;height:16px}
   .spots td{padding-right:8px}
   .ctr div{width:70px}
   .tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;
-    background:#161b26f2;backdrop-filter:blur(12px);border-top:1px solid var(--line);
+    background:var(--tabbar);backdrop-filter:blur(12px);border-top:1px solid var(--line);
     padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -6px 20px -12px #000}
   .tabs button{background:none;border:0;color:var(--dim2);font:inherit;font-size:10.5px;font-weight:600;
     padding:9px 2px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;
@@ -432,21 +568,21 @@ button.g.gear svg.i{width:16px;height:16px}
 .tbl{overflow:auto;max-height:74vh;border:1px solid var(--line);border-radius:10px;background:var(--card);
   -webkit-overflow-scrolling:touch}
 table.dtbl{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
-table.dtbl th{position:sticky;top:0;z-index:2;height:32px;background:#1d2230;color:var(--dim);
+table.dtbl th{position:sticky;top:0;z-index:2;height:32px;background:var(--card2);color:var(--dim);
   font-weight:600;text-align:left;white-space:nowrap;padding:6px 10px;border-bottom:1px solid var(--line);
   cursor:pointer;user-select:none}
 table.dtbl th:hover{color:var(--fg)}
 table.dtbl th .ar{color:var(--acc);line-height:0}
 table.dtbl th .ar svg.i{width:11px;height:11px}
 table.dtbl th[data-k]:hover .ar{color:var(--acc2)}
-table.dtbl tr.frow th{top:32px;z-index:1;height:30px;background:#171b26;padding:3px 5px;cursor:auto}
+table.dtbl tr.frow th{top:32px;z-index:1;height:30px;background:var(--card);padding:3px 5px;cursor:auto}
 table.dtbl tr.frow input,table.dtbl tr.frow select{width:100%;min-width:64px;padding:3px 5px;font:inherit;
-  font-size:12px;border:1px solid var(--line);border-radius:6px;background:#11151d;color:var(--fg)}
+  font-size:12px;border:1px solid var(--line);border-radius:6px;background:var(--field);color:var(--fg)}
 table.dtbl tr.frow input::placeholder{color:#4d5468}
-table.dtbl td{padding:5px 10px;border-bottom:1px solid #20242f;vertical-align:middle;white-space:nowrap}
+table.dtbl td{padding:5px 10px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
 table.dtbl td.num{text-align:right;font-variant-numeric:tabular-nums}
 table.dtbl td.wrap{white-space:normal;min-width:210px;color:var(--dim)}
-table.dtbl tbody tr:hover{background:#1e2432}
+table.dtbl tbody tr:hover{background:var(--hover)}
 table.dtbl tbody tr.click{cursor:pointer}
 table.dtbl img.sp{width:40px;height:40px;display:block}
 table.dtbl .nm{color:var(--fg);font-weight:600}
@@ -532,18 +668,22 @@ img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-f
   </div>
   <button class="g gear" id="gear" aria-label="Settings" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-gear"></use></svg></button>
 </header>
-<div class="setup" id="setup">
-  <div class="fld"><span class="lbl">Goal</span><div class="seg" id="goal" role="group" aria-label="Goal"></div></div>
-  <div class="fld"><span class="lbl">Cartridge</span><div class="seg" id="cart" role="group" aria-label="Cartridge"></div></div>
-  <div class="fld"><span class="lbl">Starter</span><div class="seg starters" id="starter" role="group" aria-label="Starter"></div></div>
-  <div class="setupend">
-    <button class="g" id="shinybtn" title="Draw every sprite in its shiny colours"><svg class="i" aria-hidden="true"><use href="#i-sparkles"></use></svg>Shiny</button>
-    <button class="g danger" id="resetbtn" title="Clear everything this app remembers"><svg class="i" aria-hidden="true"><use href="#i-trash"></use></svg>Reset</button>
-  </div>
+<div class="setscrim" id="setscrim"></div>
+<div class="setup" id="setup" role="menu" aria-label="Settings">
+  <div class="setttl">Settings</div>
+  <div class="setrow"><span class="setlbl">Theme</span><div class="seg" id="theme" role="group" aria-label="Theme"></div></div>
+  <div class="setrow"><span class="setlbl">Cartridge</span><div class="seg" id="cart" role="group" aria-label="Cartridge"></div></div>
+  <div class="setsep"></div>
+  <button class="g danger" id="resetbtn" title="Clear everything this app remembers"><svg class="i" aria-hidden="true"><use href="#i-trash"></use></svg>Clear all progress</button>
 </div>
 <div class="wrap">
+  <nav class="rail" id="rail" aria-label="Primary">
+    <button class="railtog" id="railtog" aria-label="Expand or collapse the menu" title="Expand or collapse the menu"><svg class="i" aria-hidden="true"><use href="#i-chev-right"></use></svg></button>
+    <div class="side" id="sidenav" role="tablist" aria-label="Sections"></div>
+  </nav>
+  <main id="main"></main>
   <aside id="aside">
-    <nav class="side" id="sidenav" role="tablist" aria-label="Sections"></nav>
+    <div class="drawerhd"><svg class="i" aria-hidden="true"><use href="#i-map"></use></svg>Map &amp; route<button class="drawertog" id="drawertog" aria-label="Hide the map and route" title="Hide the map &amp; route"><svg class="i" aria-hidden="true"><use href="#i-chev-right"></use></svg></button></div>
     <div class="qbox">
       <svg class="i qico" aria-hidden="true"><use href="#i-search"></use></svg>
       <input id="q" placeholder="Find a Pokémon, TM or move" autocomplete="off" aria-label="Search the whole game">
@@ -568,7 +708,7 @@ img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-f
       <span><kbd>1</kbd>–<kbd>5</kbd> switch view · <kbd>/</kbd> search · <kbd>[</kbd> <kbd>]</kbd> prev / next stop · <kbd>Esc</kbd> close</span>
     </div>
   </aside>
-  <main id="main"></main>
+  <button class="drawertab" id="drawertab" aria-label="Show the map and route" title="Show the map &amp; route"><svg class="i" aria-hidden="true"><use href="#i-map"></use></svg><span>Map &amp; route</span></button>
 </div>
 <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
 <div class="modal" id="modal" hidden></div>
@@ -585,8 +725,9 @@ const I = (n, cls = '') => `<svg class="i ${cls}" aria-hidden="true"><use href="
 
 // The Shiny button in the header swaps every sprite in the app; the dex can show a shiny beside
 // the ordinary one whichever way that is set. A species with no shiny draws itself.
-let shinyOn = load('shiny', false)
-const spr = id => (shinyOn ? SHINY[id] : null) || SPR[id] || ''
+let shiny = new Set(load('shinyIds', []))          // which owned species you hold as shiny
+const spr = id => (shiny.has(id) ? SHINY[id] : null) || SPR[id] || ''
+const setShiny = (id, on) => { on ? shiny.add(id) : shiny.delete(id); save('shinyIds', [...shiny]); render() }
 const shinySpr = id => SHINY[id] || SPR[id] || ''
 // item art. A few catalogue lines name a Pokémon ("Snorlax x2") — those draw the sprite.
 const icon = k => !k ? '' : k.startsWith('pkm-') ? spr(k.slice(4)) : (IMG[k] || '')
@@ -632,7 +773,7 @@ function inferProgress() {
 const setReached = i => { reached = Math.max(0, i); save('reached', reached); render() }
 let party = new Set(load('party', load('team', [])).slice(0, 6))
 let pc = new Set(load('pc', load('box', [])))
-let goal = load('goal', 'story')
+let goal = load('goal', 'national'); if (goal === 'story') goal = 'national'  // Story is no longer a picker option
 let levels = load('levels', {})
 let sets = load('sets', {})
 // what the dex has registered: you keep the entry after evolving, you don't keep the Pokémon
@@ -656,12 +797,45 @@ function battlesTo(id, from, to) {
 const GOALS = { story: 'beat the game', national: 'National Dex', living: 'Living Dex' }
 const PARTY_MAX = 6
 const owns = id => party.has(id) || pc.has(id)
+// The starter is no longer a control — it's whichever starter line you actually have.
+const STARTERS = { bulbasaur: [1, 2, 3], charmander: [4, 5, 6], squirtle: [7, 8, 9] }
+const starterOf = () => Object.keys(STARTERS).find(n => STARTERS[n].some(id => owns(id) || seen.has(id))) || 'charmander'
+// Living-dex spine: every obtainable species in National-Dex order (id === dex no),
+// packed BOX_SIZE to a box. Box and slot are a pure function of a species' dex
+// position, so there is nothing to store and nothing to hand-arrange — the layout is
+// canonical and can't be destroyed, which is why there's no manual re-sort here.
+const BOX_SIZE = 30
+const DEX_SPINE = Object.keys(DATA.mon).map(Number).sort((a, b) => a - b)
+const HOME = new Map(DEX_SPINE.map((id, i) => [id, i]))
+// National Dex only needs one *obtain* per line — a linear evolution fills itself, so
+// it shares its pre-evolution's slot. Branches (Eevee, split evos) keep a slot each.
+const slotRoot = id => {
+  for (let cur = id; ;) {
+    const p = M(cur).from, fwd = p != null ? (M(p).evo || []) : []
+    if (p == null || !DATA.mon[p] || fwd.length !== 1 || fwd[0].id !== cur) return cur
+    cur = p
+  }
+}
+const NAT_UNITS = (() => {
+  const g = new Map()
+  DEX_SPINE.forEach(id => { const r = slotRoot(id); (g.get(r) || g.set(r, []).get(r)).push(id) })
+  return [...g.keys()].sort((a, b) => a - b).map(r => g.get(r).sort((a, b) => a - b))
+})()
+const NAT_HOME = new Map(NAT_UNITS.flatMap((mem, i) => mem.map(id => [id, i])))
+// what the PC lays out for the current goal: one slot per species (living) or per
+// obtain-once line (national); story just packs what you hold, dex-ordered.
+const boxUnits = () => goal === 'national' ? NAT_UNITS
+  : goal === 'living' ? DEX_SPINE.map(id => [id])
+  : [...pc].sort((a, b) => a - b).map(id => [id])
+const homeOf = id => {                       // box/slot in the current goal's layout
+  const i = goal === 'national' ? NAT_HOME.get(id) : HOME.get(id)
+  return i == null ? null : { box: (i / BOX_SIZE | 0) + 1, slot: i % BOX_SIZE + 1 } }
 function setOwn(id, where) {
   party.delete(id); pc.delete(id)
   if (where === 'party') (party.size < PARTY_MAX ? party : pc).add(id)
   else if (where === 'box') pc.add(id)
   if (where) seen.add(id)
-  save('party', [...party]); save('pc', [...pc]); save('seen', [...seen]); render()
+  save('party', [...party]); save('pc', [...pc]); save('seen', [...seen]); flipRender()
 }
 
 // Evolving moves the Pokémon and keeps the old dex entry — which is exactly the
@@ -699,16 +873,24 @@ function dexNeed(id, family) {
   return { s: 'need' }
 }
 let at = load('at', 0)
-let starter = load('starter', 'charmander')
 let sortBy = load('sortBy', 'score')
 let game = load('game', 'FR')
 let query = ''
+let addQ = ''
+let addShiny = false      // whether the add-bar marks new Pokémon as shiny
+let pcPage = 0            // which PC box page is showing
+let pickerOpen = false    // owned-Pokémon picker for filling a party slot
 let notice = ''
 let view = 'route'
+let lastRenderedView = null   // drives the directional view transition in render()
 const mobile = () => matchMedia('(max-width: 860px)').matches
 const TABS = [['map', 'map', 'Map'], ['route', 'pin', 'Here'], ['team', 'bag', 'Team'],
               ['find', 'search', 'Find'], ['dex', 'book', 'Dex']]
 let showSetup = false
+let railCollapsed = load('railCollapsed', false)
+let drawerOpen = load('drawerOpen', true)   // the right-hand map + route drawer
+let theme = load('theme', 'dark')
+document.documentElement.dataset.theme = theme
 let dexTab = load('dexTab', 'mon'), dexQ = ''
 let modalId = null
 // Keyboard: 1-5 pick a view, / searches, [ ] walk the route, Esc backs out of whatever
@@ -718,6 +900,7 @@ addEventListener('keydown', e => {
   const typing = el && (/^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) || el.isContentEditable)
   if (e.key === 'Escape') {
     if (modalId) return closeMon()
+    if (pickerOpen) { pickerOpen = false; return render() }
     if (typing) return el.blur()
     if (showSetup) { showSetup = false; return render() }
     if (query) { query = ''; view = 'route'; return render() }
@@ -727,7 +910,7 @@ addEventListener('keydown', e => {
   if (e.key === '/') {
     e.preventDefault()
     if (mobile()) { view = 'find'; render(); const f = document.querySelector('.qm'); if (f) f.focus() }
-    else document.getElementById('q').focus()
+    else { if (!drawerOpen) { drawerOpen = true; save('drawerOpen', true); render() } document.getElementById('q').focus() }
     return
   }
   if (e.key === '[' || e.key === ']') {
@@ -757,7 +940,7 @@ function useGame() {
   if (at >= stops.length) at = 0
 }
 useGame()
-const roster = f => f.variants ? f.team.concat(f.variants[DATA.rivalStarter[starter]] || []) : f.team
+const roster = f => f.variants ? f.team.concat(f.variants[DATA.rivalStarter[starterOf()]] || []) : f.team
 
 
 function drawMap() {
@@ -1415,7 +1598,7 @@ function boxPanel(m, s) {
       : target && target > lv ? `needs Lv ${target} — ≈${battlesTo(id, lv, target)} battles`
       : n && n.level && lv >= n.level ? `ready to become ${cap(n.name)}`
       : 'ready for what\'s next'
-    return `<div class="slot" draggable="true" data-id="${id}" data-open="${id}">
+    return `<div class="slot" data-drag data-id="${id}" data-open="${id}">
       <img src="${spr(id)}" alt="${sp.name}">
       <div class="who">
         <b>${cap(sp.name)}</b>${lv ? `<span class="lvtag">Lv ${lv}</span>` : ''}${
@@ -1429,45 +1612,118 @@ function boxPanel(m, s) {
   const partyUI = $(`<div class="pkui" data-to="party">
     <h4>${I('bag')}Party<span class="ct">${party.size}/${PARTY_MAX}</span></h4>
     <div class="slots">${[...party].map(slot).join('')}${
-      Array.from({ length: empties }, () => `<div class="slot empty">${I('plus')}empty slot</div>`).join('')}</div>
+      Array.from({ length: empties }, () => `<div class="slot empty" data-pick="1">${I('plus')}add from your PC</div>`).join('')}</div>
   </div>`)
 
-  const CELLS = 30, stored = [...pc]
+  // The PC is the dex you're filling: living = one slot per species; national = one
+  // slot per obtain-once line (linear evolutions fill themselves); story = storage.
+  const unit = mem => {                          // collapse a slot's members to one cell
+    const inPc = mem.find(id => pc.has(id))
+    const inPa = mem.find(id => party.has(id))
+    const regId = goal === 'national' ? mem.find(id => seen.has(id)) : undefined
+    const st = inPc != null ? 'pc' : inPa != null ? 'party' : regId != null ? 'reg' : 'need'
+    return { id: inPc ?? inPa ?? (st === 'reg' ? regId : mem[0]), st }
+  }
+  const got = mem => unit(mem).st !== 'need'
+  const cell = mem => {
+    if (mem == null) return '<div class="cell empty"></div>'
+    const { id, st } = unit(mem), sp = M(id)
+    const dupe = st === 'pc' && goal === 'national' && (sp.evo || []).some(o => owns(o.id))
+    const ready = st === 'pc' && (sp.evo || []).some(o => canEvolve(id, o))
+    const tip = st === 'need' ? ' — not caught yet, tap to add'
+      : st === 'reg' ? ' — registered by evolving'
+      : dupe ? ' — evolution also held, safe to release' : ''
+    return `<div class="cell ${st}${dupe ? ' dupe' : ''}"${st === 'pc' ? ' data-drag' : ''}
+      data-id="${id}" data-open="${id}" title="${cap(sp.name)}${tip}">
+      <img src="${spr(id)}" alt="${sp.name}">
+      ${st === 'party' ? `<em class="tag pty" title="in your party">${I('bag')}</em>` : ''}
+      ${st === 'reg' ? `<em class="tag reg" title="registered by evolving">${I('check')}</em>` : ''}
+      ${ready ? `<em class="rdy" title="ready to evolve">${I('evolve')}</em>` : ''}
+      <span>${st === 'need' ? '#' + String(id).padStart(3, '0') : cap(sp.name)}</span></div>`
+  }
+  const units = boxUnits()
+  const dexCt = units.filter(got).length
+  const totBoxes = Math.max(1, Math.ceil(units.length / BOX_SIZE))
+  pcPage = Math.min(Math.max(0, pcPage), totBoxes - 1)      // one box per page; keep it in range
+  const oneBox = b => {
+    const us = units.slice(b * BOX_SIZE, (b + 1) * BOX_SIZE)
+    const cells = goal === 'story'
+      ? Array.from({ length: BOX_SIZE }, (_, i) => cell(us[i] ?? null))
+      : us.map(cell)
+    return `<div class="pcbox"><div class="boxhd">Box ${b + 1}<span class="ct">${us.filter(got).length}/${
+      us.length}</span></div><div class="pcgrid">${cells.join('')}</div></div>`
+  }
+  const pager = totBoxes < 2 ? '' : `<div class="pager">
+    <button class="pg pprev" ${pcPage === 0 ? 'disabled' : ''} aria-label="Previous box">${I('chev-right')}</button>
+    <div class="pnums">${Array.from({ length: totBoxes }, (_, b) =>
+      `<button class="pn ${b === pcPage ? 'on' : ''}" data-pg="${b}"${b === pcPage ? ' aria-current="true"' : ''}
+        aria-label="Box ${b + 1}">${b + 1}</button>`).join('')}</div>
+    <button class="pg pnext" ${pcPage === totBoxes - 1 ? 'disabled' : ''} aria-label="Next box">${I('chev-right')}</button>
+  </div>`
+  const label = goal === 'living' ? 'held' : 'lines'   // national counts obtain-once lines
   const pcUI = $(`<div class="pkui" data-to="box">
-    <h4>${I('box')}PC — Box 1<span class="ct">${stored.length} stored</span></h4>
-    <div class="pcgrid">${Array.from({ length: Math.max(CELLS, stored.length) }, (_, i) => {
-      const id = stored[i]
-      return id
-        ? `<div class="cell" draggable="true" data-id="${id}" data-open="${id}" title="${cap(M(id).name)}">
-             <img src="${spr(id)}" alt="${M(id).name}">
-             ${(M(id).evo || []).some(o => canEvolve(id, o))
-               ? `<em class="rdy" title="ready to evolve">${I('evolve')}</em>` : ''}
-             <span>${cap(M(id).name)}</span></div>`
-        : '<div class="cell empty"></div>'
-    }).join('')}</div>
-  </div>`);
+    <h4>${I('box')}PC<span class="ct">${dexCt}/${units.length} ${label}</span></h4>
+    <div class="pcgoal seg" role="group" aria-label="Dex mode">
+      <button class="g ${goal === 'national' ? 'on' : ''}" data-goal="national">National Dex</button>
+      <button class="g ${goal === 'living' ? 'on' : ''}" data-goal="living">Living Dex</button>
+    </div>
+    <div class="dexprog" title="${dexCt} of ${units.length}"><i style="width:${
+      Math.round(dexCt / units.length * 100)}%"></i></div>
+    ${pager}${oneBox(pcPage)}${pager}
+  </div>`)
+  pcUI.querySelectorAll('[data-goal]').forEach(b => b.onclick = () => {
+    goal = b.dataset.goal; save('goal', goal); pcPage = 0; render()
+  })
+  pcUI.querySelectorAll('[data-pg]').forEach(b => b.onclick = () => { pcPage = +b.dataset.pg; render() })
+  pcUI.querySelectorAll('.pprev').forEach(b => b.onclick = () => { pcPage = Math.max(0, pcPage - 1); render() })
+  pcUI.querySelectorAll('.pnext').forEach(b => b.onclick = () => { pcPage = Math.min(totBoxes - 1, pcPage + 1); render() });
 
-  [partyUI, pcUI].forEach(el => {
-    el.ondragover = e => { e.preventDefault(); el.classList.add('drop') }
-    el.ondragleave = () => el.classList.remove('drop')
-    el.ondrop = e => {
-      e.preventDefault(); el.classList.remove('drop')
-      const id = +e.dataTransfer.getData('text/plain'), to = el.dataset.to
-      notice = (to === 'party' && party.size >= PARTY_MAX && !party.has(id))
-        ? `Party is full — ${cap(M(id).name)} went to the PC instead. Drag someone out first.` : ''
-      setOwn(id, to)
-    }
-    el.querySelectorAll('[data-open]').forEach(d => {
-      d.onclick = () => openMon(+d.dataset.open)
-      d.ondragstart = e => {
-        e.dataTransfer.setData('text/plain', d.dataset.id)
-        e.dataTransfer.effectAllowed = 'move'
-        d.classList.add('drag')
+  // Add from anywhere: search the whole National Dex, choose shiny, drop it into party/PC.
+  const addWith = (id, where) => {                 // add and stamp the shiny choice at once
+    if (addShiny) shiny.add(id); else shiny.delete(id)
+    save('shinyIds', [...shiny]); setOwn(id, where)
+  }
+  const addBar = $(`<div class="addbar">${I('search')}
+    <input class="addq" placeholder="Add a Pokémon to your party or PC…" value="${esc(addQ)}"
+      autocomplete="off" aria-label="Add a Pokémon by name">
+    <button class="shinytog g ${addShiny ? 'on' : ''}" aria-pressed="${addShiny}" title="Add new Pokémon as shiny">${
+      I('sparkles')}Shiny</button><div class="addhits"></div></div>`)
+  addBar.querySelector('.shinytog').onclick = () => { addShiny = !addShiny; render() }
+  const drawHits = () => {
+    const q = addQ.trim().toLowerCase()
+    const hits = q ? DEX_SPINE.filter(id => M(id).name.includes(q)).slice(0, 6) : []
+    const host = addBar.querySelector('.addhits')
+    host.innerHTML = hits.map(id => {
+      const h = homeOf(id)
+      return `<div class="addhit"><img src="${spr(id)}" alt="" data-open="${id}">
+        <div class="who" data-open="${id}"><b>${cap(M(id).name)}</b><span class="meta">#${
+          String(id).padStart(3, '0')}${h ? ` · Box ${h.box}, Slot ${h.slot}` : ''}${
+          owns(id) ? ' · owned' : ''}</span></div><span class="addbtns"></span></div>`
+    }).join('') || (q ? '<div class="addnone">No National Dex match.</div>' : '')
+    host.querySelectorAll('.addhit').forEach(row => {
+      const id = +row.querySelector('[data-open]').dataset.open
+      const mk = (label, icon, where, on) => {
+        const b = $(`<button class="g ${on ? 'on' : ''}" aria-pressed="${on}">${I(on ? 'check' : icon)}${label}</button>`)
+        b.onclick = () => on ? setOwn(id, null) : addWith(id, where)
+        return b
       }
-      d.ondragend = () => d.classList.remove('drag')
+      row.querySelector('.addbtns').append(mk('Party', 'bag', 'party', party.has(id)), mk('PC', 'box', 'box', pc.has(id)))
+      row.querySelectorAll('[data-open]').forEach(d => d.onclick = () => openMon(id))
     })
+  }
+  addBar.querySelector('.addq').oninput = e => { addQ = e.target.value; drawHits() }
+  drawHits(); m.append(addBar)
+  if (addQ && !modalId) {
+    const a = addBar.querySelector('.addq'); a.focus(); a.setSelectionRange(a.value.length, a.value.length)
+  }
+
+  const zones = [{ el: partyUI, to: 'party' }, { el: pcUI, to: 'box' }]
+  zones.forEach(({ el }) => {
+    el.querySelectorAll('[data-open]').forEach(d => d.onclick = () => openMon(+d.dataset.open))
+    el.querySelectorAll('[data-pick]').forEach(d => d.onclick = () => { pickerOpen = true; render() })
     m.append(el)
   })
+  bindGridDrag(zones)
   if (notice) m.append($(`<div class="notice">${I('alert')}<div>${esc(notice)}</div></div>`))
   if (!mobile() && (party.size || pc.size))
     m.append($(`<div class="drophint">${I('swap')}Drag a Pokémon between the party and the PC, or use the buttons on any catch row.</div>`))
@@ -1530,10 +1786,224 @@ function boxPanel(m, s) {
 
 // --- the per-Pokémon sheet: level, evolution and moves in one place ---------
 const openMon = id => { modalId = id; render() }
-const closeMon = () => { modalId = null; render() }
+const closeMon = () => {
+  const host = document.getElementById('modal')
+  const sheet = host && host.querySelector('.sheet')
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!sheet || reduce) { modalId = null; return render() }   // nothing to animate, or motion is off
+  const closing = modalId
+  host.classList.add('leaving'); sheet.classList.add('leaving')
+  let done = false
+  const finish = () => {
+    if (done) return; done = true
+    host.classList.remove('leaving')
+    if (modalId === closing) modalId = null
+    render()
+  }
+  sheet.addEventListener('animationend', finish, { once: true })
+  setTimeout(finish, 220)                                     // fallback if animationend doesn't fire
+}
+
+// --- Tier 2 motion: one spring, momentum projection, and the bottom-sheet drag ----
+// A single critically-ish damped spring (damping ratio ~0.8, so a whisper of give),
+// integrated on rAF. The shared primitive the sheet snap-back is built on.
+function springTo(el, from, to, vel, done, k = 220, c = 24) {
+  let x = from, v = vel, last = null                          // vel in px/s
+  const step = t => {
+    if (last == null) last = t
+    const dt = Math.min((t - last) / 1000, 0.032); last = t
+    v += (-k * (x - to) - c * v) * dt                         // mass = 1
+    x += v * dt
+    if (Math.abs(x - to) < 0.4 && Math.abs(v) < 8) { el.style.transform = to ? `translateY(${to}px)` : ''; if (done) done(); return }
+    el.style.transform = `translateY(${x}px)`
+    requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+// Apple's momentum projection, and progressive rubber-band resistance (Fluid Interfaces).
+const projectY = (v, d = 0.998) => (v / 1000) * d / (1 - d)
+const rubber = (over, dim, c = 0.55) => (over * dim * c) / (dim + c * Math.abs(over))
+
+// Directional view transition: new content slides in from the side the target sits on.
+function animateViewIn(m, dir) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  m.animate([{ opacity: 0, transform: `translateX(${dir * 22}px)` }, { opacity: 1, transform: 'none' }],
+    { duration: 240, easing: 'cubic-bezier(.2,.8,.3,1)' })
+}
+
+// On mobile the sheet is a bottom sheet: drag its header to dismiss, tracked 1:1, with
+// momentum on release. Under threshold it springs home; over it, it's thrown out.
+function bindSheetDrag(host, dismiss) {
+  if (!mobile()) return
+  const sheet = host.querySelector('.sheet')
+  const grip = host.querySelector('.shead')
+  if (!sheet || !grip) return
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  let startY = 0, dy = 0, dragging = false, hist = []
+  grip.addEventListener('pointerdown', e => {
+    if (e.target.closest('.x')) return                        // let the close button stay a tap
+    startY = e.clientY; dy = 0; dragging = false; hist = [[e.clientY, e.timeStamp]]
+    grip.setPointerCapture(e.pointerId)
+  })
+  grip.addEventListener('pointermove', e => {
+    if (!grip.hasPointerCapture(e.pointerId)) return
+    const d = e.clientY - startY
+    if (!dragging) {
+      if (Math.abs(d) < 6) return                             // small threshold so taps pass through
+      dragging = true
+      try { sheet.getAnimations().forEach(a => a.cancel()) } catch (_) {}   // release the entrance
+    }
+    const h = sheet.getBoundingClientRect().height
+    dy = d < 0 ? -rubber(-d, h) : d                           // resist upward, follow downward 1:1
+    sheet.style.transform = `translateY(${dy}px)`
+    hist.push([e.clientY, e.timeStamp]); if (hist.length > 5) hist.shift()
+    e.preventDefault()
+  })
+  const end = e => {
+    if (!grip.hasPointerCapture(e.pointerId)) return
+    grip.releasePointerCapture(e.pointerId)
+    if (!dragging) return
+    const h = sheet.getBoundingClientRect().height
+    const a = hist[0], b = hist[hist.length - 1]
+    const vel = b[1] > a[1] ? (b[0] - a[0]) / (b[1] - a[1]) * 1000 : 0     // release velocity, px/s
+    if (dy + projectY(vel) > h * 0.4 || vel > 900) {          // projected past 40%, or a real flick
+      if (reduce) return dismiss()
+      host.classList.add('leaving')                           // fade the scrim as it goes
+      const dur = Math.max(120, Math.min(300, (h - dy) / Math.max(vel, 700) * 1000))
+      sheet.animate([{ transform: `translateY(${dy}px)` }, { transform: `translateY(${h + 40}px)` }],
+        { duration: dur, easing: 'cubic-bezier(.3,0,.7,1)' }).onfinish = dismiss
+    } else if (reduce) {
+      sheet.style.transform = ''
+    } else {
+      springTo(sheet, dy, 0, vel, () => { sheet.style.transform = '' })    // spring home, carrying velocity
+    }
+  }
+  grip.addEventListener('pointerup', end)
+  grip.addEventListener('pointercancel', end)
+}
+
+// ===== Tier 3 (finding 07): pointer-driven party<->PC drag, mouse + touch =====
+const vel = h => {
+  if (h.length < 2) return { x: 0, y: 0 }
+  const a = h[h.length - 2], b = h[h.length - 1], dt = b[2] - a[2]
+  return dt > 0 ? { x: (b[0] - a[0]) / dt * 1000, y: (b[1] - a[1]) / dt * 1000 } : { x: 0, y: 0 }
+}
+// two independent springs (x, y) settle the ghost, carrying release velocity (decomposed 2D)
+function springGhost(g, x0, y0, x1, y1, vx, vy, done, k = 240, c = 26) {
+  let x = x0, y = y0, u = vx, v = vy, last = null
+  const step = t => {
+    if (last == null) last = t
+    const dt = Math.min((t - last) / 1000, 0.032); last = t
+    u += (-k * (x - x1) - c * u) * dt; x += u * dt
+    v += (-k * (y - y1) - c * v) * dt; y += v * dt
+    if (Math.hypot(x - x1, y - y1) < 0.6 && Math.hypot(u, v) < 12) { g.style.transform = `translate(${x1}px,${y1}px)`; if (done) done(); return }
+    g.style.transform = `translate(${x}px,${y}px)`
+    requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+// finding 08: FLIP the party/PC grids across a re-render so cells slide, not teleport
+function flipRender() {
+  if (view !== 'team' || matchMedia('(prefers-reduced-motion: reduce)').matches) return render()
+  const key = el => el.dataset.id + '@' + el.closest('.pkui').dataset.to
+  const first = new Map()
+  document.querySelectorAll('.pkui [data-id]').forEach(el => first.set(key(el), el.getBoundingClientRect()))
+  render()
+  document.querySelectorAll('.pkui [data-id]').forEach(el => {
+    const a = first.get(key(el)); if (!a) return
+    const b = el.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top
+    if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return
+    el.animate([{ transform: `translate(${dx}px,${dy}px)` }, { transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.2,.85,.3,1)' })
+  })
+}
+// a floating sprite that tracks the pointer 1:1, springs home on a miss, drops on a hit.
+// Touch arms on a short press so a plain swipe still scrolls; the buttons remain the fallback.
+function bindGridDrag(zones) {
+  const partyFull = id => party.size >= PARTY_MAX && !party.has(id)
+  const zoneUnder = (x, y) => { const el = document.elementFromPoint(x, y); const p = el && el.closest ? el.closest('.pkui') : null; return zones.find(z => z.el === p) || null }
+  zones.forEach(z => z.el.querySelectorAll('[data-drag]').forEach(src => {
+    src.addEventListener('dragstart', e => e.preventDefault())   // kill native image drag so pointer events aren't cancelled
+    src.addEventListener('pointerdown', e => {
+      if (e.button) return
+      const id = +src.dataset.id, img = src.querySelector('img'), touch = e.pointerType === 'touch'
+      const rect = (img || src).getBoundingClientRect()
+      const grabx = e.clientX - rect.left, graby = e.clientY - rect.top
+      const sx = e.clientX, sy = e.clientY, pid = e.pointerId
+      let armed = !touch, dragging = false, ghost = null, cx = rect.left, cy = rect.top, hist = [], timer = null
+      function place(x, y) { cx = x - grabx; cy = y - graby; ghost.style.transform = `translate(${cx}px,${cy}px)` }
+      function begin() {
+        dragging = true; src.classList.remove('lift')
+        try { src.setPointerCapture(pid) } catch (_) {}
+        ghost = $(`<div class="dragghost"><img src="${img ? img.src : spr(id)}" style="width:${rect.width}px;height:${rect.height}px"></div>`)
+        document.body.appendChild(ghost); src.classList.add('drag'); place(sx, sy)
+      }
+      function killClick(ev) { ev.stopImmediatePropagation(); ev.preventDefault() }
+      function cleanup() { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up) }
+      function move(ev) {
+        if (ev.pointerId !== pid) return
+        const dx = ev.clientX - sx, dy = ev.clientY - sy
+        if (!dragging) {
+          if (!armed) { if (Math.hypot(dx, dy) > 10) { src.classList.remove('lift'); cleanup() } return }   // a swipe: let it scroll
+          if (!touch && Math.hypot(dx, dy) < 6) return
+          begin()
+        }
+        place(ev.clientX, ev.clientY)
+        hist.push([ev.clientX, ev.clientY, ev.timeStamp]); if (hist.length > 5) hist.shift()
+        const z = zoneUnder(ev.clientX, ev.clientY)
+        zones.forEach(q => { q.el.classList.toggle('drop', !!z && z === q && !(q.to === 'party' && partyFull(id))); q.el.classList.toggle('nofit', !!z && z === q && q.to === 'party' && partyFull(id)) })
+        ev.preventDefault()
+      }
+      function up(ev) {
+        if (ev.pointerId !== pid) return
+        clearTimeout(timer)
+        if (!dragging) { src.classList.remove('lift'); cleanup(); return }   // a tap: let the click open the sheet
+        try { src.releasePointerCapture(pid) } catch (_) {}
+        src.addEventListener('click', killClick, true); setTimeout(() => src.removeEventListener('click', killClick, true), 400)
+        const z = zoneUnder(ev.clientX, ev.clientY)
+        zones.forEach(q => { q.el.classList.remove('drop'); q.el.classList.remove('nofit') })
+        const drops = z && ((z.to === 'party' && !party.has(id)) || (z.to === 'box' && !pc.has(id)))
+        if (drops) {
+          notice = (z.to === 'party' && partyFull(id)) ? `Party is full — ${cap(M(id).name)} went to the PC instead. Drag someone out first.` : ''
+          ghost.style.transition = 'opacity .12s ease'; ghost.style.opacity = '0'; const gh = ghost; setTimeout(() => gh.remove(), 130)
+          setOwn(id, z.to)
+        } else {
+          const rv = vel(hist)
+          springGhost(ghost, cx, cy, rect.left, rect.top, rv.x, rv.y, () => { ghost.remove(); src.classList.remove('drag') })
+        }
+        cleanup()
+      }
+      if (touch) timer = setTimeout(() => { armed = true; src.classList.add('lift') }, 240)
+      window.addEventListener('pointermove', move); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up)
+    })
+  }))
+}
+
+// Clicking an empty party slot picks from the Pokémon you already hold in the PC.
+function drawPicker(host) {
+  host.hidden = false
+  const pool = [...pc].sort((a, b) => a - b)
+  host.innerHTML = `<div class="sheet">
+    <div class="shead"><div><b>Add to your party</b>
+      <div class="meta">Pick one you're keeping in the PC</div></div>
+      <button class="x" aria-label="Close">${I('x')}</button></div>
+    ${pool.length ? `<div class="pickgrid">${pool.map(id =>
+      `<button class="pickcell" data-pick="${id}" title="${cap(M(id).name)}">
+        <img src="${spr(id)}" alt="${M(id).name}"><span>${cap(M(id).name)}</span></button>`).join('')}</div>`
+      : `<div class="blank">${I('box')}<b>Your PC is empty</b>
+        <span>Use “Add a Pokémon” at the top to catch some first.</span></div>`}
+  </div>`
+  const shut = () => { pickerOpen = false; render() }
+  host.querySelector('.x').onclick = shut
+  host.onclick = e => { if (e.target === host) shut() }
+  host.querySelectorAll('[data-pick]').forEach(b =>
+    b.onclick = () => { pickerOpen = false; setOwn(+b.dataset.pick, 'party') })
+  bindSheetDrag(host, () => { pickerOpen = false; render() })
+}
 
 function drawModal() {
   const host = document.getElementById('modal')
+  host.classList.remove('leaving')          // clear any in-progress close before (re)showing
+  if (pickerOpen && !modalId) return drawPicker(host)
   if (!modalId || !DATA.mon[modalId]) { host.hidden = true; host.innerHTML = ''; return }
   const id = modalId, sp = M(id), lv = lvOf(id)
   const unlocked = new Set(stops.slice(0, at + 1).map(x => x.unlock).filter(Boolean))
@@ -1613,14 +2083,22 @@ function drawModal() {
         <tr><td>Shiny</td><td><img src="${SPR[id] || ''}" alt="ordinary" style="width:44px;height:44px">
           <img src="${shinySpr(id)}" alt="shiny" style="width:44px;height:44px"></td></tr>
       </table></details>
+    ${goal === 'story' ? '' : `<div class="place">${I('box')}<div><b>#${String(id).padStart(3, '0')} ${
+      cap(sp.name)} → Box ${homeOf(id).box}, Slot ${homeOf(id).slot}</b>
+      <span class="meta">${owns(id) ? 'its spot in your PC'
+        : goal === 'national' ? 'catch anything in this line to fill the slot'
+        : 'where it lands when you catch it'}</span></div></div>`}
     <div class="sfoot">
       <button class="g ${party.has(id) ? 'on' : ''}" aria-pressed="${party.has(id)}" data-own="party">${
         I(party.has(id) ? 'check' : 'bag')}In party</button>
       <button class="g ${pc.has(id) ? 'on' : ''}" aria-pressed="${pc.has(id)}" data-own="box">${
         I(pc.has(id) ? 'check' : 'box')}In the PC</button>
+      <button class="g shinytog ${shiny.has(id) ? 'on' : ''}" aria-pressed="${shiny.has(id)}" data-shiny
+        title="Mark this one shiny">${I('sparkles')}Shiny</button>
     </div>
   </div>`
 
+  host.querySelector('[data-shiny]').onclick = () => setShiny(id, !shiny.has(id))
   host.querySelector('.x').onclick = closeMon
   host.onclick = e => { if (e.target === host) closeMon() }
   host.querySelector('#mlv').onchange = e => setLv(id, +e.target.value)
@@ -1642,13 +2120,19 @@ function drawModal() {
     b.onclick = () => setOwn(id, b.dataset.own))
   const facts = host.querySelector('.facts')          // stays as you left it, sheet to sheet
   facts.ontoggle = () => save('facts', facts.open)
+  bindSheetDrag(host, () => { modalId = null; render() })
 }
 
 function render() {
   inferProgress()
   const mob = mobile()
+  const order = ['map', 'route', 'team', 'find', 'dex']
+  const viewChanged = view !== lastRenderedView
+  const viewDir = lastRenderedView == null ? 0 : Math.sign(order.indexOf(view) - order.indexOf(lastRenderedView))
+  lastRenderedView = view
   document.body.className = (mob && view === 'map' ? 'tab-map ' : '')
-    + (view === 'dex' && dexTab !== 'blockers' ? 'wide ' : '') + (showSetup ? 'showsetup' : '')
+    + (view === 'dex' && dexTab !== 'blockers' ? 'wide ' : '') + (showSetup ? 'showsetup ' : '')
+    + (railCollapsed ? 'railcollapsed ' : '') + (drawerOpen ? '' : 'drawerclosed')
   const goView = k => () => {
     view = k
     if (k !== 'find') query = ''
@@ -1659,8 +2143,8 @@ function render() {
     }
   }
   const navBtn = (k, icon, label, on) =>
-    $(`<button role="tab" aria-selected="${on}" aria-label="${label}" class="${on ? 'on' : ''}">${
-      I(icon)}${label}</button>`)
+    $(`<button role="tab" aria-selected="${on}" aria-label="${label}" title="${label}" class="${on ? 'on' : ''}">${
+      I(icon)}<span class="nlbl">${label}</span></button>`)
   const tabs = document.getElementById('tabs'); tabs.innerHTML = ''
   TABS.forEach(([k, icon, label]) => {
     const b = navBtn(k, icon, label, view === k)
@@ -1677,15 +2161,14 @@ function render() {
   const gear = document.getElementById('gear')
   gear.setAttribute('aria-expanded', showSetup)
   gear.onclick = () => { showSetup = !showSetup; render() }
-  drawModal()
-  document.getElementById('region').textContent = DATA.region
-  document.getElementById('game').textContent = '· ' + DATA.game
-  document.title = `${DATA.region} Router`
-  const gsel = document.getElementById('goal'); gsel.innerHTML = ''
-  Object.entries(GOALS).forEach(([k, label]) => {
-    const b = $(`<button class="g ${goal === k ? 'on' : ''}">${label}</button>`)
-    b.onclick = () => { goal = k; save('goal', k); render() }
-    gsel.append(b)
+  document.getElementById('setscrim').onclick = () => { showSetup = false; render() }
+  if (showSetup) document.getElementById('setup').style.top =
+    (document.querySelector('header').getBoundingClientRect().bottom + 5) + 'px'
+  const th = document.getElementById('theme'); th.innerHTML = ''
+  Object.entries({ dark: 'Dark', light: 'Light' }).forEach(([k, label]) => {
+    const b = $(`<button class="g ${theme === k ? 'on' : ''}">${label}</button>`)
+    b.onclick = () => { theme = k; save('theme', k); document.documentElement.dataset.theme = k; render() }
+    th.append(b)
   })
   const cart = document.getElementById('cart'); cart.innerHTML = ''
   Object.entries({ FR: 'FireRed', LG: 'LeafGreen' }).forEach(([k, label]) => {
@@ -1693,15 +2176,16 @@ function render() {
     b.onclick = () => { game = k; save('game', k); useGame(); render() }
     cart.append(b)
   })
-  const sp = document.getElementById('starter'); sp.innerHTML = ''
-  Object.keys(DATA.rivalStarter).forEach(n => {
-    const b = $(`<button class="g ${starter === n ? 'on' : ''}" title="${cap(n)}"><img src="${spr({bulbasaur:1,charmander:4,squirtle:7}[n])}" style="width:22px;height:22px;vertical-align:middle"></button>`)
-    b.onclick = () => { starter = n; save('starter', n); render() }
-    sp.append(b)
-  })
-  const sh = document.getElementById('shinybtn')
-  sh.className = 'g' + (shinyOn ? ' on' : '')
-  sh.onclick = () => { shinyOn = !shinyOn; save('shiny', shinyOn); render() }
+  const rtog = document.getElementById('railtog')
+  rtog.setAttribute('aria-expanded', String(!railCollapsed))
+  rtog.onclick = () => { railCollapsed = !railCollapsed; save('railCollapsed', railCollapsed); render() }
+  const setDrawer = o => { drawerOpen = o; save('drawerOpen', o); render() }
+  document.getElementById('drawertog').onclick = () => setDrawer(false)
+  document.getElementById('drawertab').onclick = () => setDrawer(true)
+  drawModal()
+  document.getElementById('region').textContent = DATA.region
+  document.getElementById('game').textContent = '· ' + DATA.game
+  document.title = `${DATA.region} Router`
   const pc100 = Math.round(progress / stops.length * 100)
   document.getElementById('prog').style.width = pc100 + '%'
   document.getElementById('progtxt').textContent = `${progress}/${stops.length} stops · ${pc100}%`
@@ -1743,6 +2227,7 @@ function render() {
     Object.keys(localStorage).filter(k => k.startsWith('kr:')).forEach(k => localStorage.removeItem(k))
     location.reload()
   }
+  if (viewChanged) animateViewIn(m, viewDir)
   if (view === 'find') return findView(m)
   if (view === 'dex') return dexView(m)
 
@@ -1851,7 +2336,7 @@ function routeView(m) {
       const mine = good.filter(c => party.has(c.id))
       const stored = good.filter(c => pc.has(c.id))
       const box = $(`<div class="card">
-        <b>${esc(f.name)}</b>${f.variants ? ` <span class="meta">· roster shown for a ${cap(starter)} start</span>` : ''}
+        <b>${esc(f.name)}</b>${f.variants ? ` <span class="meta">· roster shown for a ${cap(starterOf())} start</span>` : ''}
         <div class="roster">${r.map(t =>
           `<div><img src="${spr(t.id)}" alt="${t.name}">${cap(t.name)}<br><b>Lv ${t.level}</b></div>`).join('')}</div>
         <div class="meta" style="margin-top:10px">Best answers you can have by now</div>
