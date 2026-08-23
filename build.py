@@ -19,8 +19,20 @@ rows = lambda f: list(csv.DictReader(open(os.path.join(D, f + ".csv"))))
 GAMES_DIR = os.path.join(HERE, "games")
 if len(sys.argv) < 2:                         # no argument: build every game there is
     import subprocess
-    for g in sorted(f[:-5] for f in os.listdir(GAMES_DIR) if f.endswith(".json")):
+    built = sorted(f[:-5] for f in os.listdir(GAMES_DIR) if f.endswith(".json"))
+    for g in built:
         subprocess.run([sys.executable, __file__, g], check=True)
+    # the front page, so GitHub Pages has something at the root
+    links = "".join(
+        f'<li><a href="dist/{g}.html">{json.load(open(os.path.join(GAMES_DIR, g + ".json")))["game"]}</a></li>'
+        for g in built)
+    open(os.path.join(HERE, "index.html"), "w").write(
+        '<!doctype html><meta charset="utf-8"><title>pokeroute</title>'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<style>body{background:#0e1117;color:#e6e9f0;font:16px system-ui;padding:40px;line-height:1.6}'
+        'a{color:#7ec4ff}li{font-size:20px;margin:6px 0}</style>'
+        f'<h1>pokeroute</h1><p>A run planner for Pok\u00e9mon games.</p><ul>{links}</ul>'
+        '<p><a href="https://github.com/bjdealey/pokeroute">Source on GitHub</a></p>')
     raise SystemExit
 GAME = sys.argv[1].removesuffix(".json")
 route = json.load(open(os.path.join(GAMES_DIR, GAME + ".json")))

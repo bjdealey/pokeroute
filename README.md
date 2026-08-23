@@ -15,6 +15,8 @@ the app shows you.
 
     open dist/frlg.html
 
+Or online: <https://bjdealey.github.io/pokeroute/>
+
 One self-contained HTML file. Everything is kept in localStorage.
 
 **On a phone** it's a five-tab app — **Map**, **Here**, **Team**, **Find**, **Dex** —
@@ -41,6 +43,7 @@ right, so the party and the dexes are a click away rather than a scroll.
 ## Layout
 
     build.py          the whole build: joins the CSVs to a game file
+    index.html        the front page, rewritten on a full build (GitHub Pages)
     ui.html           the shared template; the build inlines data at /*DATA*/
     games/frlg.json   one file per game — the part no API has
     data/*.csv        the PokeAPI/veekun dump, shared by every game
