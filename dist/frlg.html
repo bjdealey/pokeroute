@@ -18,6 +18,7 @@
   --hover:#eceff4;--field:#ffffff;--hdrbg:#f7f8faf2;--tabbar:#f7f8faf2;
   --sh:0 1px 2px rgba(20,30,50,.05),0 10px 24px -14px rgba(20,30,50,.16);color-scheme:light}
 *{box-sizing:border-box}
+html{scrollbar-gutter:stable}   /* reserve the scrollbar's width so tabs don't shift sideways */
 body{margin:0;font:15px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 :focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px}
@@ -534,6 +535,7 @@ body.railcollapsed .side .nlbl{display:none}
   body:not(.tab-map) aside{display:none}
   body.tab-map main{display:none}
   /* thumbs, not cursors */
+  input,select,textarea{font-size:16px!important}   /* <16px makes iOS force-zoom on focus */
   button.g{min-height:34px;padding:6px 12px;font-size:13px}
   .mslots select{min-height:38px;font-size:13px}
   .slot .lv input{width:56px;min-height:30px;font-size:13px}
