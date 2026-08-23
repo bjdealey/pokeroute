@@ -11,7 +11,8 @@ which you can skip evolving entirely, where every TM and HM is, and what beats
 each of the 19 named fights.
 
 Pick your **goal**, **cartridge** and **starter** in the header. All three change what
-the app shows you.
+the app shows you. **✨ shiny** beside them redraws every sprite in the app in its
+shiny colours, and stays that way until you turn it off.
 
     open dist/frlg.html
 
@@ -36,7 +37,7 @@ right, so the party and the dexes are a click away rather than a scroll.
     python3 build.py            # every game in games/
     python3 build.py frlg       # just this one
 
-    tools/sprites.sh            # fetch any sprites the built pages reference
+    tools/sprites.sh            # fetch any sprites the built pages reference, shiny too
     tools/art.sh                # fetch the item, type and badge art they reference
     tools/learnsets.sh          # rebuild the move data from the PokeAPI dump
     tools/species.sh            # rebuild the abilities, egg groups and classifications
@@ -49,6 +50,7 @@ right, so the party and the dexes are a click away rather than a scroll.
     games/frlg.json   one file per game — the part no API has
     data/*.csv        the PokeAPI/veekun dump, shared by every game
     data/sprites/     sprite PNGs, base64-inlined at build time
+    data/sprites/shiny/  the same species again, in their shiny colours
     data/art/         item, type and badge art, mirroring the sprite repo's layout
     dist/frlg.html    the build output. Don't edit it.
 
@@ -140,6 +142,13 @@ game file can say which icon to use:
 
     { "name": "Vitamins (Protein, Carbos, HP Up...)", "icon": "protein", ... }
 
+**Shiny.** Every species is inlined twice, ordinary and shiny, from the same
+generation-III sprite sets — `versions/generation-iii/firered-leafgreen/shiny/` first,
+Emerald behind it, exactly the fallback the ordinary sprites use. The ✨ button in the
+header swaps the lot; the Pokédex's Shiny column always shows the shiny form regardless,
+which is the point of having a column. A species with no shiny art draws its ordinary
+self rather than a hole. It costs about 230 KB on the page.
+
 **Type labels, badges and how you get it.** The type pills are the real FireRed labels
 (`sprites/types/generation-iii/firered-leafgreen/`), the gym stops and the stop list
 carry their badge, an evolution that wants a stone shows the stone on its button, and
@@ -172,8 +181,10 @@ columns are remembered per dex, so the table you built is the one you come back 
   split, catch rate, base friendship, EXP growth and base EXP, height and weight, what
   it is weak to, resists and is immune to, how many moves it can hold, what it evolves
   from, and whether it is in your party, your PC, registered, or covered by evolving
-  something you already have. Tap a row for its sheet — the learnset, and the same facts
-  folded away under **Dex data**, including the full damage-taken chart.
+  something you already have. A **Shiny** column draws the shiny form beside the ordinary
+  one, whichever way the header's ✨ is set, so you can compare the two. Tap a row for its
+  sheet — the learnset, and the same facts folded away under **Dex data**, including the
+  full damage-taken chart and both forms side by side.
 - **Movedex** — every move in the generation: type, class, power, accuracy, PP, what it
   actually does, and the machine that teaches it. Priority, where that machine is, and
   how many species in the game can hold the move are a tick away.

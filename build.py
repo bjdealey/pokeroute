@@ -598,14 +598,22 @@ for f in fights:
     sprite_ids |= {t["id"] for t in f["team"]}
     for v in f.get("variants", {}).values(): sprite_ids |= {t["id"] for t in v}
     sprite_ids |= {c["finalId"] for c in f.get("counters", [])}
-spr, miss = {}, []
+def inline(path):
+    return ("data:image/png;base64," + base64.b64encode(open(path, "rb").read()).decode()
+            if os.path.exists(path) and os.path.getsize(path) else None)
+
+spr, shiny, miss, no_shiny = {}, {}, [], []
 for i in sorted(sprite_ids):
-    p = os.path.join(D, "sprites", f"{i}.png")
-    if os.path.exists(p) and os.path.getsize(p):
-        spr[i] = "data:image/png;base64," + base64.b64encode(open(p, "rb").read()).decode()
-    else:
-        miss.append(i)
+    png = inline(os.path.join(D, "sprites", f"{i}.png"))
+    if png: spr[i] = png
+    else: miss.append(i)
+    # shiny is a nice-to-have: a species with none just draws its ordinary self
+    sh = inline(os.path.join(D, "sprites", "shiny", f"{i}.png"))
+    if sh: shiny[i] = sh
+    else: no_shiny.append(i)
 assert not miss, f"{len(miss)} sprites missing — run tools/sprites.sh: {miss[:10]}"
+if no_shiny:
+    print(f"  no shiny for {len(no_shiny)} — run tools/sprites.sh: {no_shiny[:6]}")
 
 stones = {ITEM + o["item"] for r in (species_row(str(i)) for i in sorted(in_family))
           for o in r["evo"] if o["item"]}
@@ -647,6 +655,7 @@ payload = ("const DATA=" + json.dumps({"game": route["game"], "region": route["r
                                        "stopNames": {st["id"]: st["name"] for st in stops}},
                                       separators=(",", ":"))
            + ";const SPR=" + json.dumps(spr, separators=(",", ":"))
+           + ";const SHINY=" + json.dumps(shiny, separators=(",", ":"))
            + ";const IMG=" + json.dumps(img, separators=(",", ":")) + ";")
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 html = open(UI).read()

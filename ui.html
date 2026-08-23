@@ -304,6 +304,7 @@ img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-f
   <span class="meta">goal:</span><span id="goal"></span>
   <span id="cart"></span>
   <span class="meta">starter:</span><span id="starter"></span>
+  <button class="g" id="shinybtn" title="Draw every sprite in its shiny colours">✨ shiny</button>
   <button class="g" id="resetbtn">Reset all progress</button>
 </div>
 <div class="wrap">
@@ -334,7 +335,11 @@ const load = (k, d) => { try { return JSON.parse(localStorage.getItem('kr:' + k)
 const cap = s => s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))
 
-const spr = id => SPR[id] || ''
+// ✨ in the header swaps every sprite in the app; the dex can show a shiny beside
+// the ordinary one whichever way that is set. A species with no shiny draws itself.
+let shinyOn = load('shiny', false)
+const spr = id => (shinyOn ? SHINY[id] : null) || SPR[id] || ''
+const shinySpr = id => SHINY[id] || SPR[id] || ''
 // item art. A few catalogue lines name a Pokémon ("Snorlax x2") — those draw the sprite.
 const icon = k => !k ? '' : k.startsWith('pkm-') ? spr(k.slice(4)) : (IMG[k] || '')
 const ico = (k, cls = 'ico') => icon(k) ? `<img class="${cls}" src="${icon(k)}" alt="" loading="lazy">` : ''
@@ -837,6 +842,8 @@ function monDex(m) {
   const cols = [
     col('spr', '', r => r.id, { filter: null, nosort: true,
       cell: r => `<img class="sp" src="${spr(r.id)}" alt="" loading="lazy">` }),
+    col('shiny', 'Shiny', r => r.id, { filter: null, nosort: true, off: true,
+      cell: r => `<img class="sp" src="${shinySpr(r.id)}" alt="" loading="lazy">` }),
     col('id', '#', r => r.id, { num: true, filter: 'num' }),
     col('name', 'Name', r => r.name, { cell: r => `<span class="nm">${cap(r.name)}</span>` }),
     col('types', 'Type', r => r.types, { filter: 'enum', opts: TYPES,
@@ -1286,6 +1293,8 @@ function drawModal() {
         <tr><td>Egg</td><td>${listOf(sp.eggs)} <span class="meta">— ${(sp.cycles + 1) * 255} steps</span></td></tr>
         <tr><td>EXP</td><td>${esc(sp.growthName)} <span class="meta">— ${sp.baseExp} base EXP</span></td></tr>
         <tr><td>Size</td><td>${(sp.height / 10).toFixed(1)} m · ${(sp.weight / 10).toFixed(1)} kg</td></tr>
+        <tr><td>Shiny</td><td><img src="${SPR[id] || ''}" alt="ordinary" style="width:44px;height:44px">
+          <img src="${shinySpr(id)}" alt="shiny" style="width:44px;height:44px"></td></tr>
       </table></details>
     <div class="sfoot">
       <button class="g ${party.has(id) ? 'on' : ''}" data-own="party">In party</button>
@@ -1362,6 +1371,9 @@ function render() {
     b.onclick = () => { starter = n; save('starter', n); render() }
     sp.append(b)
   })
+  const sh = document.getElementById('shinybtn')
+  sh.className = 'g' + (shinyOn ? ' on' : '')
+  sh.onclick = () => { shinyOn = !shinyOn; save('shiny', shinyOn); render() }
   document.getElementById('prog').style.width = progress / stops.length * 100 + '%'
   document.getElementById('progtxt').textContent = `${progress}/${stops.length} stops`
   drawMap()
