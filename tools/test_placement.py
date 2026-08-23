@@ -57,8 +57,8 @@ def check_national(mon, spine):
     if all(str(x) in mon for x in (1, 2, 3)):
         assert unit_of(1) == unit_of(2) == unit_of(3), "Bulbasaur line not collapsed"
     if all(str(x) in mon for x in (133, 134, 135, 136)):   # Eevee + 3 eeveelutions
-        eev = {133: unit_of(133), 134: unit_of(134), 135: unit_of(135), 136: unit_of(136)}
-        assert len({id(v) for v in eev.values()}) == 4, "Eevee branch wrongly merged"
+        eev = [unit_of(x) for x in (133, 134, 135, 136)]
+        assert len({tuple(u) for u in eev}) == 4, "Eevee branch wrongly merged"
     return units
 
 

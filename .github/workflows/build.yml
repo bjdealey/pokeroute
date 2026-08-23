@@ -1,0 +1,10 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 build.py
+      - run: python3 tools/test_placement.py
+      - run: git diff --exit-code dist/ index.html   # fails if the committed build is stale
