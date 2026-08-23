@@ -729,6 +729,8 @@ let shiny = new Set(load('shinyIds', []))          // which owned species you ho
 const spr = id => (shiny.has(id) ? SHINY[id] : null) || SPR[id] || ''
 const setShiny = (id, on) => { on ? shiny.add(id) : shiny.delete(id); save('shinyIds', [...shiny]); render() }
 const shinySpr = id => SHINY[id] || SPR[id] || ''
+// PC grid + party wear the games' box/menu icon; shiny keeps the plain icon (no shiny set exists)
+const iconOf = id => ICON[id] || SPR[id] || ''
 // item art. A few catalogue lines name a Pokémon ("Snorlax x2") — those draw the sprite.
 const icon = k => !k ? '' : k.startsWith('pkm-') ? spr(k.slice(4)) : (IMG[k] || '')
 const ico = (k, cls = 'ico') => icon(k) ? `<img class="${cls}" src="${icon(k)}" alt="" loading="lazy">` : ''
@@ -1599,7 +1601,7 @@ function boxPanel(m, s) {
       : n && n.level && lv >= n.level ? `ready to become ${cap(n.name)}`
       : 'ready for what\'s next'
     return `<div class="slot" data-drag data-id="${id}" data-open="${id}">
-      <img src="${spr(id)}" alt="${sp.name}">
+      <img src="${iconOf(id)}" alt="${sp.name}">
       <div class="who">
         <b>${cap(sp.name)}</b>${lv ? `<span class="lvtag">Lv ${lv}</span>` : ''}${
           ready ? `<span class="rdytag">${I('evolve')}evolve</span>` : ''}
@@ -1635,7 +1637,7 @@ function boxPanel(m, s) {
       : dupe ? ' — evolution also held, safe to release' : ''
     return `<div class="cell ${st}${dupe ? ' dupe' : ''}"${st === 'pc' ? ' data-drag' : ''}
       data-id="${id}" data-open="${id}" title="${cap(sp.name)}${tip}">
-      <img src="${spr(id)}" alt="${sp.name}">
+      <img src="${iconOf(id)}" alt="${sp.name}">
       ${st === 'party' ? `<em class="tag pty" title="in your party">${I('bag')}</em>` : ''}
       ${st === 'reg' ? `<em class="tag reg" title="registered by evolving">${I('check')}</em>` : ''}
       ${ready ? `<em class="rdy" title="ready to evolve">${I('evolve')}</em>` : ''}

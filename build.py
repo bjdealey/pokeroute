@@ -653,6 +653,16 @@ assert not miss, f"{len(miss)} sprites missing — run tools/sprites.sh: {miss[:
 if no_shiny:
     print(f"  no shiny for {len(no_shiny)} — run tools/sprites.sh: {no_shiny[:6]}")
 
+# box/menu icons for the PC grid and party — one flat gen-viii set, normal only
+# (no shiny box icons exist, so the PC keeps the plain icon when shiny is on)
+box_icon, no_icon = {}, []
+for i in sorted(in_family):
+    ic = inline(os.path.join(D, "sprites", "icons", f"{i}.png"))
+    if ic: box_icon[i] = ic
+    else: no_icon.append(i)
+if no_icon:
+    print(f"  no box icon for {len(no_icon)} — run tools/sprites.sh: {no_icon[:6]}")
+
 stones = {ITEM + o["item"] for r in (species_row(str(i)) for i in sorted(in_family))
           for o in r["evo"] if o["item"]}
 img, no_art = {}, []
@@ -694,7 +704,8 @@ payload = ("const DATA=" + json.dumps({"game": route["game"], "region": route["r
                                       separators=(",", ":"))
            + ";const SPR=" + json.dumps(spr, separators=(",", ":"))
            + ";const SHINY=" + json.dumps(shiny, separators=(",", ":"))
-           + ";const IMG=" + json.dumps(img, separators=(",", ":")) + ";")
+           + ";const IMG=" + json.dumps(img, separators=(",", ":"))
+           + ";const ICON=" + json.dumps(box_icon, separators=(",", ":")) + ";")
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 html = open(UI).read()
 assert "/*DATA*/" in html, "ui.html lost its /*DATA*/ marker"
