@@ -249,6 +249,11 @@ img.mini{width:26px;height:26px;vertical-align:middle}
   justify-content:center;align-items:center;font-size:11.5px;cursor:default}
 .slot.empty:hover{background:#2b4a79;transform:none}
 .slot.empty svg.i{width:14px;height:14px;opacity:.8}
+/* dark mode: filled party rows go dark instead of the game's cream, so they don't glare */
+:root:not([data-theme="light"]) .slot:not(.empty){background:var(--card2);color:var(--fg);border-color:#0b1626}
+:root:not([data-theme="light"]) .slot:not(.empty):hover{background:var(--hover)}
+:root:not([data-theme="light"]) .slot .lv,:root:not([data-theme="light"]) .slot small{color:var(--dim)}
+:root:not([data-theme="light"]) .slot .lv input{background:var(--field);border-color:var(--line2);color:var(--fg)}
 .pcgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .cell{aspect-ratio:1;background:#2a4a7d;border:2px solid #0b1626;border-radius:9px;overflow:hidden;
   display:grid;place-items:center;cursor:grab;position:relative;transition:background .12s,transform .12s}
