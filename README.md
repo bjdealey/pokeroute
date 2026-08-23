@@ -39,6 +39,7 @@ right, so the party and the dexes are a click away rather than a scroll.
     tools/sprites.sh            # fetch any sprites the built pages reference
     tools/art.sh                # fetch the item, type and badge art they reference
     tools/learnsets.sh          # rebuild the move data from the PokeAPI dump
+    tools/species.sh            # rebuild the abilities, egg groups and classifications
 
 ## Layout
 
@@ -157,14 +158,31 @@ which:
 
     "badges": { "boulder": 1, "cascade": 2, ... }
 
-**The reference dexes.** The **Dex** tab is four sub-tabs: **Pokédex** — every species
-the game can give you, with its base stats, types and where it first turns up; tap one
-to open its sheet, which with no level set lists its whole learnset, level-up moves and
-compatible machines together. **Movedex** — every move in the generation, with type,
-class, power, accuracy, PP and the TM that teaches it. **Itemdex** — the machine and
-key-item catalogue with where each one is. **Blockers** — what stands between you and a
-full dex. Each is filterable, and each is built from that game's own file, so a new
-`games/<name>.json` gets its own three dexes for free.
+**The reference dexes.** The **Dex** tab is four sub-tabs, and the first three are the
+same table: **sortable, filterable column by column, and yours to configure.** Click a
+heading to sort by it, type under a heading to filter on that column alone — number
+columns take `>100`, `<40` or `80-120`, type and class columns become a dropdown — and
+the `columns` button opens everything the table *could* show, to tick on and off. The
+search box above still matches every column at once. Your sort, your filters and your
+columns are remembered per dex, so the table you built is the one you come back to.
+
+- **Pokédex** — every species the game can give you. Out of the box: number, sprite,
+  types, the six base stats, BST, abilities and where it first turns up. A tick away:
+  classification, EV yield, egg groups and how many steps they hatch in, the gender
+  split, catch rate, base friendship, EXP growth and base EXP, height and weight, what
+  it is weak to, resists and is immune to, how many moves it can hold, what it evolves
+  from, and whether it is in your party, your PC, registered, or covered by evolving
+  something you already have. Tap a row for its sheet — the learnset, and the same facts
+  folded away under **Dex data**, including the full damage-taken chart.
+- **Movedex** — every move in the generation: type, class, power, accuracy, PP, what it
+  actually does, and the machine that teaches it. Priority, where that machine is, and
+  how many species in the game can hold the move are a tick away.
+- **Itemdex** — the machine and key-item catalogue: what it is, what it teaches, the stop
+  it belongs to (sorted the way you walk it), where exactly, and why it matters.
+- **Blockers** — what stands between you and a full dex.
+
+Each is built from that game's own file, so a new `games/<name>.json` gets its own three
+dexes for free.
 
 **Counters.** For each fight, everything obtainable up to that point is scored against
 that roster — using the form you'd realistically be holding at that level, not the
@@ -187,6 +205,9 @@ The bare CSVs are current-generation and would quietly ruin the type maths:
   Marill read as Fairy otherwise, a type FireRed does not have.
 - `type_efficacy_past.csv` restores Ghost and Dark being resisted by Steel.
 - Time-of-day evolutions (Espeon, Umbreon) are pruned — FRLG has no clock.
+- `pokemon_abilities_past.csv` restores the gen 3 ability line-ups, and the hidden slot
+  (a gen 5 idea) is dropped: Clefable is Cute Charm here, not Magic Guard, and Pikachu
+  has Static and nothing else.
 
 ## Progress is worked out, not ticked off
 
@@ -222,10 +243,13 @@ starter — behind a confirm.
 - Movepools now drive the "moves to teach" panel, but *not* the catch ranking or the
   fight counters — those are still types, levels, base stats and EXP curves, so a
   Pokémon with the right type and no move to use it can still rank well.
-- Status moves are offered but not ranked: the move table carries power, accuracy, type
-  and class, not effects, so it can't tell you Sleep Powder beats Growl, and 140+ power
-  moves get a flat damping for their drawback rather than a real model. Adding
-  `effect_id` to `movedex.csv` is the fix.
+- Status moves are offered but not ranked: `movedex.csv` now carries each move's effect
+  in words, and the Movedex prints it, but the ranking still sees only power, accuracy,
+  type and class. So it can't tell you Sleep Powder beats Growl, and 140+ power moves get
+  a flat damping for their drawback rather than a real model. Modelling those effects,
+  rather than printing them, is the fix.
+- Abilities are shown, not modelled. The dex knows Gengar has Levitate; the fight
+  counters do not, and will still credit a Ground move against it.
 - `base_experience` in the dump is the Gen 5+ value, so the battle counts are
   proportionally right but not exact Gen 3 numbers.
 - Ordinary trainer battles along routes aren't modelled — only the 19 named fights.
