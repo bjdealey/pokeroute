@@ -1,10 +1,12 @@
 #!/bin/sh
 # Refetch the sprites the build inlines, for every game in dist/. Run from the repo
 # root after build.py has produced at least one file. Existing sprites are kept.
-# Each game names its own sprite sets, tried in order.
+# Each game names its own sprite sets, tried in order — and each set's shiny/ beside
+# it, into data/sprites/shiny/. A set with no shiny of its own falls through to the
+# next set, the same way the normal sprites do.
 set -e
 S=https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon
-mkdir -p data/sprites
+mkdir -p data/sprites data/sprites/shiny
 for f in dist/*.html; do
   python3 - "$f" <<'PY'
 import json, re, sys
@@ -23,10 +25,13 @@ for c in d['dex']['choices']:
 print('\n'.join(f"{i} {' '.join(d['spriteSets'])}" for i in sorted(ids)))
 PY
 done | sort -u | while read -r id sets; do
-  [ -s "data/sprites/$id.png" ] && continue
-  for set in $sets; do
-    curl -sfL -o "data/sprites/$id.png" "$S/$set/$id.png" && break
-  done || echo "no sprite for $id" >&2
+  for shiny in "" shiny/; do
+    out="data/sprites/$shiny$id.png"
+    [ -s "$out" ] && continue
+    for set in $sets; do
+      curl -sfL -o "$out" "$S/$set/$shiny$id.png" && break
+    done || echo "no ${shiny%/} sprite for $id" >&2
+  done
 done
 find data/sprites -size 0 -delete
-echo "data/sprites: $(ls data/sprites | wc -l) files"
+echo "data/sprites: $(ls data/sprites/*.png | wc -l) normal, $(ls data/sprites/shiny | wc -l) shiny"
