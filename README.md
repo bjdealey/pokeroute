@@ -163,6 +163,13 @@ now ("needs Lv 38 — ≈25 battles", "ready to become Ivysaur", "tap to set its
   and withdraw Graveler in its place"). Trade-only forms are never suggested when a
   trade-free form of the same line does the job.
 
+**Team coverage — the type holes.** The Team view ends with a coverage card read off your
+whole party at once, not fight by fight: the attacking types **nothing on the team resists**
+(worst first, with how many members are weak to each), and the defending types **none of your
+set moves hits super-effectively**. Set a moveset — or take the recommended one — and the
+offensive half fills in from the moves you're actually carrying; until then it says so rather
+than guessing.
+
 **Dex planning.** Every species carries every place and time you can get it, so the
 app can tell you when *not* to bother:
 - *"also at Rock Tunnel, Seafoam — safe to skip"* — it comes back, catch it when convenient.
@@ -275,6 +282,15 @@ The stop card shows its reasoning (*"worked out from: you have Lapras"*), and th
 inference only ever moves you forward — it can't demote you. Two buttons handle the
 cases it can't see: **I've cleared this stop** when you're further along than your
 catches let on, and **I haven't got this far** to pull the manual floor back.
+
+## Moving a run
+
+Everything lives in your browser's localStorage, so a run is tied to one browser until you
+move it. **Copy run**, beside *Reset all progress*, dumps the whole run — party, PC, levels,
+movesets, registered entries, goal, cartridge and starter — to the clipboard (or to a text
+box on the offline `file://` build, where the clipboard isn't available); **Paste run** on
+another device reads it back, replacing whatever was there. A bad paste is refused rather
+than wiping what you have.
 
 ## Resetting
 
