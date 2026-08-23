@@ -505,7 +505,7 @@ body.showsetup .setup{display:flex;animation:popin .18s cubic-bezier(.2,.8,.3,1)
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .setlbl{font-size:12.5px;color:var(--fg);font-weight:600}
 .setsep{height:1px;background:var(--line);margin:1px -13px}
-.setup .danger{width:100%;justify-content:center}
+.setup>button.g{width:100%;justify-content:center}
 .tabs{display:none}
 /* desktop: a collapsible section rail to the left of the map */
 .rail{position:sticky;top:var(--hdr);align-self:start;height:calc(100vh - var(--hdr));
@@ -686,6 +686,9 @@ img.badge{width:18px;height:18px;vertical-align:middle;margin-right:5px;object-f
   <div class="setttl">Settings</div>
   <div class="setrow"><span class="setlbl">Theme</span><div class="seg" id="theme" role="group" aria-label="Theme"></div></div>
   <div class="setrow"><span class="setlbl">Cartridge</span><div class="seg" id="cart" role="group" aria-label="Cartridge"></div></div>
+  <div class="setsep"></div>
+  <button class="g" id="exportbtn" title="Copy your run as text you can paste on another device"><svg class="i" aria-hidden="true"><use href="#i-arrow-up"></use></svg>Copy run</button>
+  <button class="g" id="importbtn" title="Replace your run from pasted text"><svg class="i" aria-hidden="true"><use href="#i-arrow-down"></use></svg>Paste run</button>
   <div class="setsep"></div>
   <button class="g danger" id="resetbtn" title="Clear everything this app remembers"><svg class="i" aria-hidden="true"><use href="#i-trash"></use></svg>Clear all progress</button>
 </div>
@@ -2289,6 +2292,27 @@ function render() {
   document.getElementById('resetbtn').onclick = () => {
     if (!confirm('Clear your progress, party, PC, levels and settings? This cannot be undone.')) return
     Object.keys(localStorage).filter(k => k.startsWith('kr:')).forEach(k => localStorage.removeItem(k))
+    location.reload()
+  }
+  document.getElementById('exportbtn').onclick = () => {
+    const dump = {}
+    Object.keys(localStorage).filter(k => k.startsWith('kr:')).forEach(k => dump[k] = localStorage.getItem(k))
+    const json = JSON.stringify(dump)
+    // clipboard needs a secure context (https); opening the file:// build falls back to a prompt
+    if (navigator.clipboard) navigator.clipboard.writeText(json).then(
+      () => alert('Run copied — paste it into "Paste run" on another device to restore.'),
+      () => prompt('Copy your run:', json))
+    else prompt('Copy your run:', json)
+  }
+  document.getElementById('importbtn').onclick = () => {
+    const s = prompt('Paste a run to restore. This replaces your current run.')
+    if (!s) return
+    let data
+    try { data = JSON.parse(s) } catch { alert("That doesn't look like a run."); return }
+    const keys = data && typeof data === 'object' ? Object.keys(data).filter(k => k.startsWith('kr:')) : []
+    if (!keys.length) { alert("That doesn't look like a run."); return }
+    Object.keys(localStorage).filter(k => k.startsWith('kr:')).forEach(k => localStorage.removeItem(k))
+    keys.forEach(k => localStorage.setItem(k, data[k]))   // values are the raw JSON strings save() stored
     location.reload()
   }
   if (viewChanged) animateViewIn(m, viewDir)
