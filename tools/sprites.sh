@@ -6,7 +6,7 @@
 # next set, the same way the normal sprites do.
 set -e
 S=https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon
-mkdir -p data/sprites data/sprites/shiny
+mkdir -p data/sprites data/sprites/shiny data/sprites/icons
 for f in dist/*.html; do
   python3 - "$f" <<'PY'
 import json, re, sys
@@ -32,6 +32,9 @@ done | sort -u | while read -r id sets; do
       curl -sfL -o "$out" "$S/$set/$shiny$id.png" && break
     done || echo "no ${shiny%/} sprite for $id" >&2
   done
+  # the PC grid and party wear the games' box icon — one flat gen-viii set, no shiny
+  ic="data/sprites/icons/$id.png"
+  [ -s "$ic" ] || curl -sfL -o "$ic" "$S/versions/generation-viii/icons/$id.png" || echo "no box icon for $id" >&2
 done
 find data/sprites -size 0 -delete
-echo "data/sprites: $(ls data/sprites/*.png | wc -l) normal, $(ls data/sprites/shiny | wc -l) shiny"
+echo "data/sprites: $(ls data/sprites/*.png | wc -l) normal, $(ls data/sprites/shiny | wc -l) shiny, $(ls data/sprites/icons | wc -l) icons"
