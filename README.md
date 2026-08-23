@@ -170,6 +170,14 @@ set moves hits super-effectively**. Set a moveset — or take the recommended on
 offensive half fills in from the moves you're actually carrying; until then it says so rather
 than guessing.
 
+**Will it KO? — real Gen 3 damage.** With a level, nature and moves set, the sheet adds a card
+for the next fight: each foe in it, the hardest-hitting move in the set, and how many hits that
+is to KO, with OHKO and 2HKO called out. It runs the actual generation-III formula — physical or
+special by move *type*, the way gen 3 decides it, not the modern per-move split — off each side's
+base stats at their levels, so it says *"Flamethrower, two hits"* where the counters elsewhere
+only rank by type and stat. It assumes no EVs, IVs or crits, so read it as a floor; and since
+foes carry no movesets it scores only your damage to them, not theirs back.
+
 **Dex planning.** Every species carries every place and time you can get it, so the
 app can tell you when *not* to bother:
 - *"also at Rock Tunnel, Seafoam — safe to skip"* — it comes back, catch it when convenient.
@@ -306,9 +314,10 @@ starter — behind a confirm.
 - Item coverage is all 50 TMs, all 7 HMs and the key items, hand-listed in
   `games/frlg.json` (`catalogue` and the per-stop `items`). Ordinary ground items —
   Potions and Poké Balls lying in the grass — are in no dataset and are not covered.
-- Movepools now drive the "moves to teach" panel, but *not* the catch ranking or the
-  fight counters — those are still types, levels, base stats and EXP curves, so a
-  Pokémon with the right type and no move to use it can still rank well.
+- Movepools now drive the "moves to teach" panel and the sheet's hits-to-KO calc against
+  the next fight, but *not* the catch ranking or the fight counters — those are still types,
+  levels, base stats and EXP curves, so a Pokémon with the right type and no move to use it
+  can still rank well.
 - Status moves are offered but not ranked: `movedex.csv` now carries each move's effect
   in words, and the Movedex prints it, but the ranking still sees only power, accuracy,
   type and class. So it can't tell you Sleep Powder beats Growl, and 140+ power moves get
