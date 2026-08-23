@@ -535,7 +535,7 @@ body.railcollapsed .side .nlbl{display:none}
   .spr{width:48px;height:48px}
   .slots{grid-template-columns:1fr}
   .slot.empty{min-height:34px;padding:4px}
-  .pcgrid{grid-template-columns:repeat(5,minmax(0,1fr));max-width:none}
+  .pcgrid{max-width:none}   /* keep the real 6x5 box shape; base rule is 6 cols */
   table.spots{width:100%}
   .spots td:first-child{white-space:normal}
   .spots td{padding-right:8px}
