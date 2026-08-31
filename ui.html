@@ -2355,10 +2355,17 @@ function drawModal() {
     const natureCell = `<tr><td>Nature</td><td>${esc(b.nature)}${natHint}</td></tr>`
     // EV row: keep the where-to-train, add the one caveat people miss
     const vits = vitaminPlan(b.evs)
-    const evCell = `<tr><td>EV spread</td><td>${esc(b.evs)}${b.evWhere ? `<span class="why">${esc(b.evWhere)}</span>` : ''}${
+    const evStats = new Map()
+    for (const m of String(b.evs || '').matchAll(/(\d+)\s*(HP|Atk|Def|SpA|SpD|Spe)/g)) {
+      const v = +m[1], s = m[2]; if (!evStats.has(s) || evStats.get(s) < v) evStats.set(s, v)
+    }
+    const spots = [...evStats].filter(([s, v]) => v >= 20 && (DATA.evSpots || {})[s])
+      .map(([s]) => `<b style="color:var(--fg)">${s}</b> → ${esc(DATA.evSpots[s])}`)
+    const evCell = `<tr><td>EV spread</td><td>${esc(b.evs)}${
       vits.length ? `<span class="why"><b style="color:var(--acc2)">Vitamins</b> (Celadon Dept. Store 5F, ₽9,800 ea): ${
-        esc(vits.join(', '))} — the fast +10 EVs each, up to 100 per stat. They cap at 100, so battle EV-yielders for the rest (100→252). Buy them for your two carries.</span>` : ''
-      }<span class="why">EVs are invisible in-game — count as you go. 4 EVs = 1 stat point; 252 max per stat, 510 total.</span></td></tr>`
+        esc(vits.join(', '))} — the fast +10 EVs each, up to 100 per stat.</span>` : ''
+      }${spots.length ? `<span class="why"><b style="color:var(--acc2)">Battle</b> for the 100→252 rest — ${spots.join('; ')}.</span>` : b.evWhere ? `<span class="why">${esc(b.evWhere)}</span>` : ''
+      }<span class="why">No EV meter in Gen 3, so count as you go: after 10 vitamins (100 EVs), ~152 more KOs of a +1 yielder (≈76 of a +2) max a stat. 4 EVs = 1 point; 252 per stat, 510 total.</span></td></tr>`
     // move-timing warning — the trap the user asked about
     const stoneEvo = /stone/i.test(String(b.evo))
     const evolves = b.evo && !/^none/i.test(String(b.evo))
@@ -2399,7 +2406,7 @@ function drawModal() {
         ${row('Ability', b.ability)}
         ${row('IV priority', b.ivs)}
         ${evCell}
-        ${row('Train from', b.trainFrom)}
+        ${row('Train from', b.trainFrom, evolves ? 'When it’s worth committing to real battles — but EV training can start now, at any level: EVs bank and carry through evolution.' : '')}
         ${row('Evolve', b.evo)}
         ${row('Final level', b.final)}
         ${row('Items', b.items)}

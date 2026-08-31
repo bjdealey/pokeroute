@@ -1,6 +1,14 @@
 {
   "game": "FireRed / LeafGreen",
   "region": "Kanto",
+  "evSpots": {
+    "HP": "HP Up vitamins; Marill by Surf on the Sevii Islands (+2, post-game), or a +1 like Nidoran♀",
+    "Atk": "Mankey on Route 22 (+1); Machoke / Primeape in Cerulean Cave (+2, post-game)",
+    "Def": "Geodude in Mt. Moon / Rock Tunnel (+1); Graveler in Victory Road (+2)",
+    "SpA": "Gastly in Pokémon Tower (+1, ~90% there); Kadabra / Magneton in Cerulean Cave (+2, post-game)",
+    "SpD": "Tentacool by Surf almost anywhere (+1); Tentacruel (+2)",
+    "Spe": "Diglett in Diglett's Cave (+1); Dugtrio there too (+2)"
+  },
   "build": {
     "generation": 3,
     "maxDex": 386,
