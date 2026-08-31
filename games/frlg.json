@@ -672,6 +672,7 @@
         ],
         "maxLevel": 59
       },
+      "gauntlet": true,
       "locations": [],
       "items": [],
       "notes": "Lorelei (Ice) → Bruno (Fighting) → Agatha (Ghost/Poison) → Lance (Dragon/Flying) → Rival. No healing between fights: an Electric or Rock type covers Lorelei and Lance, a Psychic covers Bruno, and Agatha is the reason to carry a Ground or Psychic move. Recommended party floor: level 55."
@@ -2072,70 +2073,6 @@
       }
     },
     {
-      "id": "champion",
-      "stop": "elitefour",
-      "name": "Blue — Champion",
-      "kind": "rival",
-      "team": [
-        [
-          "pidgeot",
-          59
-        ],
-        [
-          "alakazam",
-          57
-        ],
-        [
-          "rhydon",
-          59
-        ]
-      ],
-      "variants": {
-        "bulbasaur": [
-          [
-            "gyarados",
-            59
-          ],
-          [
-            "arcanine",
-            61
-          ],
-          [
-            "venusaur",
-            63
-          ]
-        ],
-        "charmander": [
-          [
-            "exeggutor",
-            59
-          ],
-          [
-            "gyarados",
-            61
-          ],
-          [
-            "charizard",
-            63
-          ]
-        ],
-        "squirtle": [
-          [
-            "arcanine",
-            61
-          ],
-          [
-            "exeggutor",
-            61
-          ],
-          [
-            "blastoise",
-            63
-          ]
-        ]
-      }
-    },
-    {
       "id": "lorelei",
       "stop": "elitefour",
       "name": "Lorelei — Elite Four",
@@ -2246,6 +2183,70 @@
           60
         ]
       ]
+    },
+    {
+      "id": "champion",
+      "stop": "elitefour",
+      "name": "Blue — Champion",
+      "kind": "rival",
+      "team": [
+        [
+          "pidgeot",
+          59
+        ],
+        [
+          "alakazam",
+          57
+        ],
+        [
+          "rhydon",
+          59
+        ]
+      ],
+      "variants": {
+        "bulbasaur": [
+          [
+            "gyarados",
+            59
+          ],
+          [
+            "arcanine",
+            61
+          ],
+          [
+            "venusaur",
+            63
+          ]
+        ],
+        "charmander": [
+          [
+            "exeggutor",
+            59
+          ],
+          [
+            "gyarados",
+            61
+          ],
+          [
+            "charizard",
+            63
+          ]
+        ],
+        "squirtle": [
+          [
+            "arcanine",
+            61
+          ],
+          [
+            "exeggutor",
+            61
+          ],
+          [
+            "blastoise",
+            63
+          ]
+        ]
+      }
     }
   ],
   "rivalStarter": {
