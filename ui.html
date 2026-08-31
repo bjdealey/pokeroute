@@ -1624,6 +1624,22 @@ function movesKnownAt(id, level) {
   const learned = named(lv.filter(([l]) => l <= level))
   return { known: learned.slice(-4), skipped: learned.slice(0, -4), upcoming: named(lv.filter(([l]) => l > level)) }
 }
+// the specific vitamin for each stat, and a per-build buy list from its EV spread.
+// Vitamins add 10 EVs each up to 100 per stat (then they stop working) — so they're
+// the fast first 100, and battles do the 100→252 rest.
+const VITAMIN = { HP: 'HP Up', Atk: 'Protein', Def: 'Iron', SpA: 'Calcium', SpD: 'Zinc', Spe: 'Carbos' }
+function vitaminPlan(evs) {
+  const seen = new Map()
+  for (const m of String(evs || '').matchAll(/(\d+)\s*(HP|Atk|Def|SpA|SpD|Spe)/g)) {
+    const v = +m[1], s = m[2]
+    if (!seen.has(s) || seen.get(s) < v) seen.set(s, v)   // dedupe 'or' variants, keep the biggest
+  }
+  const buy = []
+  for (const [s, v] of seen) {
+    if (v >= 10) buy.push(`${VITAMIN[s]} ×${Math.min(10, Math.floor(v / 10))}`)
+  }
+  return buy
+}
 function ivReportHtml(id) {
   const lv = lvOf(id), sp = M(id), b = sp.build
   if (!lv) return '<div class="meta">Set a level up top first — the estimate needs it.</div>'
@@ -2338,7 +2354,11 @@ function drawModal() {
       : ''
     const natureCell = `<tr><td>Nature</td><td>${esc(b.nature)}${natHint}</td></tr>`
     // EV row: keep the where-to-train, add the one caveat people miss
-    const evCell = `<tr><td>EV spread</td><td>${esc(b.evs)}${b.evWhere ? `<span class="why">${esc(b.evWhere)}</span>` : ''}<span class="why">EVs are invisible in-game — count as you go. Vitamins (Celadon Dept. Store) cover the first 100 of a stat; battles do the rest. 4 EVs = 1 stat point; 252 max per stat, 510 total.</span></td></tr>`
+    const vits = vitaminPlan(b.evs)
+    const evCell = `<tr><td>EV spread</td><td>${esc(b.evs)}${b.evWhere ? `<span class="why">${esc(b.evWhere)}</span>` : ''}${
+      vits.length ? `<span class="why"><b style="color:var(--acc2)">Vitamins</b> (Celadon Dept. Store 5F, ₽9,800 ea): ${
+        esc(vits.join(', '))} — the fast +10 EVs each, up to 100 per stat. They cap at 100, so battle EV-yielders for the rest (100→252). Buy them for your two carries.</span>` : ''
+      }<span class="why">EVs are invisible in-game — count as you go. 4 EVs = 1 stat point; 252 max per stat, 510 total.</span></td></tr>`
     // move-timing warning — the trap the user asked about
     const stoneEvo = /stone/i.test(String(b.evo))
     const evolves = b.evo && !/^none/i.test(String(b.evo))
