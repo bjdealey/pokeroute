@@ -1,0 +1,3431 @@
+{
+ "_note": "FR/LG optimal builds, one entry per evolution line (keyed by root species). Rendered on each Pokémon's sheet.",
+ "lines": {
+  "bulbasaur": {
+   "line": "Bulbasaur → Ivysaur (L16) → Venusaur (L32)",
+   "role": "Bulky Grass/Poison special attacker & sleep lead — the easiest solo run in Kanto.",
+   "where": "Starter gift from Prof. Oak in Pallet Town — never wild in either version.",
+   "catch": "Lv 5 gift. Soft-reset the intro for a good nature/IVs before you commit.",
+   "nature": "Modest (+SpA, −Atk) — its whole game is special. Bold/Calm if you want a wall.",
+   "ability": "Overgrow (its only ability).",
+   "ivs": "Special Attack, then Speed, then HP.",
+   "evs": "252 SpA / 252 HP / 4 SpD.",
+   "evWhere": "Calcium ×10 (Celadon Dept. Store) banks 100 SpA, then KO Gastly in Pokémon Tower; HP Up ×10 for the HP half.",
+   "trainFrom": "Lv 16 — the moment it becomes Ivysaur and its bulk turns real.",
+   "moves": [
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — beat Erika at the Celadon Gym"
+    },
+    {
+     "m": "Sleep Powder",
+     "src": "level 15 — put the lead to sleep, then set up"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island, POST-GAME; run Razor Leaf (L20) until then"
+    },
+    {
+     "m": "Leech Seed / Synthesis",
+     "src": "level 7 / 39 — passive recovery for a solo run"
+    }
+   ],
+   "items": "Miracle Seed (+10% Grass); Leftovers once Five Island opens (post-game).",
+   "evo": "Ivysaur at L16, Venusaur at L32 — pure level-up, nothing to buy.",
+   "final": "Lv 50–55 for the Elite Four.",
+   "notes": "No Fairy type in Gen 3, so Poison is clean coverage. Sludge Bomb is post-game — a normal run uses Razor Leaf. TMs are single-use. Frenzy Plant (Cape Brink tutor) recharges a turn and is worse than Giga Drain — skip it."
+  },
+  "charmander": {
+   "line": "Charmander → Charmeleon (L16) → Charizard (L36)",
+   "role": "Fast Fire/Flying mixed attacker — flashy, but fights an uphill Kanto (Rock/Water gyms early).",
+   "where": "Starter gift from Prof. Oak in Pallet Town — never wild.",
+   "catch": "Lv 5 gift. Soft-reset for nature/IVs.",
+   "nature": "Modest for a special set; Naive/Hasty if you want Earthquake + Flamethrower mixed.",
+   "ability": "Blaze (its only ability).",
+   "ivs": "Special Attack and Speed (Modest) — both base 100+ on Charizard.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "Calcium ×10 + Carbos ×10; finish SpA on Gastly (Pokémon Tower), Speed in Diglett's Cave.",
+   "trainFrom": "Lv 16 as Charmeleon; it leans hard on Prof. Oak's aide Exp. Share early.",
+   "moves": [
+    {
+     "m": "Flamethrower",
+     "src": "TM35 — Celadon Game Corner (re-buyable) or level 34"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying STAB"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (very late); use Rock Slide (Rock Tunnel tutor) sooner"
+    },
+    {
+     "m": "Dragon Claw / Brick Break",
+     "src": "TM02 (Victory Road) / TM31 — neutral coverage"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "Charmeleon at L16, Charizard at L36 — level-up only.",
+   "final": "Lv 50–55.",
+   "notes": "Charizard is 2× weak to Rock and Water — the exact types of Brock and Misty, so early game is rough. SpA (109) tops Atk (84); go special unless you commit to the late Earthquake TM. Blast Burn (Cape Brink) recharges — skip."
+  },
+  "squirtle": {
+   "line": "Squirtle → Wartortle (L16) → Blastoise (L36)",
+   "role": "Bulky Water tank — the safest starter for a smooth Kanto run.",
+   "where": "Starter gift from Prof. Oak in Pallet Town — never wild.",
+   "catch": "Lv 5 gift. Soft-reset for nature/IVs.",
+   "nature": "Modest (+SpA) for offense; Bold (+Def) to lean on its excellent bulk.",
+   "ability": "Torrent (its only ability).",
+   "ivs": "Special Attack, HP, then the defenses.",
+   "evs": "252 SpA / 252 HP / 4 SpD (or 252 HP / 252 Def, Bold).",
+   "evWhere": "Calcium/HP Up ×10 each; finish SpA on Gastly (Pokémon Tower), HP off Sevii Marill.",
+   "trainFrom": "Lv 16 as Wartortle.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; its main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; the classic BoltBeam half"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late)"
+    },
+    {
+     "m": "Rest / Rapid Spin",
+     "src": "level 31 / 25 — recovery on a wall build"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Wartortle at L16, Blastoise at L36 — level-up only.",
+   "final": "Lv 50–55.",
+   "notes": "Defenses (100/105) beat its 85 SpA, so it's a tank that hits back, not a sweeper. Hydro Cannon (Cape Brink) recharges — Surf is better. TMs are single-use, but Ice Beam is re-buyable at the Game Corner."
+  },
+  "caterpie": {
+   "line": "Caterpie → Metapod (L7) → Butterfree (L10)",
+   "role": "Turn-one sleep lead — Compound Eyes makes Sleep Powder essentially never miss.",
+   "where": "Wild in Viridian Forest (both versions), plus Routes 24/25.",
+   "catch": "Lv 3–5 in Viridian Forest. Catch rate is trivial.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Compound Eyes — boosts accuracy, turning 75%-acc Sleep Powder into ~95%. Its whole reason to exist.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA on Gastly (Pokémon Tower), Speed in Diglett's Cave — both cheap at the levels Butterfree fights.",
+   "trainFrom": "Lv 10 — it evolves almost immediately, so just push to Butterfree.",
+   "moves": [
+    {
+     "m": "Sleep Powder",
+     "src": "level 15 — the signature; near-100% with Compound Eyes"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — house in Saffron City; strong STAB"
+    },
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym); coverage + healing"
+    },
+    {
+     "m": "Stun Spore / Silver Wind",
+     "src": "level 14 / 47 — backup status or Bug STAB"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic) or Silver Powder (+10% Bug).",
+   "evo": "Metapod at L7, Butterfree at L10 — the fastest evolution in the game.",
+   "final": "Lv 30–40; it's an early-game star that fades by the Elite Four.",
+   "notes": "Frail (60/50/50 defenses) and outclassed lategame, but the free, reliable sleep it gives your whole team through the mid-game is worth the slot. Bug/Flying is 4× weak to Rock."
+  },
+  "weedle": {
+   "line": "Weedle → Kakuna (L7) → Beedrill (L10)",
+   "role": "Early physical stinger — fine while the game is young, drop it by the mid-game.",
+   "where": "Wild in Viridian Forest (LeafGreen) / Routes 24-25; sparse in FireRed's forest.",
+   "catch": "Lv 3–5. Trivial catch rate.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Swarm (its only ability) — boosts Bug moves at low HP.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran on the early routes; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 10 — evolves as fast as Caterpie.",
+   "moves": [
+    {
+     "m": "Twineedle",
+     "src": "level 20 — its only real STAB, hits twice"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; reliable coverage"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; hits Normal/Rock"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island, POST-GAME; big Poison STAB if you get there"
+    }
+   ],
+   "items": "Silver Powder (+10% Bug) or Poison Barb.",
+   "evo": "Kakuna at L7, Beedrill at L10.",
+   "final": "Lv 25–35; honestly a bench player after the first few badges.",
+   "notes": "Beedrill's 80 Atk / 75 Spe and shallow movepool age badly, and Bug/Poison is a poor defensive type. Great early pick-up, not an endgame keeper. There is no Swords Dance tutor in FR/LG to prop it up."
+  },
+  "pidgey": {
+   "line": "Pidgey → Pidgeotto (L18) → Pidgeot (L36)",
+   "role": "Your Fly carrier that pulls its weight — a fast Normal/Flying with Return.",
+   "where": "Wild on Routes 1-3 and almost everywhere early (both versions).",
+   "catch": "Lv 2–7. Trivial.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Keen Eye (its only relevant ability).",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Spearow; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 18 as Pidgeotto.",
+   "moves": [
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; its hardest-hitting STAB with high friendship"
+    },
+    {
+     "m": "Fly",
+     "src": "HM02 — house on Route 16; STAB and your overworld flight"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss backup"
+    },
+    {
+     "m": "Double-Edge / Steel Wing",
+     "src": "Rock Tunnel-era tutor (Victory Road) / TM47 (Safari Zone)"
+    }
+   ],
+   "items": "Sharp Beak (+10% Flying); Silk Scarf for Return.",
+   "evo": "Pidgeotto at L18, Pidgeot at L36 — level-up only.",
+   "final": "Lv 45–50.",
+   "notes": "Middling stats, but it carries Fly for free and Return off high friendship hits hard. Spearow→Fearow is the faster, harder-hitting flyer if you'd rather — Pidgeot wins on bulk."
+  },
+  "rattata": {
+   "line": "Rattata → Raticate (L20)",
+   "role": "Fast early Normal with Guts — a surprisingly stingy attacker if it's statused.",
+   "where": "Wild on Routes 1, 2, 4, 9, 22 (both versions).",
+   "catch": "Lv 2–7. Trivial.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Guts (prefer — 1.5× Attack when statused) over Run Away. Random on catch.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Spearow; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 20 as Raticate.",
+   "moves": [
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; reliable STAB"
+    },
+    {
+     "m": "Facade",
+     "src": "TM42 — Rock Altar, Six Island (post-game); doubles under Guts status"
+    },
+    {
+     "m": "Super Fang",
+     "src": "level 34 — halves any foe's HP, ignores bulk"
+    },
+    {
+     "m": "Shadow Ball / Dig",
+     "src": "TM30 (Game Corner) / TM28 — coverage for Ghosts and Rocks"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal); a Flame Orb doesn't exist in Gen 3, so status must come from a foe.",
+   "evo": "Raticate at L20.",
+   "final": "Lv 30–40; an early workhorse that tails off.",
+   "notes": "Guts is the draw but there's no self-inflicting status item in FR/LG, so it only triggers when a foe burns/paralyses it. Quick, fragile, and outscaled by the mid-game."
+  },
+  "spearow": {
+   "line": "Spearow → Fearow (L20)",
+   "role": "The aggressive early flyer — base 100 Speed and a strong Drill Peck, ready before most.",
+   "where": "Wild on Routes 3, 4, 9, 22 (both versions).",
+   "catch": "Lv 3–9. Trivial.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Keen Eye (its only relevant ability).",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 20 as Fearow.",
+   "moves": [
+    {
+     "m": "Drill Peck",
+     "src": "level 26 — high-power Flying STAB with no drawback"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral STAB"
+    },
+    {
+     "m": "Fly",
+     "src": "HM02 — Route 16; overworld flight if nobody else carries it"
+    },
+    {
+     "m": "Aerial Ace / Double-Edge",
+     "src": "TM40 / Victory Road tutor"
+    }
+   ],
+   "items": "Sharp Beak (+10% Flying).",
+   "evo": "Fearow at L20.",
+   "final": "Lv 45–50.",
+   "notes": "Out-speeds and out-hits Pidgeot early, but thinner and no real coverage — Flying + Normal is all it does. A great first-half flyer; free up its slot for Zapdos/Aerodactyl lategame if you catch one."
+  },
+  "ekans": {
+   "line": "Ekans → Arbok (L22)  ·  FireRed only",
+   "role": "Intimidate physical Poison — a sturdy pivot that shrugs off physical hits.",
+   "where": "Wild on Routes 4, 8, 9, 22-23 (FireRed only; trade for it in LeafGreen).",
+   "catch": "Lv 6–15.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Intimidate (prefer — drops the foe's Attack on entry) over Shed Skin. Random on catch.",
+   "ivs": "Attack, then Speed and HP.",
+   "evs": "252 Atk / 252 HP / 4 Spe.",
+   "evWhere": "Attack off Mankey (Route 22-area); HP Up ×10.",
+   "trainFrom": "Lv 22 as Arbok.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Rock Slide (Rock Tunnel tutor) fills in sooner"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island, POST-GAME; use Body Slam (Four Island tutor) or Return meanwhile"
+    },
+    {
+     "m": "Glare",
+     "src": "level — paralysis, ignores the Ground-immunity that stops Thunder Wave"
+    },
+    {
+     "m": "Return / Bite",
+     "src": "TM27 / level — neutral coverage (Arbok gets no Crunch by level in FR/LG)"
+    }
+   ],
+   "items": "Poison Barb (+10% Poison); Leftovers post-game.",
+   "evo": "Arbok at L22.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Intimidate + bulk make it a fine physical wall, but its best STAB (Sludge Bomb) and Body Slam are both Sevii post-game — mid-game it leans on Return and coverage."
+  },
+  "sandshrew": {
+   "line": "Sandshrew → Sandslash (L22)  ·  LeafGreen only",
+   "role": "Sturdy physical Ground attacker — high Defense and strong EdgeQuake-style coverage.",
+   "where": "Wild on Routes 4, 8, 11 and near Vermilion (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 6–18.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Sand Veil (its only ability).",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 22 as Sandslash.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Dig (TM28, Cerulean) bridges to it"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — Sandslash's key coverage (Rock Slide is tutor-only in FR/LG)"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; hits Rock/Normal/Steel"
+    },
+    {
+     "m": "Slash / Return",
+     "src": "level / TM27 — reliable Normal damage"
+    }
+   ],
+   "items": "Soft Sand (+10% Ground); Leftovers post-game.",
+   "evo": "Sandslash at L22.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive. Excellent Def (110) and Attack (100), but its best STAB (Earthquake) is a late single-use TM — lean on Dig, then swap in EQ once you clear Viridian Gym."
+  },
+  "nidoran-f": {
+   "line": "Nidoran♀ → Nidorina (L16) → Nidoqueen (Moon Stone)",
+   "role": "Bulky Poison/Ground mixed tank with an enormous TM movepool.",
+   "where": "Wild on Routes 22 and the Safari Zone (both versions).",
+   "catch": "Lv 3–22.",
+   "nature": "Adamant (physical) or a mixed Naughty; Nidoqueen wants HP and Attack.",
+   "ability": "Poison Point (its only ability in Gen 3).",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey; HP Up ×10, then Sevii Marill for HP.",
+   "trainFrom": "Lv 23 or so — evolve to Nidoqueen once you can spare a Moon Stone.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); its best STAB"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game); Body Slam (tutor) meanwhile"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; hits Flying/Grass/Dragon"
+    },
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Game Corner; rounds out coverage"
+    }
+   ],
+   "items": "Soft Sand (+10% Ground); Leftovers post-game.",
+   "evo": "Nidorina at L16, then Nidoqueen with a MOON STONE (any level). Nidoqueen learns almost nothing by level — evolve when convenient and teach TMs.",
+   "final": "Lv 50–55.",
+   "notes": "Moon Stones can't be bought — you find them (Mt. Moon) or Pickup them, so budget one for the whole run. Bulkier and less offensive than Nidoking; pick Queen for durability."
+  },
+  "nidoran-m": {
+   "line": "Nidoran♂ → Nidorino (L16) → Nidoking (Moon Stone)",
+   "role": "Premier mixed attacker — one of the best all-round Pokémon in a FR/LG run.",
+   "where": "Wild on Routes 22 and the Safari Zone (both versions).",
+   "catch": "Lv 3–22.",
+   "nature": "Naughty/Rash (mixed) — it wants both Earthquake and Ice Beam/Thunderbolt.",
+   "ability": "Poison Point (its only ability in Gen 3).",
+   "ivs": "Attack, Special Attack, then Speed.",
+   "evs": "252 Atk / 252 SpA / 4 Spe, or 252 Atk / 252 Spe for a physical build.",
+   "evWhere": "Attack off Mankey; SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Lv 23 — evolve once you have a Moon Stone and your key TMs.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Dig (TM28) until then"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; the famous EdgeQuake+Ice coverage"
+    },
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Game Corner; nails Water/Flying"
+    },
+    {
+     "m": "Sludge Bomb / Megahorn",
+     "src": "TM36 (post-game) / — Poison STAB or level coverage"
+    }
+   ],
+   "items": "Soft Sand (+10% Ground) or a Magnet for Thunderbolt; Leftovers post-game.",
+   "evo": "Nidorino at L16, then Nidoking with a MOON STONE. Like Queen, evolve when convenient and rely on TMs.",
+   "final": "Lv 50–55.",
+   "notes": "Moon Stones aren't sold — save one. Its EQ + Ice Beam + Thunderbolt coverage answers most of Kanto; the only catch is Earthquake arriving late, so it plays as a special attacker (Ice Beam/Thunderbolt) until then."
+  },
+  "vulpix": {
+   "line": "Vulpix → Ninetales (Fire Stone)  ·  LeafGreen only",
+   "role": "Fast special Fire sweeper with a handy Flash Fire immunity.",
+   "where": "Wild on Routes 7-8 and near Pokémon Mansion (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 18–20.",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Flash Fire — an immunity to Fire moves that also boosts its own. Its only ability.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Once evolved — teach Flamethrower first, since Ninetales learns nothing by level after evolving.",
+   "moves": [
+    {
+     "m": "Flamethrower",
+     "src": "TM35 — Celadon Game Corner; reliable STAB"
+    },
+    {
+     "m": "Fire Blast",
+     "src": "TM38 — Silph Co. / Blaine; when you want raw power"
+    },
+    {
+     "m": "Hidden Power [Grass/Ice]",
+     "src": "TM10 — from a Pickup Pokémon; its only real coverage"
+    },
+    {
+     "m": "Toxic / Confuse Ray",
+     "src": "TM06 (Koga) / level — stall support"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "Ninetales with a FIRE STONE (Celadon Dept. Store, ₽2100). Let Vulpix learn what you want first — Ninetales' post-evo level-up pool is bare.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive. Fast and pretty, but its coverage is thin (Fire + Hidden Power), so it leans on Flamethrower and status. Fire Stones are cheap and re-buyable, unlike Moon Stones."
+  },
+  "zubat": {
+   "line": "Zubat → Golbat (L22) → Crobat (high friendship)",
+   "role": "Base-130-Speed Poison/Flying — the fastest sweeper you can raise from a cave trash mon.",
+   "where": "Wild in Mt. Moon, Rock Tunnel, and most caves (both versions).",
+   "catch": "Lv 6–22. Everywhere underground.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Inner Focus (its only ability).",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave. It gains Speed EVs from its own kin.",
+   "trainFrom": "Lv 22 as Golbat; then walk it to Crobat.",
+   "moves": [
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying STAB"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game); Bite→Crunch (level) fills in"
+    },
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Celadon Game Corner; hits Psychics/Ghosts"
+    },
+    {
+     "m": "Return / Double-Edge",
+     "src": "TM27 / Victory Road tutor — neutral coverage"
+    }
+   ],
+   "items": "Sharp Beak (+10% Flying); a Soothe Bell (Pokémon Tower) to speed the Crobat evolution.",
+   "evo": "Golbat at L22, then Crobat at high friendship (≈220) — hold a Soothe Bell and battle/walk with it.",
+   "final": "Lv 50–55.",
+   "notes": "Crobat's 130 Speed and solid Attack make it a top revenge-killer, but its best STAB (Sludge Bomb) is post-game, so mid-game it relies on Aerial Ace + Crunch. Friendship needs no clock — unlike Espeon/Umbreon, Crobat is fully obtainable in FR/LG."
+  },
+  "oddish": {
+   "line": "Oddish → Gloom (L21) → Vileplume (Leaf Stone)  ·  FireRed only",
+   "role": "Bulky special Grass with a 75%-sleep lead — Vileplume is the pick over Bellossom.",
+   "where": "Wild on Routes 5, 6, 7, 24-25 at night-equivalent slots (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 12–17.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Chlorophyll (its only ability) — doubles Speed in sun if you run Sunny Day.",
+   "ivs": "Special Attack and HP.",
+   "evs": "252 SpA / 252 HP / 4 SpD.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "Let Gloom learn Sleep Powder and Giga Drain, THEN Leaf-Stone it — Vileplume's post-evo pool is bare.",
+   "moves": [
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym)"
+    },
+    {
+     "m": "Sleep Powder",
+     "src": "level (Gloom) — 75% sleep lead"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game); Petal Dance/Return until then"
+    },
+    {
+     "m": "Solar Beam",
+     "src": "TM22 — Pokémon Mansion; pair with Sunny Day + Chlorophyll"
+    }
+   ],
+   "items": "Miracle Seed (+10% Grass); Leftovers post-game.",
+   "evo": "Gloom at L21, then Vileplume with a LEAF STONE (Celadon Dept. Store, ₽2100). Bellossom needs a scarce Sun Stone and loses the Poison STAB — skip it.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Vileplume (110 SpA) out-damages Bellossom and keeps Sludge Bomb; Sun Stones aren't sold, Leaf Stones are. Chlorophyll only helps under your own Sunny Day."
+  },
+  "paras": {
+   "line": "Paras → Parasect (L24)",
+   "role": "Spore support — the only user of a 100%-accurate sleep move you can catch this early.",
+   "where": "Wild in Mt. Moon and the Safari Zone (both versions).",
+   "catch": "Lv 8–17.",
+   "nature": "Adamant (+Atk); it's slow (30 Speed) either way, so Brave is fine too.",
+   "ability": "Effect Spore (its only ability) — random status on contact.",
+   "ivs": "Attack and HP; Speed is a lost cause.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey/Nidoran; HP Up ×10.",
+   "trainFrom": "Lv 24 as Parasect once it has Spore in reach.",
+   "moves": [
+    {
+     "m": "Spore",
+     "src": "level 27 — the ONLY 100%-accuracy sleep move; puts anything to sleep"
+    },
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika; STAB + healing"
+    },
+    {
+     "m": "Slash / Return",
+     "src": "level 35 / TM27 — physical damage"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; coverage (Parasect gets no Swords Dance by level in FR/LG)"
+    }
+   ],
+   "items": "Miracle Seed (+10% Grass) or Leftovers post-game.",
+   "evo": "Parasect at L24.",
+   "final": "Lv 40–45; a support piece, not a sweeper.",
+   "notes": "Bug/Grass is one of the worst defensive types in the game — 4× weak to Fire AND Flying, plus Poison/Bug/Ice/Rock. You keep it purely for Spore; lead, sleep something, and pivot out."
+  },
+  "venonat": {
+   "line": "Venonat → Venomoth (L31)",
+   "role": "Special Bug/Poison with a sleep lead and a wide status game.",
+   "where": "Wild on Routes 5-8, 24-25 and the Safari Zone (both versions).",
+   "catch": "Lv 8–19.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Shield Dust (its only ability in Gen 3).",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Lv 31 — it's weak as Venonat, so rush the evolution.",
+   "moves": [
+    {
+     "m": "Sleep Powder",
+     "src": "level — 75% sleep lead"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; strong neutral STAB"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game); Giga Drain (TM19) fills in"
+    },
+    {
+     "m": "Signal Beam / Silver Wind",
+     "src": "level — Bug STAB"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic) or Silver Powder (+10% Bug).",
+   "evo": "Venomoth at L31.",
+   "final": "Lv 45–50.",
+   "notes": "Base 90 SpA/90 Speed make it a competent special attacker, and Psychic + sleep carry it. Outshone by Butterfree's Compound-Eyes sleep early, but tougher and better-typed offensively."
+  },
+  "diglett": {
+   "line": "Diglett → Dugtrio (L26)",
+   "role": "Base-120-Speed Ground revenge-killer with Arena Trap — it picks off what it outruns.",
+   "where": "Wild in Diglett's Cave (both versions) — the same cave that's the game's Speed-EV spot.",
+   "catch": "Lv 15–31.",
+   "nature": "Jolly (+Spe) — you want to out-speed everything and hit first.",
+   "ability": "Arena Trap (prefer — the foe can't switch out) over Sand Veil. Random on catch.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Right where you catch it: Diglett/Dugtrio give Speed EVs at ~100% encounter rate.",
+   "trainFrom": "Lv 26 as Dugtrio.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Dig (TM28) bridges to it"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage vs Flying/Bug/Fire (tutor-only in FR/LG)"
+    },
+    {
+     "m": "Aerial Ace / Sludge Bomb",
+     "src": "TM40 / TM36 (post-game) — chip coverage"
+    },
+    {
+     "m": "Substitute",
+     "src": "Fuchsia move tutor — ease the frailty and trap-kill safely"
+    }
+   ],
+   "items": "Soft Sand (+10% Ground); a Focus Band to survive a hit.",
+   "evo": "Dugtrio at L26.",
+   "final": "Lv 45–50.",
+   "notes": "35 HP and paper defenses — it lives to out-speed, trap, and Earthquake. Arena Trap lets you corner and remove a specific threat (great vs the Elite Four's frailer aces). EQ is a late TM, so it leans on Dig for a while."
+  },
+  "meowth": {
+   "line": "Meowth → Persian (L28)",
+   "role": "Fast Normal — and a Pickup item farmer that pays for itself.",
+   "where": "Wild on Routes 5-8 and near Celadon (both versions).",
+   "catch": "Lv 10–18.",
+   "nature": "Jolly (+Spe).",
+   "ability": "Pickup on Meowth — it finds free items (Rare Candy, Nuggets, even TM10) after battles. Persian has Limber. Keep a Pickup Meowth boxed for farming.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 28 as Persian.",
+   "moves": [
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; its main STAB"
+    },
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Celadon Game Corner; hits Ghosts/Psychics"
+    },
+    {
+     "m": "Slash",
+     "src": "level — high critical-hit rate"
+    },
+    {
+     "m": "Dig / Bite",
+     "src": "TM28 / level — coverage"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal).",
+   "evo": "Persian at L28.",
+   "final": "Lv 40–45; fast but frail and shallow.",
+   "notes": "Persian's real value is the Pickup ability on its pre-evo — a boxed Meowth on your team collects rare items over a playthrough (including the only realistic TM10 Hidden Power). As a battler it's a fragile Return-spammer."
+  },
+  "psyduck": {
+   "line": "Psyduck → Golduck (L33)  ·  FireRed only",
+   "role": "Solid special Water with Calm Mind — a low-key strong sweeper.",
+   "where": "Surf/fish on most water, wild near Seafoam (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 15–30.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Damp or Cloud Nine — both minor; take either.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 33 as Golduck.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; BoltBeam coverage"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); +SpA/+SpD to sweep"
+    },
+    {
+     "m": "Hidden Power / Psychic",
+     "src": "TM10 / — extra coverage"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Golduck at L33.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Base 95 SpA/85 Speed plus Calm Mind make it quietly excellent, though its coverage is just Surf + Ice + Hidden Power. A great catch if you're not running Squirtle."
+  },
+  "mankey": {
+   "line": "Mankey → Primeape (L28)",
+   "role": "Fast, aggressive Fighting — a base-95-Speed Cross Chopper you can grab early.",
+   "where": "Wild on Routes 3-4, 22-23 and Rock Tunnel (both versions).",
+   "catch": "Lv 6–20.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Vital Spirit (its only ability) — immune to sleep.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off its own kin/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 28 as Primeape.",
+   "moves": [
+    {
+     "m": "Cross Chop",
+     "src": "level 35 — high-power, high-crit Fighting STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage vs Flying/Bug (tutor-only)"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Brick Break (TM31) works sooner"
+    },
+    {
+     "m": "Return / Facade",
+     "src": "TM27 / TM42 — neutral coverage"
+    }
+   ],
+   "items": "Black Belt (+10% Fighting); Leftovers post-game.",
+   "evo": "Primeape at L28.",
+   "final": "Lv 45–50.",
+   "notes": "Answers the Normal-type aces (Snorlax, Tauros) and the rival's picks well. Fragile defensively, but 95 Speed + Cross Chop means it usually strikes first and hard. No Fighting TMs are needed — Cross Chop is a level move."
+  },
+  "growlithe": {
+   "line": "Growlithe → Arcanine (Fire Stone)  ·  FireRed only",
+   "role": "Top-tier Fire — Intimidate, 555 BST, and priority Extreme Speed.",
+   "where": "Wild on Routes 7-8 and near Pokémon Mansion (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 18–20.",
+   "nature": "Adamant (+Atk) for a physical set; Naughty if you want mixed with Flamethrower.",
+   "ability": "Intimidate (prefer — cuts the foe's Attack) over Flash Fire. Random on catch.",
+   "ivs": "Attack, then Speed and SpA.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "Raise Growlithe to the mid-40s for its moves, THEN evolve — Arcanine's level-up pool is nearly empty.",
+   "moves": [
+    {
+     "m": "Flamethrower",
+     "src": "TM35 — Celadon Game Corner; reliable STAB"
+    },
+    {
+     "m": "Extreme Speed",
+     "src": "level 49 (as Arcanine) — +2 priority, picks off weakened foes"
+    },
+    {
+     "m": "Return / Bite",
+     "src": "TM27 / level — neutral coverage; Arcanine's coverage pool is thin"
+    },
+    {
+     "m": "Iron Tail / Aerial Ace",
+     "src": "TM23 / TM40 — extra physical coverage"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "Arcanine with a FIRE STONE (Celadon Dept. Store, ₽2100). Delay it: grab Flamethrower (TM) and let it reach L49 for Extreme Speed, using the Move Reminder (Two Island) if you evolve early.",
+   "final": "Lv 50–55.",
+   "notes": "FireRed exclusive and one of the best Fire types in the game. Its only knock is a shallow movepool (Fire + Extreme Speed + one coverage move), so Intimidate and raw stats do the heavy lifting."
+  },
+  "poliwag": {
+   "line": "Poliwag → Poliwhirl (L25) → Poliwrath (Water Stone)  ·  FireRed only",
+   "role": "Bulky Water/Fighting bruiser — Poliwrath is the no-trade pick over Politoed.",
+   "where": "Fish (Good/Super Rod) and Surf on most water (FireRed only for wild; trade in LeafGreen).",
+   "catch": "Lv 5–30 depending on rod.",
+   "nature": "Adamant (+Atk) for Brick Break/EQ; Bold (+Def) to wall.",
+   "ability": "Water Absorb (prefer — heals off Water moves) over Damp. Random on catch.",
+   "ivs": "Attack and HP.",
+   "evs": "252 HP / 252 Atk / 4 Def (or 252 HP / 252 Def, Bold).",
+   "evWhere": "HP Up ×10; Attack off Mankey. Poliwhirl itself gives Speed EVs — avoid over-farming Speed.",
+   "trainFrom": "Lv 25 as Poliwhirl; Water-Stone once you have your TMs.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; Water STAB"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; Fighting STAB (Submission at L35 works too)"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage"
+    },
+    {
+     "m": "Earthquake / Rest",
+     "src": "TM26 (late) / level — coverage or recovery"
+    }
+   ],
+   "items": "Mystic Water (+10% Water) or Leftovers post-game.",
+   "evo": "Poliwhirl at L25, then Poliwrath with a WATER STONE (Celadon, ₽2100). Poliwrath learns almost nothing by level — evolve when you've stacked its TMs. Politoed needs a link trade holding a King's Rock — skip unless you want the dex entry.",
+   "final": "Lv 50–55.",
+   "notes": "FireRed exclusive. Water/Fighting is superb offensive and defensive coverage; Water Absorb makes it a great pivot. Belly Drum (level) is a gimmick — the TM set above is stronger."
+  },
+  "abra": {
+   "line": "Abra → Kadabra (L16) → Alakazam (trade)",
+   "role": "Fastest, hardest-hitting special sweeper in Kanto — Psychic dominates Gen 3.",
+   "where": "Wild on Routes 24-25 and around Cerulean (both versions). It only knows Teleport, so throw a ball on turn one.",
+   "catch": "Lv 8–14. Catch a couple — it flees via Teleport.",
+   "nature": "Modest (+SpA); Timid (+Spe) to out-speed other base-105+ threats.",
+   "ability": "Synchronize (prefer — reflects status back) over Inner Focus. Random on catch.",
+   "ivs": "Special Attack and Speed — it's glass, so defenses barely register.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave. Calcium/Carbos ×10 to jump-start.",
+   "trainFrom": "Lv 16 — Kadabra is a monster; Abra itself only has Teleport.",
+   "moves": [
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City house (Kadabra also learns it by level)"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); +SpA/+SpD to sweep"
+    },
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Celadon Game Corner; hits opposing Psychics/Ghosts"
+    },
+    {
+     "m": "Reflect / Recover",
+     "src": "TM33 (S.S. Anne) / level — survive one hit, set up"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic). No Choice items exist in FR/LG.",
+   "evo": "Kadabra at L16; Alakazam by LINK TRADE (a traded Kadabra evolves on arrival).",
+   "final": "Lv 50–55.",
+   "notes": "Solo, you're capped at Kadabra — still one of the best attackers in the game. Only Dark/Bug/Ghost threaten it, and Gen 3 has almost no strong Dark. Paper-thin defenses mean it sweeps but can't switch in."
+  },
+  "machop": {
+   "line": "Machop → Machoke (L28) → Machamp (trade)",
+   "role": "The strongest physical Fighting attacker in Kanto — base 130 Attack.",
+   "where": "Wild in Rock Tunnel and Victory Road; the Route 2/Cerulean in-game trade also gives one (both versions).",
+   "catch": "Lv 10–20.",
+   "nature": "Adamant (+Atk).",
+   "ability": "Guts (its only ability in Gen 3) — 1.5× Attack when statused.",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Spe.",
+   "evWhere": "Attack off its own kin/Mankey; HP Up ×10.",
+   "trainFrom": "Lv 28 as Machoke (or straight to Machamp if you can trade).",
+   "moves": [
+    {
+     "m": "Cross Chop",
+     "src": "level 46 — high-power, high-crit STAB (or Brick Break, TM31)"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); superb coverage"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — vs Flying/Bug (tutor-only)"
+    },
+    {
+     "m": "Bulk Up",
+     "src": "TM08 — Silph Co. 7F; +Atk/+Def to snowball"
+    }
+   ],
+   "items": "Black Belt (+10% Fighting); Leftovers post-game.",
+   "evo": "Machoke at L28; Machamp by LINK TRADE. Machoke is still excellent if you can't trade.",
+   "final": "Lv 50–55.",
+   "notes": "Machamp needs a friend/second cartridge — otherwise cap at Machoke (100 Attack). Slow (55 Speed) but hits like a train and takes physical hits well; it counters every Normal ace in the game."
+  },
+  "bellsprout": {
+   "line": "Bellsprout → Weepinbell (L21) → Victreebel (Leaf Stone)  ·  LeafGreen only",
+   "role": "Hard-hitting mixed Grass/Poison with a sleep lead — LeafGreen's answer to Vileplume.",
+   "where": "Wild on Routes 5-7, 24-25 (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 12–17.",
+   "nature": "Modest (+SpA) or a mixed Rash; Victreebel has 105 Atk and 100 SpA.",
+   "ability": "Chlorophyll (its only ability) — doubles Speed in your Sunny Day.",
+   "ivs": "Special Attack, Attack, then HP.",
+   "evs": "252 SpA / 252 HP / 4 Spe (special build).",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "Teach Weepinbell Sleep Powder + Razor Leaf, THEN Leaf-Stone it — Victreebel's post-evo pool is empty.",
+   "moves": [
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym)"
+    },
+    {
+     "m": "Sleep Powder",
+     "src": "level (Weepinbell) — 75% sleep lead"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game); Return/Razor Leaf until then"
+    },
+    {
+     "m": "Solar Beam",
+     "src": "TM22 — Pokémon Mansion; with Sunny Day + Chlorophyll"
+    }
+   ],
+   "items": "Miracle Seed (+10% Grass); Leftovers post-game.",
+   "evo": "Weepinbell at L21, then Victreebel with a LEAF STONE (Celadon, ₽2100).",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive; the counterpart to FireRed's Oddish line. Hits harder than Vileplume but is a touch frailer. Same rule: stack its moves before the stone, because Victreebel learns nothing afterward."
+  },
+  "tentacool": {
+   "line": "Tentacool → Tentacruel (L30)  ·  FireRed only",
+   "role": "Fast, specially-bulky Water/Poison — a great defensive pivot and Surf spammer.",
+   "where": "Surf and fish on nearly all water (FireRed only for the catch list; also the SpD-EV spot).",
+   "catch": "Lv 5–40 by Surf/rod.",
+   "nature": "Timid (+Spe) or Modest (+SpA); Calm (+SpD) for a wall.",
+   "ability": "Clear Body or Liquid Ooze — either is fine; Clear Body blocks stat drops.",
+   "ivs": "Special Attack, Speed, then SpD.",
+   "evs": "252 SpA / 252 Spe / 4 SpD.",
+   "evWhere": "It IS the SpD-EV spot — but for an offensive build, SpA off Gastly and Speed in Diglett's Cave.",
+   "trainFrom": "Lv 30 as Tentacruel.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage"
+    },
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game); Poison STAB"
+    },
+    {
+     "m": "Hydro Pump / Barrier",
+     "src": "level — power option or set-up"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Tentacruel at L30.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Base 100 Speed and 120 SpD make it an excellent special wall that still hits hard with Surf/Ice Beam. Its Poison STAB (Sludge Bomb) is post-game, but Water/Ice coverage carries it fine."
+  },
+  "geodude": {
+   "line": "Geodude → Graveler (L25) → Golem (trade)",
+   "role": "Physical Rock/Ground tank — huge Defense, EdgeQuake coverage, and a nuke button.",
+   "where": "Wild in Mt. Moon, Rock Tunnel, Victory Road (both versions); the game's Defense-EV spot.",
+   "catch": "Lv 6–25.",
+   "nature": "Adamant (+Atk) or Brave (it's slow regardless).",
+   "ability": "Rock Head (prefer — no recoil from Double-Edge) over Sturdy. Random on catch.",
+   "ivs": "Attack and Defense.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Right where you catch it — Geodude/Graveler give Defense EVs everywhere underground.",
+   "trainFrom": "Lv 25 as Graveler.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "level 45 (or TM26) — Ground STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — its main Rock STAB (tutor-only; only other Rock move is TM39 Rock Tomb)"
+    },
+    {
+     "m": "Explosion",
+     "src": "level 53 — end a fight by taking someone with you"
+    },
+    {
+     "m": "Double-Edge",
+     "src": "level 62 — recoil-free with Rock Head"
+    }
+   ],
+   "items": "Hard Stone (+10% Rock) or Soft Sand (+10% Ground); Leftovers post-game.",
+   "evo": "Graveler at L25; Golem by LINK TRADE. Graveler is nearly as good if you can't trade.",
+   "final": "Lv 50–55.",
+   "notes": "Rock Slide being tutor-only (one shot, at Rock Tunnel) makes it a precious teach — give it to your best Rock user. 4× weak to Grass and Water, so it's a hit-and-explode piece, not a switch-in to those."
+  },
+  "ponyta": {
+   "line": "Ponyta → Rapidash (L40)",
+   "role": "Fast Fire — base 105 Speed, but a shallow movepool holds it back.",
+   "where": "Wild on Routes 17-18 (Cycling Road) and Pokémon Mansion (both versions).",
+   "catch": "Lv 26–34.",
+   "nature": "Jolly (+Spe) for a physical set, or Modest for special.",
+   "ability": "Flash Fire (prefer — Fire immunity) over Run Away. Random on catch.",
+   "ivs": "Speed, then Attack/SpA.",
+   "evs": "252 Spe / 252 Atk / 4 HP (or 252 SpA for special).",
+   "evWhere": "Speed in Diglett's Cave; Attack off Mankey / SpA off Gastly.",
+   "trainFrom": "Lv 40 as Rapidash.",
+   "moves": [
+    {
+     "m": "Fire Blast",
+     "src": "TM38 — Silph Co. / Blaine; or Flamethrower TM35 (Game Corner)"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral STAB"
+    },
+    {
+     "m": "Iron Tail",
+     "src": "TM23 — Celadon Game Corner; hits Rock"
+    },
+    {
+     "m": "Bounce / Quick Attack",
+     "src": "level — situational"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "Rapidash at L40.",
+   "final": "Lv 45–50.",
+   "notes": "Quick and reliable, but Fire + Return + Iron Tail is about all it does — no Ground or Rock STAB to lean on. A perfectly good playthrough Fire type, just not a standout like Arcanine."
+  },
+  "slowpoke": {
+   "line": "Slowpoke → Slowbro (L37)  ·  LeafGreen only",
+   "role": "Premier bulky special tank — Calm Mind Slowbro walls and sweeps at once.",
+   "where": "Fish/Surf around Kanto's water (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 10–30.",
+   "nature": "Bold (+Def) or Modest (+SpA).",
+   "ability": "Own Tempo (prefer — no confusion) or Oblivious. Both fine.",
+   "ivs": "HP, Defense, and Special Attack.",
+   "evs": "252 HP / 252 Def / 4 SpA (Bold).",
+   "evWhere": "HP Up ×10; Defense off Geodude in the caves.",
+   "trainFrom": "Lv 37 as Slowbro.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; second STAB (or level 44)"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); +SpA/+SpD to snowball"
+    },
+    {
+     "m": "Ice Beam / Rest",
+     "src": "TM13 (Game Corner) / level — coverage or recovery"
+    }
+   ],
+   "items": "Leftovers (post-game) or Mystic Water (+10% Water).",
+   "evo": "Slowbro at L37. Slowking needs a link trade holding a King's Rock — skip it unless you want the dex entry.",
+   "final": "Lv 50–55.",
+   "notes": "LeafGreen exclusive. 95/110/80 defenses plus Calm Mind make it nearly unkillable specially — set up on a passive foe and sweep. Its only real weaknesses (Grass, Bug, Ghost, Dark, Electric) are mostly rare in Kanto."
+  },
+  "magnemite": {
+   "line": "Magnemite → Magneton (L30)",
+   "role": "Special Electric/Steel with a fantastic defensive typing and Magnet Pull.",
+   "where": "Wild in the Power Plant; a couple on Route 10 (both versions).",
+   "catch": "Lv 20–33.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Magnet Pull (prefer — traps Steel types) over Sturdy. Random on catch.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Lv 30 as Magneton.",
+   "moves": [
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Celadon Game Corner; its main STAB"
+    },
+    {
+     "m": "Hidden Power [Ice/Grass/Ground]",
+     "src": "TM10 — Pickup; the only answer to Ground types"
+    },
+    {
+     "m": "Thunder Wave",
+     "src": "level 21 — cripple something faster"
+    },
+    {
+     "m": "Tri Attack / Metal Sound",
+     "src": "level 44 / level — Normal coverage / SpD drop"
+    }
+   ],
+   "items": "Magnet (+10% Electric); Leftovers post-game.",
+   "evo": "Magneton at L30.",
+   "final": "Lv 45–50.",
+   "notes": "Electric/Steel resists a huge chunk of the game (it takes just Ground, Fire, Fighting super-effectively). Its blind spot is Ground — so Hidden Power is close to mandatory. Zap Cannon (L62) is too inaccurate; stick with Thunderbolt."
+  },
+  "farfetchd": {
+   "line": "Farfetch'd (does not evolve)",
+   "role": "Gimmick crit-swinger — the Stick doubles its critical rate. A collector's piece, not a carry.",
+   "where": "In-game trade only: give a Spearow on Route 2 (in the house) for a Farfetch'd (both versions).",
+   "catch": "Received around Lv 3–8 by trade (it grows fast under the trade EXP boost).",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Keen Eye or Inner Focus — neither matters much.",
+   "ivs": "Attack and Speed (fixed by the trade, so you take what you get).",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "Immediately — the traded-mon EXP bonus levels it quickly.",
+   "moves": [
+    {
+     "m": "Slash",
+     "src": "level — high crit, near-guaranteed with the Stick"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; reliable STAB"
+    },
+    {
+     "m": "Swords Dance",
+     "src": "level — stack Attack behind the crits"
+    },
+    {
+     "m": "Fly / Aerial Ace",
+     "src": "HM02 / TM40 — Flying STAB and overworld use"
+    }
+   ],
+   "items": "Stick (Leek) — hold it: Farfetch'd's critical-hit rate is doubled with it (rare wild-Farfetch'd hold item).",
+   "evo": "None.",
+   "final": "Lv 40–45; realistically a Fly slave with a fun crit gimmick.",
+   "notes": "Traded in, so it obeys regardless of badges and gains boosted EXP. Weak stats (52 Atk base) mean the Stick + Slash crits are its only route to relevance. Keep it for the dex or a novelty run."
+  },
+  "doduo": {
+   "line": "Doduo → Dodrio (L31)",
+   "role": "The hardest-hitting early flyer — base 110 Attack, 100 Speed, and Drill Peck.",
+   "where": "Wild on Routes 16-18 (Cycling Road) and the Safari Zone (both versions).",
+   "catch": "Lv 18–29.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Run Away or Early Bird — Early Bird (shorter sleep) is the pick. Random on catch.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 31 as Dodrio.",
+   "moves": [
+    {
+     "m": "Drill Peck",
+     "src": "level — strong Flying STAB, no drawback"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; hard neutral hit"
+    },
+    {
+     "m": "Steel Wing",
+     "src": "TM47 — Safari Zone; hits Rock/Ice"
+    },
+    {
+     "m": "Fly / Tri Attack",
+     "src": "HM02 / level — overworld flight, or a Normal move with a status chance"
+    }
+   ],
+   "items": "Sharp Beak (+10% Flying) or Silk Scarf for Return.",
+   "evo": "Dodrio at L31.",
+   "final": "Lv 45–50.",
+   "notes": "Out-hits Pidgeot, Fearow and Dodrio's rivals — the strongest 'catchable' Flying attacker before Zapdos/Aerodactyl. Fragile and locked into physical Normal/Flying, so it's a fast striker, not a pivot."
+  },
+  "seel": {
+   "line": "Seel → Dewgong (L34)",
+   "role": "Bulky Water/Ice wall with Thick Fat — soaks Fire and Ice hits and stalls.",
+   "where": "Wild/Surf in Seafoam Islands and Icefall Cave (both versions).",
+   "catch": "Lv 22–40.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Thick Fat (prefer — halves Fire AND Ice damage) over Hydration. Random on catch.",
+   "ivs": "Special Attack, HP, then the defenses.",
+   "evs": "252 HP / 252 SpA / 4 SpD.",
+   "evWhere": "HP Up ×10; SpA off Gastly (Pokémon Tower).",
+   "trainFrom": "Lv 34 as Dewgong.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; second STAB (or level)"
+    },
+    {
+     "m": "Rest",
+     "src": "TM44 — Route 9; full recovery on a wall"
+    },
+    {
+     "m": "Toxic",
+     "src": "TM06 — Koga (Fuchsia Gym); wear down what it walls"
+    }
+   ],
+   "items": "Leftovers (post-game); Mystic Water (+10% Water) otherwise.",
+   "evo": "Dewgong at L34.",
+   "final": "Lv 45–50.",
+   "notes": "Thick Fat turns its one bad defensive matchup (its own Ice type being weak to Fire) into a resistance. A patient RestTalk-style wall; light on offense (Surf/Ice Beam), heavy on staying power."
+  },
+  "grimer": {
+   "line": "Grimer → Muk (L38)  ·  LeafGreen only",
+   "role": "Beefy physical Poison wall — huge HP/SpD, wide special coverage on TMs.",
+   "where": "Wild in Pokémon Mansion and the Rocket Warehouse (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 23–34.",
+   "nature": "Adamant (+Atk) or Careful (+SpD).",
+   "ability": "Sticky Hold (prevents item theft) or Stench — take either.",
+   "ivs": "HP, Attack, then SpD.",
+   "evs": "252 HP / 252 Atk / 4 SpD.",
+   "evWhere": "HP Up ×10; Attack off Mankey.",
+   "trainFrom": "Lv 38 as Muk.",
+   "moves": [
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (POST-GAME); Sludge (level) is the stand-in STAB"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; physical coverage off its 105 Attack"
+    },
+    {
+     "m": "Fire Blast / Thunderbolt",
+     "src": "TM38 / TM24 — special coverage vs Steel/Water (off its modest 65 SpA)"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; reliable neutral hit"
+    }
+   ],
+   "items": "Black Sludge doesn't exist in Gen 3 — use Leftovers (post-game) or Poison Barb (+10% Poison).",
+   "evo": "Muk at L38.",
+   "final": "Lv 50–55.",
+   "notes": "LeafGreen exclusive. 105/75/100 bulk makes it a superb Poison wall, but its real STAB (Sludge Bomb) is post-game — until then it leans on Sludge, Brick Break and Return. Poison is only super-effective on Grass in Gen 3 (no Fairy), so treat it as a wall first."
+  },
+  "shellder": {
+   "line": "Shellder → Cloyster (Water Stone)  ·  FireRed only",
+   "role": "Physical wall & Spikes-setter — base 180 Defense behind an entry hazard.",
+   "where": "Fish (Super Rod) around Kanto's coasts (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 15–35.",
+   "nature": "Naughty (+Atk) or Bold (+Def).",
+   "ability": "Shell Armor (its only ability) — immune to critical hits.",
+   "ivs": "Defense, then Attack/SpA.",
+   "evs": "252 HP / 252 Def / 4 Atk.",
+   "evWhere": "HP Up ×10; Defense off Geodude in the caves.",
+   "trainFrom": "Let Shellder learn Ice Beam (L50) or teach it, THEN Water-Stone — Cloyster's post-evo pool is bare.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; Water STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner (or level 50 on Shellder)"
+    },
+    {
+     "m": "Spikes",
+     "src": "level 36 — set the hazard that softens the enemy team"
+    },
+    {
+     "m": "Toxic / Protect",
+     "src": "TM06 (Koga) / level — stall and stay in"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Cloyster with a WATER STONE (Celadon, ₽2100). Stack Ice Beam/Spikes on Shellder first — Cloyster only learns Spikes and Spike Cannon after evolving.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Cloyster's Defense is absurd, but its HP and SpD are low, so it walls physical attackers, not special ones. Set Spikes, then Surf/Ice Beam — there's no Explosion available to it in FR/LG."
+  },
+  "gastly": {
+   "line": "Gastly → Haunter (L25) → Gengar (trade)",
+   "role": "Elite special sweeper — Levitate, base 130 SpA/110 Speed, and a Ground immunity.",
+   "where": "Wild in Pokémon Tower, Lavender (both versions).",
+   "catch": "Lv 13–23.",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Levitate (its only ability) — immune to Ground moves, including Earthquake.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "Right where you catch it — Gastly gives SpA EVs in Pokémon Tower. Speed in Diglett's Cave.",
+   "trainFrom": "Lv 25 as Haunter.",
+   "moves": [
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Celadon Game Corner; premium coverage"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; hits Fighting/Poison"
+    },
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Game Corner (or level 45); Ghost STAB"
+    },
+    {
+     "m": "Giga Drain / Hypnosis",
+     "src": "TM19 / level — coverage + heal, or a sleep lead"
+    }
+   ],
+   "items": "Twistedspoon or Spell Tag (+10%); no Choice items in FR/LG.",
+   "evo": "Haunter at L25; Gengar by LINK TRADE (a traded Haunter evolves on arrival).",
+   "final": "Lv 50–55.",
+   "notes": "Solo, you're capped at Haunter — still a devastating sweeper. Levitate makes it a hard counter to Ground attackers (the app's fight-counters don't model this, but in-game it's real). Frail, so it revenge-kills rather than switches in."
+  },
+  "onix": {
+   "line": "Onix → Steelix (trade holding Metal Coat)",
+   "role": "Physical wall on rails — as Onix a Def-160 nuisance, as Steelix a Def-200 fortress.",
+   "where": "Wild in Rock Tunnel and Victory Road (both versions).",
+   "catch": "Lv 15–40.",
+   "nature": "Adamant (+Atk) or Impish (+Def).",
+   "ability": "Rock Head (prefer — recoil-free Double-Edge) or Sturdy. Random on catch.",
+   "ivs": "Defense and Attack.",
+   "evs": "252 HP / 252 Def / 4 Atk.",
+   "evWhere": "HP Up ×10; Defense off Geodude in the same caves.",
+   "trainFrom": "Lv 30+; trade to Steelix as soon as you have a Metal Coat and a partner.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Dig (TM28) until then"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — its main Rock STAB (tutor-only)"
+    },
+    {
+     "m": "Iron Tail",
+     "src": "TM23 — Game Corner (or level 45); Steel STAB on Steelix"
+    },
+    {
+     "m": "Double-Edge",
+     "src": "level 56 — recoil-free with Rock Head"
+    }
+   ],
+   "items": "Hard Stone (+10% Rock); Leftovers post-game.",
+   "evo": "Steelix needs BOTH a link trade AND a held Metal Coat (from wild Magnemite/Magneton, or found). A double gate — most solo runs stay on Onix.",
+   "final": "Lv 45–55.",
+   "notes": "Onix's HP is low (35) so its 'wall' status is defense-only; Steelix fixes that (75 HP, 200 Def, better typing). Without trading, it's a serviceable Rock Slide/EQ tank but nothing special. 4× weak to Water and Grass either way."
+  },
+  "drowzee": {
+   "line": "Drowzee → Hypno (L26)",
+   "role": "Bulky Psychic with a sleep engine — Hypnosis + Dream Eater + Calm Mind.",
+   "where": "Wild on Routes 11-12 and near Lavender (both versions).",
+   "catch": "Lv 9–22.",
+   "nature": "Modest (+SpA) or Calm (+SpD).",
+   "ability": "Insomnia (its only relevant ability in Gen 3) — can't be put to sleep.",
+   "ivs": "Special Attack, HP, then SpD.",
+   "evs": "252 HP / 252 SpA / 4 SpD.",
+   "evWhere": "HP Up ×10; SpA off Gastly (Pokémon Tower).",
+   "trainFrom": "Lv 26 as Hypno.",
+   "moves": [
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; main STAB"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); set up behind a sleeping foe"
+    },
+    {
+     "m": "Hypnosis + Dream Eater",
+     "src": "Hypnosis is level; Dream Eater is the Viridian City move tutor — sleep, then drain HP"
+    },
+    {
+     "m": "Shadow Ball / Ice Punch",
+     "src": "TM30 — coverage vs other Psychics"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic); Leftovers post-game.",
+   "evo": "Hypno at L26.",
+   "final": "Lv 45–50.",
+   "notes": "A poor man's Alakazam that trades speed for bulk and never needs a trade to reach its final form. Hypnosis is only 60% accurate — the sleep game is a bonus, not the plan; Calm Mind + Psychic is the core."
+  },
+  "krabby": {
+   "line": "Krabby → Kingler (L28)  ·  LeafGreen only",
+   "role": "Rare physical Water attacker — base 130 Attack behind a high-crit Crabhammer.",
+   "where": "Fish (Good/Super Rod) around Kanto (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 5–35.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Hyper Cutter (Attack can't be dropped) or Shell Armor (no crits taken) — either works.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 28 as Kingler.",
+   "moves": [
+    {
+     "m": "Crabhammer",
+     "src": "level — high-crit Water STAB, its signature"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral coverage"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage vs Grass/Flying"
+    },
+    {
+     "m": "Dig",
+     "src": "TM28 — Cerulean City; Ground coverage"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Kingler at L28.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive. A genuinely hard-hitting physical Water — a rarity, since most Water types are special. Middling Speed (75) and no coverage STAB beyond Water hold it just short of the top tier."
+  },
+  "voltorb": {
+   "line": "Voltorb → Electrode (L30)",
+   "role": "The fastest Pokémon in Kanto (base 150 Speed) — a screens-and-Explosion disruptor.",
+   "where": "Wild in the Power Plant; static Electrodes there too (both versions).",
+   "catch": "Lv 20–40.",
+   "nature": "Timid (+Spe) — modest SpA means it plays support, not sweeper.",
+   "ability": "Soundproof or Static — Static (paralyse on contact) is the pick. Random on catch.",
+   "ivs": "Speed, then Special Attack.",
+   "evs": "252 Spe / 252 SpA / 4 HP.",
+   "evWhere": "Speed in Diglett's Cave; SpA off Gastly.",
+   "trainFrom": "Lv 30 as Electrode.",
+   "moves": [
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Celadon Game Corner; main STAB"
+    },
+    {
+     "m": "Explosion",
+     "src": "level 54 — go out with a 250-power bang"
+    },
+    {
+     "m": "Light Screen",
+     "src": "level 41 — halve incoming special damage for the team"
+    },
+    {
+     "m": "Hidden Power [Ice/Grass]",
+     "src": "TM10 — Pickup; coverage for the Ground types Thunderbolt can't touch"
+    }
+   ],
+   "items": "Magnet (+10% Electric); a Focus Band to guarantee the Explosion.",
+   "evo": "Electrode at L30.",
+   "final": "Lv 45–50.",
+   "notes": "Its 150 Speed guarantees the first Light Screen or Explosion, but a weak 80 SpA means it won't sweep — think fast support and a suicide nuke. Note it can't learn Thunder Wave in FR/LG (no level move, no TM), so its speed control is Light Screen + Screech, not paralysis. Soundproof dodges sound moves; Static is generally more useful."
+  },
+  "exeggcute": {
+   "line": "Exeggcute → Exeggutor (Leaf Stone)",
+   "role": "Top-tier special Grass/Psychic — 125 SpA, a sleep lead, and huge overall bulk.",
+   "where": "Wild in the Safari Zone (both versions).",
+   "catch": "Lv 20–27.",
+   "nature": "Modest (+SpA); Quiet if you don't mind the Speed loss on a bulky build.",
+   "ability": "Chlorophyll (its only ability) — doubles Speed in your Sunny Day.",
+   "ivs": "Special Attack and HP.",
+   "evs": "252 SpA / 252 HP / 4 SpD.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "Teach Exeggcute Sleep Powder (L37) and Solar Beam (L43), THEN Leaf-Stone it.",
+   "moves": [
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; main STAB"
+    },
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym); Grass STAB + heal"
+    },
+    {
+     "m": "Sleep Powder",
+     "src": "level (Exeggcute) — 75% sleep lead"
+    },
+    {
+     "m": "Solar Beam / Leech Seed",
+     "src": "level / — with Sunny Day + Chlorophyll, or passive damage"
+    }
+   ],
+   "items": "Miracle Seed or Twistedspoon (+10%); Leftovers post-game.",
+   "evo": "Exeggutor with a LEAF STONE (Celadon, ₽2100). Crucially, learn Sleep Powder and Solar Beam as Exeggcute FIRST — Exeggutor only learns Stomp and Egg Bomb after evolving.",
+   "final": "Lv 50–55.",
+   "notes": "One of the best special attackers you can catch mid-run. Grass/Psychic is offensively excellent (it's only walled by Bug/Ghost/Dark/Fire, and Gen 3's Dark/Ghost are thin). Set it up, sleep the lead, and sweep with Psychic."
+  },
+  "cubone": {
+   "line": "Cubone → Marowak (L28)",
+   "role": "With a Thick Club, the hardest physical hitter in Kanto — effective 160 Attack.",
+   "where": "Wild in Pokémon Tower (both versions). Catch several to fish for the Thick Club.",
+   "catch": "Lv 13–19. Wild Cubone occasionally hold a Thick Club — snag one via Thief/capture.",
+   "nature": "Adamant (+Atk).",
+   "ability": "Rock Head (prefer — recoil-free Double-Edge) or Lightning Rod. Random on catch.",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey; HP Up ×10.",
+   "trainFrom": "Lv 28 as Marowak.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Bonemerang (level 25) is the STAB stand-in"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage vs Flying/Fire/Bug (tutor-only)"
+    },
+    {
+     "m": "Double-Edge",
+     "src": "level 61 — recoil-free with Rock Head; or Return (TM27)"
+    },
+    {
+     "m": "Bonemerang",
+     "src": "level 25 — reliable two-hit Ground STAB before EQ"
+    }
+   ],
+   "items": "THICK CLUB — doubles Marowak's Attack; the whole reason to run it. Held rarely by wild Cubone.",
+   "evo": "Marowak at L28.",
+   "final": "Lv 50–55.",
+   "notes": "Base 80 Attack is mediocre — the Thick Club is what makes Marowak elite (a doubled 160). Without it, it's a bulky-but-underwhelming Ground type. Get the club before you invest. 2× weak to Water/Grass/Ice."
+  },
+  "tyrogue": {
+   "line": "Fighting Dojo gift → Hitmonlee / Hitmonchan (pick one)  ·  Tyrogue & Hitmontop by breeding",
+   "role": "Gift Fighter — Hitmonlee is the raw sweeper, Hitmonchan the coverage specialist.",
+   "where": "Gift from the Saffron Fighting Dojo after you beat it — you choose ONE, permanently.",
+   "catch": "Lv 25 gift (Hitmonlee or Hitmonchan).",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Hitmonlee: Limber. Hitmonchan: Keen Eye. (Gen 3 gives each one ability.)",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "Immediately — it arrives at L25, battle-ready.",
+   "moves": [
+    {
+     "m": "Hi Jump Kick / Sky Uppercut",
+     "src": "level — Hitmonlee's / Hitmonchan's Fighting STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage (tutor-only)"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); Brick Break (TM31) sooner"
+    },
+    {
+     "m": "Ice/Fire/Thunder Punch",
+     "src": "level (Hitmonchan only) — elemental coverage it learns natively"
+    }
+   ],
+   "items": "Black Belt (+10% Fighting); Leftovers post-game.",
+   "evo": "The Dojo gifts are already Hitmonlee/Hitmonchan. Hitmontop (and baby Tyrogue) only come from BREEDING a Hitmon — Tyrogue evolves by its Atk/Def ratio at L20 (Atk>Def → Lee, Def>Atk → Chan, equal → Top).",
+   "final": "Lv 50–55.",
+   "notes": "You get one Hitmon per game from the Dojo — the other is a permanent miss without trading. Hitmonlee's 120 Attack + Hi Jump Kick hits hardest; Hitmonchan is frailer but carries the elemental punches by level. Elemental Punch TUTORS do NOT exist in FR/LG (those are Emerald), so only Hitmonchan gets them."
+  },
+  "lickitung": {
+   "line": "Lickitung (does not evolve in Gen 3)",
+   "role": "Bulky Normal utility — a wide movepool and paralysis support, if you can look past its stats.",
+   "where": "In-game trade only: give a Slowbro on Route 18 for a Lickitung (both versions).",
+   "catch": "Received ~Lv 20 by trade (obeys regardless of badges).",
+   "nature": "Adamant (+Atk) or Careful (+SpD).",
+   "ability": "Own Tempo or Oblivious — neither matters much.",
+   "ivs": "HP and Attack (fixed by the trade).",
+   "evs": "252 HP / 252 Atk / 4 Def.",
+   "evWhere": "HP Up ×10; Attack off Mankey.",
+   "trainFrom": "Immediately — traded EXP bonus levels it fast.",
+   "moves": [
+    {
+     "m": "Body Slam",
+     "src": "Four Island move tutor (POST-GAME) — STAB with a 30% paralysis; Return (TM27) fills in"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); great coverage"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage (tutor-only)"
+    },
+    {
+     "m": "Shadow Ball / Thunderbolt",
+     "src": "TM30 / TM24 — Game Corner coverage"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal); Leftovers post-game.",
+   "evo": "None — Lickilicky is a Gen 4 evolution and does not exist here.",
+   "final": "Lv 45–50.",
+   "notes": "Lickitung never evolves in FR/LG, so it's stuck on a 385-BST frame. Its saving grace is coverage (EQ + Rock Slide + Body Slam paralysis) and bulk. A fun utility mon, not a powerhouse. Traded, so it always obeys."
+  },
+  "koffing": {
+   "line": "Koffing → Weezing (L35)  ·  FireRed only",
+   "role": "Defensive Poison with Levitate — a base-120-Defense wall that ignores Ground moves.",
+   "where": "Wild in Pokémon Mansion and the Rocket Hideout (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 23–34.",
+   "nature": "Bold (+Def) or Modest (+SpA).",
+   "ability": "Levitate (its only ability) — immune to Ground, including Earthquake.",
+   "ivs": "Defense, HP, then Special Attack.",
+   "evs": "252 HP / 252 Def / 4 SpA.",
+   "evWhere": "HP Up ×10; Defense off Geodude in the caves.",
+   "trainFrom": "Lv 35 as Weezing.",
+   "moves": [
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (POST-GAME); Sludge (level) is the stand-in STAB"
+    },
+    {
+     "m": "Fire Blast / Thunderbolt",
+     "src": "TM38 / TM24 — surprise special coverage"
+    },
+    {
+     "m": "Explosion",
+     "src": "level — the classic Weezing exit move"
+    },
+    {
+     "m": "Will-O-Wisp doesn't exist... Toxic",
+     "src": "TM06 (Koga) — wear walls down instead"
+    }
+   ],
+   "items": "Leftovers (post-game); Poison Barb (+10% Poison) otherwise.",
+   "evo": "Weezing at L35.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Levitate + 120 Defense make it a great physical wall that laughs at Ground attackers. Its own Poison STAB is post-game (Sludge Bomb), so mid-game it walls, spreads Toxic, and Explodes when cornered."
+  },
+  "rhyhorn": {
+   "line": "Rhyhorn → Rhydon (L42)",
+   "role": "Physical Ground/Rock juggernaut — base 130 Attack and huge EdgeQuake coverage.",
+   "where": "Wild in the Safari Zone and Victory Road (both versions).",
+   "catch": "Lv 25–48.",
+   "nature": "Adamant (+Atk).",
+   "ability": "Rock Head (prefer — recoil-free Double-Edge/Take Down) or Lightning Rod. Random on catch.",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey/Nidoran; HP Up ×10.",
+   "trainFrom": "Lv 42 as Rhydon (a late bloomer — Exp. Share helps).",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (or level 58); prime STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — the other half of EdgeQuake (tutor-only)"
+    },
+    {
+     "m": "Megahorn",
+     "src": "level 66 — huge Bug coverage vs Grass/Psychic"
+    },
+    {
+     "m": "Take Down",
+     "src": "level 46 — recoil-free with Rock Head; or Return (TM27)"
+    }
+   ],
+   "items": "Soft Sand or Hard Stone (+10%); Leftovers post-game.",
+   "evo": "Rhydon at L42.",
+   "final": "Lv 50–55.",
+   "notes": "EdgeQuake off 130 Attack wrecks most of Kanto, but a glaring 4× weakness to Water AND Grass (and low Special bulk) means it can't switch into them. Evolves late — use the Exp. Share to drag it up to Rhydon."
+  },
+  "chansey": {
+   "line": "Chansey → Blissey (high friendship)",
+   "role": "The ultimate special wall — a 250-HP, Softboiled-healing staller that never dies to special hits.",
+   "where": "Wild (rare, 5%) in the Safari Zone; also Cerulean Cave. Bring plenty of balls.",
+   "catch": "Lv 23–30. Catch rate is a miserable 30 — stock Ultra Balls and status it first. Wild Chansey often hold a Lucky Egg (grab it!).",
+   "nature": "Bold (+Def) or Calm (+SpD) — you're maximising bulk, not offense.",
+   "ability": "Natural Cure (prefer — heals status on switch) over Serene Grace. Random on catch.",
+   "ivs": "HP and Defense (its Defense is 5, so every point counts).",
+   "evs": "252 HP / 252 Def / 4 SpD.",
+   "evWhere": "HP Up ×10; Defense off Geodude. Its own EV yield is HP.",
+   "trainFrom": "From catch — it stalls, so it doesn't need to sweep for EXP (Exp. Share it up).",
+   "moves": [
+    {
+     "m": "Seismic Toss",
+     "src": "Pewter City move tutor — fixed damage equal to its level, ignores its awful Attack"
+    },
+    {
+     "m": "Soft-Boiled",
+     "src": "level 10 — heal 50% HP, the core of the stall"
+    },
+    {
+     "m": "Toxic",
+     "src": "TM06 — Koga (Fuchsia Gym); wear down whatever can't break it"
+    },
+    {
+     "m": "Thunderbolt / Ice Beam",
+     "src": "TM24 / TM13 — Game Corner; real coverage off its... modest SpA"
+    }
+   ],
+   "items": "Lucky Egg (from a wild Chansey — boosts EXP for the whole team's trainer); Leftovers post-game.",
+   "evo": "Blissey at high friendship (Soothe Bell + walking/battles). Blissey is even bulkier (255 HP / 135 SpD).",
+   "final": "Lv 50–55; it's a wall, so raw level matters less than its EVs and moves.",
+   "notes": "Paper-thin Defense (5!) means physical attackers, especially Fighting, delete it — pair it with a Ghost/Fighting-resist. Against special attackers it is nearly unkillable: Seismic Toss + Softboiled + Toxic outlasts almost anything."
+  },
+  "tangela": {
+   "line": "Tangela (does not evolve in Gen 3)",
+   "role": "Bulky special Grass with a sleep lead — a defensive wall that hits back hard.",
+   "where": "Wild on Routes 21/28 and near Pallet/Cinnabar (both versions).",
+   "catch": "Lv 12–30.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Chlorophyll (its only ability) — doubles Speed in your Sunny Day.",
+   "ivs": "Special Attack and Defense.",
+   "evs": "252 SpA / 252 HP / 4 Def (or 252 HP / 252 Def, Bold).",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "From catch — it's usable immediately with Giga Drain and Sleep Powder.",
+   "moves": [
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym); STAB + healing on a wall"
+    },
+    {
+     "m": "Sleep Powder",
+     "src": "level — 75% sleep to set up or stall"
+    },
+    {
+     "m": "Solar Beam",
+     "src": "TM22 — Pokémon Mansion; with Sunny Day + Chlorophyll"
+    },
+    {
+     "m": "Ancient Power / Stun Spore",
+     "src": "level — coverage or extra status"
+    }
+   ],
+   "items": "Miracle Seed (+10% Grass); Leftovers post-game.",
+   "evo": "None — Tangrowth is a Gen 4 evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "Base 115 Defense + 100 SpA make it a fine bulky attacker despite never evolving. Grass is a shaky defensive type (weak to Fire/Flying/Ice/Poison/Bug), so lean on its Defense and the sleep/Leech game rather than switching in freely."
+  },
+  "kangaskhan": {
+   "line": "Kangaskhan (does not evolve)",
+   "role": "Balanced physical Normal with elite coverage — EQ, Rock Slide and Brick Break off one frame.",
+   "where": "Wild (rare, 5%) in the Safari Zone (both versions).",
+   "catch": "Lv 25–33. Bring Safari Balls and patience.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Early Bird (its only relevant ability) — wakes from sleep fast.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "From catch — it comes ready-made at a useful level.",
+   "moves": [
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; or Body Slam (Four Island tutor, post-game) for paralysis"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); superb coverage"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — vs Flying/Bug/Fire (tutor-only)"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; rounds out the coverage"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 50–55.",
+   "notes": "No exceptional stat, but 95/80/90 across the board plus EQ + Rock Slide + Brick Break makes it a reliable, well-rounded attacker with no bad matchups. A textbook 'good playthrough' Normal type."
+  },
+  "horsea": {
+   "line": "Horsea → Seadra (L32) → Kingdra (trade holding Dragon Scale)  ·  FireRed only",
+   "role": "Special Water sweeper — Seadra solo, or the superb Water/Dragon Kingdra with a trade.",
+   "where": "Fish (Super Rod) around Kanto (FireRed only for wild; trade in LeafGreen).",
+   "catch": "Lv 5–35.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Seadra: Poison Point. Kingdra: Swift Swim. Horsea: Swift Swim.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Lv 32 as Seadra.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage"
+    },
+    {
+     "m": "Hidden Power [Grass/Electric]",
+     "src": "TM10 — Pickup; answers other Water types"
+    },
+    {
+     "m": "Hydro Pump / Dragon Breath",
+     "src": "level — power option or Dragon STAB on Kingdra"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Dragon Scale is the trade item for Kingdra (don't consume it — it's held during the trade).",
+   "evo": "Seadra at L32; Kingdra by LINK TRADE while HOLDING a Dragon Scale (a double gate). Solo, Seadra is a perfectly good special attacker.",
+   "final": "Lv 50–55.",
+   "notes": "FireRed exclusive. Kingdra (95 across the board, Water/Dragon) is one of the best Water types in the game, but the trade-plus-item requirement puts it out of reach for most single-cartridge runs — Seadra carries the load instead."
+  },
+  "goldeen": {
+   "line": "Goldeen → Seaking (L33)",
+   "role": "Physical Water — a rarity, but a weak one; fine early filler, not an endgame piece.",
+   "where": "Fish (Old/Good Rod) and Surf almost everywhere (both versions).",
+   "catch": "Lv 5–30.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Swift Swim or Water Veil — either is fine.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 33 as Seaking.",
+   "moves": [
+    {
+     "m": "Waterfall",
+     "src": "HM07 — Icefall Cave; physical Water STAB"
+    },
+    {
+     "m": "Megahorn",
+     "src": "level — big Bug coverage vs Grass/Psychic"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral coverage"
+    },
+    {
+     "m": "Horn Drill / Ice Beam",
+     "src": "level / TM13 — OHKO gimmick or coverage"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Seaking at L33.",
+   "final": "Lv 40–45.",
+   "notes": "Physical Water attackers are scarce, but Seaking's 92 Attack and shallow pool leave it outclassed by Kingler/Gyarados. Megahorn is its one spicy option. A decent Rod catch to plug a gap, then bench."
+  },
+  "staryu": {
+   "line": "Staryu → Starmie (Water Stone)  ·  LeafGreen only",
+   "role": "Elite special sweeper — 115 Speed, BoltBeamPsychic coverage, and Recover.",
+   "where": "Fish (Super Rod) and Surf at night-equivalent slots around Kanto (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 15–35.",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Natural Cure (prefer — heals status on switch) over Illuminate. Random on catch.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Teach Staryu what you want, THEN Water-Stone — Starmie's post-evo pool is nearly empty.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; the Beam half"
+    },
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Game Corner; the Bolt half, hits Water/Flying"
+    },
+    {
+     "m": "Psychic / Recover",
+     "src": "TM29 (Saffron) / level — second STAB or the recovery that makes it a pivot"
+    }
+   ],
+   "items": "Mystic Water or Twistedspoon (+10%); Leftovers post-game.",
+   "evo": "Starmie with a WATER STONE (Celadon, ₽2100). Its level-up pool is bare after evolving — stack TMs on Staryu first.",
+   "final": "Lv 50–55.",
+   "notes": "LeafGreen exclusive and one of the best sweepers in the game — fast enough to outrun most of Kanto, with BoltBeam + Psychic + Recover. Natural Cure lets it pivot in and out of status freely. Its only real fear is a faster Electric or a strong Ghost/Dark."
+  },
+  "mr-mime": {
+   "line": "Mr. Mime (does not evolve in Gen 3)",
+   "role": "Specially-bulky Psychic with screens and Calm Mind — a defensive setup sweeper.",
+   "where": "In-game trade only: give an Abra on Route 2 for a Mr. Mime (both versions).",
+   "catch": "Received ~Lv 5–8 by trade (obeys; boosted EXP).",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Soundproof (its only relevant ability) — immune to sound moves.",
+   "ivs": "Special Attack and Speed (fixed by the trade).",
+   "evs": "252 SpA / 252 Spe / 4 HP (or 252 HP / 252 SpD for a wall).",
+   "evWhere": "SpA off Gastly; Speed in Diglett's Cave.",
+   "trainFrom": "Immediately — traded EXP bonus levels it fast.",
+   "moves": [
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; main STAB"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); +SpA/+SpD to snowball"
+    },
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Game Corner; coverage vs Water/Flying"
+    },
+    {
+     "m": "Reflect / Light Screen",
+     "src": "level / TM16 — screens for the team, and its own survival"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic); Leftovers post-game.",
+   "evo": "None — Mime Jr. is a Gen 4 pre-evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "120 SpD makes it a specially-bulky Calm Mind sweeper; behind a Reflect it survives physical hits too. Traded in, so it obeys from the start. Its Barrier/screens support role is a nice bonus on a defensive team."
+  },
+  "scyther": {
+   "line": "Scyther → Scizor (trade holding Metal Coat)  ·  FireRed only",
+   "role": "Fast physical Bug/Flying with Swords Dance — a self-sufficient sweeper even without the trade.",
+   "where": "Wild (rare, 5%) in the Safari Zone (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 25–30. Safari Zone, so no status/weakening — just Safari Balls.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Swarm (its only ability).",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "From catch — it comes at a strong level with Swords Dance in reach.",
+   "moves": [
+    {
+     "m": "Swords Dance",
+     "src": "level 36 — +2 Attack turns it into a sweeper"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying STAB"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; hard neutral hit"
+    },
+    {
+     "m": "Steel Wing / Slash",
+     "src": "TM47 (Safari Zone) / level — coverage vs Rock/Ice"
+    }
+   ],
+   "items": "Silver Powder (+10% Bug) or Sharp Beak (+10% Flying); Leftovers post-game.",
+   "evo": "Scizor needs BOTH a link trade AND a held Metal Coat — a double gate. Scyther itself is an excellent Swords Dance sweeper, so most solo runs stay Scyther.",
+   "final": "Lv 50–55.",
+   "notes": "FireRed exclusive. Scyther is 4× weak to Rock (mind Rock Slide users); Scizor trades the Flying type for Steel, fixing that and hitting harder (130 Atk) but slower. Either way, Swords Dance + Aerial Ace/Return is the plan."
+  },
+  "pinsir": {
+   "line": "Pinsir (does not evolve in Gen 3)  ·  LeafGreen only",
+   "role": "Physical Bug bruiser — base 125 Attack with EdgeQuake coverage (its Bug STAB is weak).",
+   "where": "Wild (rare, 5%) in the Safari Zone (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 25–30. Safari Balls only.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Hyper Cutter (its only relevant ability) — Attack can't be lowered.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); its best move despite not being STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage (tutor-only)"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; reliable neutral hit"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; more coverage"
+    }
+   ],
+   "items": "Silk Scarf (for Return) or Soft Sand (for EQ); Leftovers post-game.",
+   "evo": "None — Mega Pinsir is a much later mechanic and doesn't exist here.",
+   "final": "Lv 50–55.",
+   "notes": "LeafGreen exclusive. Ironically its Bug STAB (only weak moves like Fury Cutter in Gen 3) is its worst option — it plays as a Normal/Ground/Rock coverage attacker off 125 Attack. No Swords Dance tutor in FR/LG to boost it, unlike its RSE counterpart Heracross."
+  },
+  "tauros": {
+   "line": "Tauros (does not evolve)",
+   "role": "Fast, Intimidating physical Normal — a reliable EdgeQuake-style attacker.",
+   "where": "Wild (rare, 10%) in the Safari Zone (both versions).",
+   "catch": "Lv 21–28. Safari Balls only.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Intimidate (its only relevant ability) — softens physical attackers on entry.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey/Nidoran; Speed in Diglett's Cave. It yields Atk + Spe itself.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; its hardest neutral hit"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); prime coverage"
+    },
+    {
+     "m": "Body Slam / Double-Edge",
+     "src": "Four Island tutor (post-game) / Victory Road tutor — STAB + paralysis, or raw power"
+    },
+    {
+     "m": "Iron Tail",
+     "src": "TM23 — Game Corner; hits Rock/Ice"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 50–55.",
+   "notes": "Base 110 Speed + 100 Attack + Intimidate make it a strong, sturdy physical attacker with no glaring flaw. Its coverage relies on EQ and Iron Tail since its STAB is just Normal. A classic dependable Safari-Zone catch."
+  },
+  "magikarp": {
+   "line": "Magikarp → Gyarados (L20)",
+   "role": "Once past the grind, an Intimidating physical monster with Dragon Dance.",
+   "where": "Old Rod anywhere, or buy one for ₽500 from the salesman on Route 4 (both versions).",
+   "catch": "Lv 5–15. It only knows Splash (then Tackle at L15) — pure Exp. Share fodder until L20.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Intimidate on Gyarados (its only ability) — a fantastic pivot tool.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Exp. Share it through the caves; then Attack off Mankey, Speed in Diglett's Cave.",
+   "trainFrom": "Lv 20 — the instant it becomes Gyarados. Before that it can't fight at all.",
+   "moves": [
+    {
+     "m": "Dragon Dance",
+     "src": "level 50 (or Move Reminder, Two Island) — +Atk/+Spe, its win condition"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); coverage vs Electric/Rock/Steel"
+    },
+    {
+     "m": "Waterfall",
+     "src": "HM07 — Icefall Cave; its physical Water STAB (Surf, HM03, if you prefer special)"
+    },
+    {
+     "m": "Return / Double-Edge",
+     "src": "TM27 / Victory Road tutor — hard neutral coverage"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Gyarados at L20.",
+   "final": "Lv 50–55.",
+   "notes": "Getting there is the tax: Magikarp is deadweight until L20, so park it on the Exp. Share. Gyarados is 4× weak to Electric — never leave it in on a Thunderbolt. Intimidate + Dragon Dance make it one of the best physical sweepers in the game."
+  },
+  "lapras": {
+   "line": "Lapras (does not evolve)",
+   "role": "Bulky Water/Ice special attacker and your Surf carrier — a superb one-time gift.",
+   "where": "Gift from a Silph Co. employee in Saffron City after you liberate the building (both versions).",
+   "catch": "Lv 25 gift.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Water Absorb (prefer — heals off Water) over Shell Armor. Random on the gift, so soft-reset if you want it.",
+   "ivs": "Special Attack and HP.",
+   "evs": "252 SpA / 252 HP / 4 Def.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10 and Sevii Marill.",
+   "trainFrom": "From the gift — it arrives strong at L25.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB (Surf earns its slot here)"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; second STAB"
+    },
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Game Corner; the classic coverage vs other Waters"
+    },
+    {
+     "m": "Body Slam / Rest",
+     "src": "Four Island tutor (post-game) / level — paralysis or full recovery"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 50–55.",
+   "notes": "130 HP and great special stats make it a durable Surf + BoltBeam attacker — and the app rates it as the natural Surf HM carrier (Surf is an upgrade on it, not a tax). Only one per game, so soft-reset the gift for a good nature if you care. 4× weak to nothing, but watch Fighting/Rock/Electric/Grass."
+  },
+  "ditto": {
+   "line": "Ditto (does not evolve)",
+   "role": "Not a battler — your breeding engine. Pair it with anything to lay that species' eggs.",
+   "where": "Wild in Cerulean Cave, Pokémon Mansion, and on Routes 13-15/23 (both versions).",
+   "catch": "Lv 12–65 depending on where. Any Ditto works — IVs/nature don't matter for its job.",
+   "nature": "Irrelevant — Ditto only Transforms, and Gen 3 has no nature inheritance to exploit anyway.",
+   "ability": "Limber (its only ability) — can't be paralysed.",
+   "ivs": "Irrelevant.",
+   "evs": "None worth training.",
+   "evWhere": "N/A.",
+   "trainFrom": "N/A — Ditto is a utility, not a team member.",
+   "moves": [
+    {
+     "m": "Transform",
+     "src": "level 1 — its only move; copies the foe entirely"
+    },
+    {
+     "m": "(nothing else)",
+     "src": "Ditto learns no other moves"
+    }
+   ],
+   "items": "Metal Powder — doubles Ditto's Defense while it's untransformed (rare wild-Ditto hold item; niche).",
+   "evo": "None.",
+   "final": "N/A.",
+   "notes": "Ditto's value is the Day-Care: breed it with any egg-group Pokémon to produce eggs of THAT species — the only way to get the baby forms (Pichu, Elekid, Smoochum, Tyrogue, Magby, Cleffa, Igglybuff, Wynaut, Azurill) in FR/LG. It can't pass IVs or nature in Gen 3, so it's purely for hatching species."
+  },
+  "eevee": {
+   "line": "Eevee → Vaporeon / Jolteon / Flareon (evolution stones)",
+   "role": "One-time gift that becomes a top-tier special attacker — Vaporeon or Jolteon are the picks.",
+   "where": "Gift in Celadon City (the building by the Game Corner). One Eevee per game — soft-reset for its nature.",
+   "catch": "Lv 25 gift.",
+   "nature": "Modest (+SpA) for all three; Bold suits a defensive Vaporeon.",
+   "ability": "Vaporeon Water Absorb / Jolteon Volt Absorb / Flareon Flash Fire — each an excellent immunity, and each line's only ability.",
+   "ivs": "Special Attack and Speed (Jolteon) or HP (Vaporeon).",
+   "evs": "252 SpA / 252 HP (Vaporeon) or 252 SpA / 252 Spe (Jolteon).",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up + Sevii Marill (Vaporeon) or Diglett's Cave Speed (Jolteon).",
+   "trainFrom": "Evolve near L25 with the stone, then train the eeveelution — Eevee's own pool is poor.",
+   "moves": [
+    {
+     "m": "Surf / Thunderbolt / Flamethrower",
+     "src": "HM03 / TM24 / TM35 — the STAB for Vaporeon / Jolteon / Flareon"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; Vaporeon's BoltBeam partner"
+    },
+    {
+     "m": "Thunder Wave / Quick Attack",
+     "src": "level — Jolteon's paraflinch package"
+    },
+    {
+     "m": "Return / Bite",
+     "src": "TM27 / level — Flareon's neutral coverage (its movepool is thin)"
+    }
+   ],
+   "items": "A type item (Mystic Water / Magnet / Charcoal, +10%); Leftovers post-game.",
+   "evo": "Water Stone → Vaporeon, Thunder Stone → Jolteon, Fire Stone → Flareon (all ₽2100 at Celadon Dept. Store). Evolve promptly.",
+   "final": "Lv 50–55.",
+   "notes": "Espeon and Umbreon need friendship + time of day — FR/LG has NO clock, so they're unobtainable here. Vaporeon (bulk) and Jolteon (base-130 Speed) are the strong picks; Flareon is hamstrung by a shallow, physically-oriented movepool it can't use off its higher SpA."
+  },
+  "porygon": {
+   "line": "Porygon → Porygon2 (trade holding Up-Grade)",
+   "role": "Balanced special Normal with Recover and Trace — a sturdy, flexible attacker.",
+   "where": "Celadon Game Corner PRIZE (₽ / coins) — the only source (both versions).",
+   "catch": "Received ~Lv 20–25 (varies). It costs a large pile of coins.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Trace (copies the foe's ability) or Download — Trace is the fun pick. Random.",
+   "ivs": "Special Attack, HP, then defenses.",
+   "evs": "252 SpA / 252 HP / 4 Def.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "From the prize — Exp. Share it up if it lags.",
+   "moves": [
+    {
+     "m": "Thunderbolt / Ice Beam",
+     "src": "TM24 / TM13 — Game Corner; the classic BoltBeam coverage"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; extra special coverage"
+    },
+    {
+     "m": "Recover",
+     "src": "level — reliable healing that makes it a pivot"
+    },
+    {
+     "m": "Tri Attack",
+     "src": "level — Normal STAB with a status-chance rider"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal) or Leftovers post-game.",
+   "evo": "Porygon2 needs a link trade while HOLDING an Up-Grade (found in Silph Co.). A double gate — Porygon itself is perfectly usable solo.",
+   "final": "Lv 45–50.",
+   "notes": "Bought with Game Corner coins, so it's a time/money sink to obtain. Normal is a poor offensive type, but Recover + BoltBeam + Psychic make it a slippery, well-rounded special attacker. Porygon2 (trade) upgrades every stat if you can manage it."
+  },
+  "omanyte": {
+   "line": "Omanyte → Omastar (L40)  ·  Helix Fossil",
+   "role": "Bulky special Rock/Water tank — big Defense and SpA behind Surf + Ice Beam.",
+   "where": "Revive the HELIX FOSSIL at the Cinnabar Island Lab. Get the Helix in Mt. Moon — you pick ONE fossil, Helix or Dome.",
+   "catch": "Revived at Lv 5 (or ~20 depending on version handling); raise it up.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Swift Swim or Shell Armor — Shell Armor (no crits) is the safer pick. Random.",
+   "ivs": "Special Attack and Defense.",
+   "evs": "252 SpA / 252 HP / 4 Def.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "Exp. Share it from the revive up to L40+.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage"
+    },
+    {
+     "m": "Ancient Power",
+     "src": "level 55 — Rock STAB (it has no good Rock TM besides Rock Tomb)"
+    },
+    {
+     "m": "Hidden Power [Grass/Electric]",
+     "src": "TM10 — Pickup; answers other Water types"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Omastar at L40.",
+   "final": "Lv 50–55.",
+   "notes": "Choosing the Helix Fossil permanently locks you out of the Dome Fossil (Kabuto) in that save. Omastar is the bulkier, special-leaning fossil — a fine defensive Water. Rock/Water is 4× weak to Grass, so never switch it into that."
+  },
+  "kabuto": {
+   "line": "Kabuto → Kabutops (L40)  ·  Dome Fossil",
+   "role": "Physical Rock/Water sweeper — fast, high-Attack, and hits hard with Waterfall + Rock Slide.",
+   "where": "Revive the DOME FOSSIL at the Cinnabar Island Lab. Get the Dome in Mt. Moon — you pick ONE fossil, Dome or Helix.",
+   "catch": "Revived at Lv 5 (or ~20); raise it up.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Battle Armor (no crits) or Swift Swim — either works.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Exp. Share it up; Attack off Mankey, Speed in Diglett's Cave.",
+   "trainFrom": "Exp. Share it from the revive up to L40+.",
+   "moves": [
+    {
+     "m": "Waterfall",
+     "src": "HM07 — Icefall Cave; physical Water STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — its Rock STAB (tutor-only; no strong Rock TM)"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; coverage vs Normal/Rock/Steel"
+    },
+    {
+     "m": "Slash / Return",
+     "src": "level 40 / TM27 — neutral damage"
+    }
+   ],
+   "items": "Mystic Water (+10% Water) or Hard Stone (+10% Rock); Leftovers post-game.",
+   "evo": "Kabutops at L40.",
+   "final": "Lv 50–55.",
+   "notes": "Picking the Dome Fossil locks you out of the Helix (Omanyte) that save. Kabutops is the offensive, physical fossil — base 115 Attack and 80 Speed. Like Omastar it's 4× weak to Grass. Its Rock STAB depends on the one-shot Rock Slide tutor."
+  },
+  "aerodactyl": {
+   "line": "Aerodactyl (does not evolve)  ·  Old Amber",
+   "role": "Blistering Rock/Flying attacker — base 130 Speed and EdgeQuake off 105 Attack.",
+   "where": "Revive the OLD AMBER (found in Mt. Moon) at the Cinnabar Island Lab. Not a fossil-choice — you can have this AND a fossil.",
+   "catch": "Revived at Lv 5 (or ~20); raise it up.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Rock Head (prefer — recoil-free Double-Edge) or Pressure. Random.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Exp. Share it up; Attack off Mankey, Speed in Diglett's Cave (it yields Spe itself).",
+   "trainFrom": "Exp. Share from the revive; it's a strong flyer once rolling.",
+   "moves": [
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — its main Rock STAB (tutor-only; grab Ancient Power at L29 as backup)"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); the other half of EdgeQuake"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying STAB"
+    },
+    {
+     "m": "Return / Hyper Beam",
+     "src": "TM27 / TM15 — hard neutral coverage"
+    }
+   ],
+   "items": "Hard Stone (+10% Rock) or Sharp Beak (+10% Flying); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 50–55.",
+   "notes": "One of the fastest Pokémon in the game and available AND compatible with a fossil (the Old Amber is separate from the Helix/Dome choice). Its whole Rock STAB leans on the one-shot Rock Slide tutor — spend it here or on a Golem, not both."
+  },
+  "snorlax": {
+   "line": "Snorlax (does not evolve)",
+   "role": "Immovable Normal tank — a 160-HP, 110-Attack wall that Rests, Curses, and hits back.",
+   "where": "Two static Snorlax block Routes 12 and 16 — wake each with the Poké Flute (from Mr. Fuji, Lavender). One catch each.",
+   "catch": "Lv 30. Save first, weaken, status, and bring Ultra Balls — its catch rate is a stingy 25.",
+   "nature": "Adamant (+Atk) or Careful (+SpD).",
+   "ability": "Thick Fat (prefer — halves Fire/Ice damage) over Immunity. Random on catch.",
+   "ivs": "HP, Attack, then SpD.",
+   "evs": "252 HP / 252 Atk / 4 SpD (or 252 HP / 252 Def).",
+   "evWhere": "HP Up ×10; Attack off Mankey. It yields HP itself.",
+   "trainFrom": "From catch (L30) — it's immediately a wall.",
+   "moves": [
+    {
+     "m": "Body Slam",
+     "src": "level 33 (or Four Island tutor) — STAB with 30% paralysis"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); its key coverage"
+    },
+    {
+     "m": "Rest",
+     "src": "level 25 — full heal; pair with Sleep Talk (L37) for a RestTalk wall"
+    },
+    {
+     "m": "Shadow Ball / Brick Break",
+     "src": "TM30 / TM31 — hit Ghosts, or the Rock/Steel that wall Normal"
+    }
+   ],
+   "items": "Leftovers (post-game) — the ideal Snorlax item; Silk Scarf otherwise.",
+   "evo": "None.",
+   "final": "Lv 50–55.",
+   "notes": "Two per game only, and both need the Poké Flute — don't waste the catches. Enormous HP + SpD make it a premier special wall that also hits hard physically; its low Defense means Fighting types are the answer to it. Curse (an egg move) isn't naturally learnable here — use Body Slam + Rest instead."
+  },
+  "articuno": {
+   "line": "Articuno (does not evolve)",
+   "role": "Bulky Ice/Flying special wall-attacker — base 125 SpD behind Ice Beam and Toxic-stall.",
+   "where": "Static in the Seafoam Islands (both versions). One-time; save in front of it.",
+   "catch": "Lv 50. Catch rate is a brutal 3 — False Swipe to 1 HP, put it to sleep/freeze, and chuck Ultra Balls (a Master Ball is a valid call). Soft-reset for nature/IVs.",
+   "nature": "Modest (+SpA) or Calm (+SpD) for a wall.",
+   "ability": "Pressure (its only ability) — drains the foe's PP.",
+   "ivs": "Special Attack, HP, then SpD.",
+   "evs": "252 SpA / 252 HP / 4 SpD.",
+   "evWhere": "Caught at L50 — feed Calcium ×10 + HP Up ×10, then top off on Gastly.",
+   "trainFrom": "Immediately — it's L50 and Elite-Four-ready.",
+   "moves": [
+    {
+     "m": "Ice Beam",
+     "src": "level 49 (or TM13) — reliable STAB; Blizzard (L73) if you want power over accuracy"
+    },
+    {
+     "m": "Hidden Power [Grass/Fire]",
+     "src": "TM10 — Pickup; coverage vs Rock/Water or Steel"
+    },
+    {
+     "m": "Toxic",
+     "src": "TM06 — Koga (Fuchsia Gym); wear down walls it can't OHKO"
+    },
+    {
+     "m": "Rest / Reflect",
+     "src": "level 61 / level — recovery and bulk"
+    }
+   ],
+   "items": "Nevermeltice (+10% Ice); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 55+.",
+   "notes": "The bulkiest of the three birds. Ice/Flying is 4× weak to Rock, so never switch it into a Rock Slide. Ice Beam + Toxic + Rest makes it a durable staller; its SpA (95) is good, not elite. Bring a Master Ball or a lot of patience for that catch rate of 3."
+  },
+  "zapdos": {
+   "line": "Zapdos (does not evolve)",
+   "role": "Electric/Flying special sweeper — the best special attacker you can catch pre-Elite Four.",
+   "where": "Static in the Power Plant (both versions). One-time; save in front of it.",
+   "catch": "Lv 50. False Swipe + Thunder Wave/sleep, then Ultra Balls (catch rate 3). Soft-reset for nature/IVs.",
+   "nature": "Modest (+SpA) or Timid (+Spe) to outrun other base-100s.",
+   "ability": "Pressure (its only ability).",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "Caught at L50 — Calcium ×10 + Carbos ×10, then Gastly (SpA) and Diglett's Cave (Spe).",
+   "trainFrom": "Immediately — it's already Elite-Four-ready.",
+   "moves": [
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Celadon Game Corner (re-buyable); reliable STAB"
+    },
+    {
+     "m": "Drill Peck",
+     "src": "level — Flying STAB with no drawback"
+    },
+    {
+     "m": "Hidden Power [Ice/Grass]",
+     "src": "TM10 — Pickup; answers Ground and Dragon"
+    },
+    {
+     "m": "Thunder Wave",
+     "src": "level — cripple a faster threat"
+    }
+   ],
+   "items": "Magnet (+10% Electric); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 55+.",
+   "notes": "Thunder (TM25, Power Plant) hits harder but is 70% accurate outside rain — Thunderbolt is the dependable pick and re-buyable with coins. Its one blind spot is Ground; Hidden Power Ice/Grass covers it. Elite, immediate firepower the moment you catch it."
+  },
+  "moltres": {
+   "line": "Moltres (does not evolve)",
+   "role": "Fire/Flying special nuke — the hardest-hitting bird, with base 125 SpA.",
+   "where": "Static on Mt. Ember, One Island (Sevii) — reachable once the Sevii Islands open mid-game. One-time; save first.",
+   "catch": "Lv 50. False Swipe + status, Ultra Balls (catch rate 3). Soft-reset for nature/IVs.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Pressure (its only ability).",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "Caught at L50 — Calcium ×10 + Carbos ×10, then Gastly (SpA) and Diglett's Cave (Spe).",
+   "trainFrom": "Immediately.",
+   "moves": [
+    {
+     "m": "Flamethrower",
+     "src": "TM35 — Celadon Game Corner; reliable STAB (Fire Blast TM38 for power)"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying STAB"
+    },
+    {
+     "m": "Hidden Power [Grass/Ice]",
+     "src": "TM10 — Pickup; coverage vs Water/Rock"
+    },
+    {
+     "m": "Steel Wing",
+     "src": "TM47 — Safari Zone; hits the Rock types that threaten it (its only real coverage)"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 55+.",
+   "notes": "Available earlier than you might think — Mt. Ember opens once you reach One Island in the mid-game. Fire/Flying is 4× weak to Rock, so keep it away from Rock Slide. Highest offense of the three birds, slightly less bulk than Articuno."
+  },
+  "dratini": {
+   "line": "Dratini → Dragonair (L30) → Dragonite (L55)",
+   "role": "Premier mixed sweeper — base 134 Attack, 100 SpA, and a stellar coverage pool.",
+   "where": "Super Rod in the Safari Zone (rare), or the Celadon Game Corner PRIZE (a big coin sink). Both versions.",
+   "catch": "Lv 15–30 by rod; the prize Dratini comes lower and needs raising.",
+   "nature": "Adamant (+Atk) for physical, or Naughty/Rash for a mixed set.",
+   "ability": "Inner Focus (prefer — no flinching) or Shed Skin. Random.",
+   "ivs": "Attack, then Special Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP (or a mixed 252 Atk / 252 SpA).",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave; SpA off Gastly for a mixed build.",
+   "trainFrom": "Lv 30 as Dragonair — which carries most of the run, since Dragonite is very late.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (late); its best coverage"
+    },
+    {
+     "m": "Outrage / Dragon Claw",
+     "src": "level 61 / TM02 (Victory Road) — Dragon STAB"
+    },
+    {
+     "m": "Return / Double-Edge",
+     "src": "TM27 / Victory Road tutor — reliable neutral hit"
+    },
+    {
+     "m": "Ice Beam / Thunderbolt / Flamethrower",
+     "src": "TM13 / TM24 / TM35 — pick coverage off its 100 SpA"
+    }
+   ],
+   "items": "Dragon Fang (+10% Dragon); Leftovers post-game.",
+   "evo": "Dragonair at L30, Dragonite at L55 — one of the latest evolutions in the game.",
+   "final": "Lv 55+.",
+   "notes": "Note there is NO Dragon Dance for Dragonite in Gen 3 (that's a later-gen egg move) — it sweeps on raw stats + Agility, not a setup move. Dragonite arrives at L55, so plan a long grind or use it only for the endgame; Dragonair is a fine stand-in until then."
+  },
+  "mewtwo": {
+   "line": "Mewtwo (does not evolve)  ·  POST-GAME",
+   "role": "The single strongest Pokémon in FR/LG — base 154 SpA, 130 Speed, and Calm Mind.",
+   "where": "Static in Cerulean Cave, which opens POST-GAME (after the Elite Four + restoring the Network Machine on One Island). One-time.",
+   "catch": "Lv 70. Catch rate 3 — this is the textbook Master Ball target, or bring False Swipe + sleep and a bagful of Ultra Balls. Soft-reset for nature/IVs.",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Pressure (its only ability).",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "Caught at L70 — Calcium ×10 + Carbos ×10, then Gastly (SpA) / Diglett's Cave (Spe).",
+   "trainFrom": "Immediately — it's L70 and overpowered on arrival.",
+   "moves": [
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; main STAB (or level 66)"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); +SpA/+SpD, and it sweeps"
+    },
+    {
+     "m": "Ice Beam / Thunderbolt / Flamethrower",
+     "src": "TM13 / TM24 / TM35 — Game Corner coverage; pick two"
+    },
+    {
+     "m": "Recover",
+     "src": "level 44 — heal to full and keep sweeping"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic); Leftovers.",
+   "evo": "None.",
+   "final": "Lv 70+ (it caps most of the post-game already).",
+   "notes": "Post-game only, but it trivialises everything once caught. Calm Mind + Recover + Psychic + one coverage move is unbeatable in-game. Its only 'counter' is a strong Dark/Bug/Ghost move, of which Gen 3's in-game supply is thin."
+  },
+  "sentret": {
+   "line": "Sentret → Furret (L15)  ·  Sevii, post-game",
+   "role": "Fast, forgettable Normal — a Sevii-dex filler, not a team carry.",
+   "where": "Wild on the Sevii Islands (Kindle Road / Cape Brink) — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 6–18.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Keen Eye or Run Away — neither matters.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "Lv 15 as Furret.",
+   "moves": [
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; its main STAB"
+    },
+    {
+     "m": "Body Slam",
+     "src": "Four Island move tutor (post-game); paralysis"
+    },
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Celadon Game Corner; hits Ghosts"
+    },
+    {
+     "m": "Dig / Surf",
+     "src": "TM28 / HM03 — coverage / utility"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal).",
+   "evo": "Furret at L15.",
+   "final": "Lv 40–45.",
+   "notes": "Post-game Sevii catch with a 415-BST ceiling and only Normal STAB — a dex entry more than a battler. Base 90 Speed is its one selling point."
+  },
+  "ledyba": {
+   "line": "Ledyba → Ledian (L18)  ·  Sevii, post-game",
+   "role": "A support bug with almost no offense — screens, Baton Pass, and Light Screen only.",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 6–18.",
+   "nature": "Calm (+SpD) or Timid (+Spe) — it can't attack, so bulk/speed it.",
+   "ability": "Early Bird or Swarm — take either.",
+   "ivs": "Special Defense and Speed.",
+   "evs": "252 HP / 252 SpD / 4 Spe.",
+   "evWhere": "HP Up ×10; SpD off Tentacool (Surf).",
+   "trainFrom": "Lv 18 as Ledian.",
+   "moves": [
+    {
+     "m": "Light Screen / Reflect",
+     "src": "level / TM16 — set screens for the team"
+    },
+    {
+     "m": "Baton Pass",
+     "src": "level — pass Agility/Swords Dance boosts along"
+    },
+    {
+     "m": "Swift",
+     "src": "level — its only reliable (if weak) attack"
+    },
+    {
+     "m": "Safeguard",
+     "src": "level — block status for the team"
+    }
+   ],
+   "items": "Leftovers (post-game); it needs the longevity.",
+   "evo": "Ledian at L18.",
+   "final": "Lv 40–45.",
+   "notes": "One of the weakest fully-evolved Pokémon in the dex (35 Atk / 55 SpA). Purely a support/Baton-Pass novelty on a post-game Sevii team. Bug/Flying is 4× weak to Rock."
+  },
+  "spinarak": {
+   "line": "Spinarak → Ariados (L22)  ·  Sevii, post-game",
+   "role": "Middling physical Bug/Poison with disruption — Sludge Bomb, Shadow Ball, and web tricks.",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 6–18.",
+   "nature": "Adamant (+Atk) or Careful (+SpD).",
+   "ability": "Insomnia (prefer — sleep immunity) or Swarm. Random.",
+   "ivs": "Attack and SpD.",
+   "evs": "252 Atk / 252 HP / 4 SpD.",
+   "evWhere": "Attack off Mankey; HP Up ×10.",
+   "trainFrom": "Lv 22 as Ariados.",
+   "moves": [
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game — which you'll have by now); Poison STAB"
+    },
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym); coverage + heal"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral hit"
+    },
+    {
+     "m": "Signal Beam / Spider Web",
+     "src": "level — Bug STAB or trap the foe in"
+    }
+   ],
+   "items": "Poison Barb (+10% Poison); Leftovers post-game.",
+   "evo": "Ariados at L22.",
+   "final": "Lv 40–45.",
+   "notes": "A post-game Sevii catch with only 90 Attack and poor Speed — serviceable with real STAB (Sludge Bomb is available by the post-game) but nothing special. Bug/Poison is a weak defensive type."
+  },
+  "pichu": {
+   "line": "Pikachu → Raichu (Thunder Stone)  ·  Pichu by breeding",
+   "role": "Fast Electric — Raichu for the run, or a Light-Ball Pikachu that punches far above its weight.",
+   "where": "Pikachu is wild in Viridian Forest (rare) and the Power Plant. Pichu only comes from BREEDING a Pikachu/Raichu with Ditto.",
+   "catch": "Lv 3–5 (Viridian Forest) / ~24 (Power Plant). Wild Pikachu sometimes hold a LIGHT BALL — grab it.",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Static (its only ability) — paralyse on contact.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Evolve to Raichu once Pikachu has the moves you want (Raichu's post-stone pool is bare).",
+   "moves": [
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Celadon Game Corner; main STAB"
+    },
+    {
+     "m": "Hidden Power [Ice/Grass]",
+     "src": "TM10 — Pickup; answers Ground"
+    },
+    {
+     "m": "Thunder Wave",
+     "src": "level — spread paralysis / speed control"
+    },
+    {
+     "m": "Return / Quick Attack",
+     "src": "TM27 / level — neutral coverage / priority"
+    }
+   ],
+   "items": "LIGHT BALL — doubles Pikachu's Special Attack in Gen 3 (a Light-Ball Pikachu rivals Raichu's power). Note it works ONLY on Pikachu, not Raichu.",
+   "evo": "Raichu with a THUNDER STONE (Celadon, ₽2100). Or keep a Light-Ball Pikachu — its doubled SpA is competitive, at the cost of Pikachu's frailty.",
+   "final": "Lv 45–50.",
+   "notes": "Two valid paths: Raichu (100 Speed, self-sufficient) or a Light-Ball Pikachu (huge special damage, glass-frail). Pichu is breed-only and evolves by friendship — a hassle you'd only bother with for the dex. Its blind spot is Ground; carry Hidden Power."
+  },
+  "cleffa": {
+   "line": "Clefairy → Clefable (Moon Stone)  ·  Cleffa by breeding",
+   "role": "Versatile bulky Normal — a Calm Mind attacker with full-coverage TMs and healing.",
+   "where": "Clefairy is wild in Mt. Moon (rare). Cleffa only comes from BREEDING Clefairy/Clefable with Ditto.",
+   "catch": "Lv 8–12 in Mt. Moon (or the one-time gift Clefairy... no — catch it in the cave).",
+   "nature": "Modest (+SpA) or Calm (+SpD).",
+   "ability": "Cute Charm (its only ability in Gen 3 — the app corrects this; it is NOT Magic Guard here).",
+   "ivs": "Special Attack, HP, then defenses.",
+   "evs": "252 HP / 252 SpA / 4 SpD.",
+   "evWhere": "HP Up ×10; SpA off Gastly (Pokémon Tower).",
+   "trainFrom": "Evolve with the Moon Stone once Clefairy has learned what you want.",
+   "moves": [
+    {
+     "m": "Thunderbolt / Ice Beam / Flamethrower",
+     "src": "TM24 / TM13 / TM35 — Game Corner; pick two for coverage"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); +SpA/+SpD to sweep"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; more coverage"
+    },
+    {
+     "m": "Moonlight / Softboiled",
+     "src": "level — recovery"
+    }
+   ],
+   "items": "Twistedspoon or a type item (+10%); Leftovers post-game.",
+   "evo": "Clefable with a MOON STONE. Moon Stones can't be bought (Mt. Moon / Pickup only), so budget one.",
+   "final": "Lv 50–55.",
+   "notes": "A jack-of-all-trades: it learns nearly every special TM and Calm Mind, so it fills whatever coverage gap your team has. In Gen 3 its ability is Cute Charm (Magic Guard is a later-gen retcon). Moon-Stone scarcity is the only real cost."
+  },
+  "igglybuff": {
+   "line": "Jigglypuff → Wigglytuff (Moon Stone)  ·  Igglybuff by breeding",
+   "role": "Huge-HP special attacker — durable on HP alone, with wide coverage.",
+   "where": "Jigglypuff is wild on Route 3 and in Pokémon Mansion. Igglybuff only comes from BREEDING with Ditto.",
+   "catch": "Lv 3–7 (Route 3).",
+   "nature": "Modest (+SpA) or Calm (+SpD).",
+   "ability": "Cute Charm (its only relevant ability in Gen 3).",
+   "ivs": "HP and Special Attack.",
+   "evs": "252 HP / 252 SpA / 4 SpD.",
+   "evWhere": "HP Up ×10; SpA off Gastly.",
+   "trainFrom": "Moon-Stone Jigglypuff once it has your moves.",
+   "moves": [
+    {
+     "m": "Thunderbolt / Ice Beam / Flamethrower",
+     "src": "TM24 / TM13 / TM35 — Game Corner coverage; pick two"
+    },
+    {
+     "m": "Body Slam",
+     "src": "Four Island move tutor (post-game) — STAB + paralysis; Return (TM27) fills in"
+    },
+    {
+     "m": "Sing",
+     "src": "level — an unreliable sleep (low accuracy)"
+    },
+    {
+     "m": "Psychic / Shadow Ball",
+     "src": "TM29 / TM30 — extra coverage"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal); Leftovers post-game.",
+   "evo": "Wigglytuff with a MOON STONE (can't be bought — budget one).",
+   "final": "Lv 45–50.",
+   "notes": "140 HP but poor Def/SpD, so its bulk is HP-only — it survives on sheer hit points, not resistances. Learns the same broad TM pool as Clefable but hits a touch harder and heals less. Igglybuff is a dex-only breeding project."
+  },
+  "togepi": {
+   "line": "Togepi → Togetic (high friendship)  ·  gift Egg, post-game",
+   "role": "Support flyer — Serene Grace secondary effects, Encore, and Baton Pass; minimal offense.",
+   "where": "A gift EGG at the Water Labyrinth on Five Island — POST-GAME. Hatch and raise it. Both versions.",
+   "catch": "Hatches at Lv 5.",
+   "nature": "Calm (+SpD) or Modest (+SpA).",
+   "ability": "Serene Grace (prefer — doubles secondary-effect chances) or Hustle. Random.",
+   "ivs": "Special Defense and Special Attack.",
+   "evs": "252 HP / 252 SpD / 4 SpA.",
+   "evWhere": "HP Up ×10; SpD off Tentacool (Surf).",
+   "trainFrom": "After it evolves — walk it to Togetic with a Soothe Bell first.",
+   "moves": [
+    {
+     "m": "Encore",
+     "src": "level — lock the foe into one move while your team sets up"
+    },
+    {
+     "m": "Fly / Aerial Ace",
+     "src": "HM02 / TM40 — Flying STAB and overworld use"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral hit off its weak Attack"
+    },
+    {
+     "m": "Wish / Baton Pass",
+     "src": "level — heal a teammate, or pass boosts along"
+    }
+   ],
+   "items": "Leftovers (post-game); it wants the longevity.",
+   "evo": "Togetic at high friendship (Soothe Bell + walking). Togekiss is a Gen 4 evolution and doesn't exist here.",
+   "final": "Lv 40–45.",
+   "notes": "Note: in Gen 3 Togepi/Togetic are NORMAL/FLYING (the Fairy type doesn't exist yet), so they're weak to Electric/Ice/Rock. A cute post-game support piece, not a battler — its offense is minimal."
+  },
+  "natu": {
+   "line": "Natu → Xatu (L25)  ·  Sevii, post-game",
+   "role": "Balanced special Psychic/Flying with Calm Mind — a solid, if unspectacular, sweeper.",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 15–25.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Synchronize (prefer — reflects status) or Early Bird. Random.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "Lv 25 as Xatu.",
+   "moves": [
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; main STAB"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); set up and sweep"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; Flying STAB"
+    },
+    {
+     "m": "Hidden Power / Shadow Ball",
+     "src": "TM10 / TM30 — coverage"
+    }
+   ],
+   "items": "Twistedspoon (+10% Psychic); Leftovers post-game.",
+   "evo": "Xatu at L25.",
+   "final": "Lv 45–50.",
+   "notes": "Base 95 SpA / 95 Speed with Calm Mind is genuinely usable, but it arrives post-game when you already have better Psychics (Alakazam, Starmie). A tidy Sevii sweeper for a second team."
+  },
+  "hoppip": {
+   "line": "Hoppip → Skiploom (L18) → Jumpluff (L27)  ·  Sevii, post-game",
+   "role": "Fast Grass/Flying staller — Sleep Powder, Leech Seed, and Substitute wear teams down.",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 10–20.",
+   "nature": "Timid (+Spe) or Calm (+SpD).",
+   "ability": "Chlorophyll (its only relevant ability) — doubles Speed in your Sunny Day.",
+   "ivs": "Speed and Special Defense.",
+   "evs": "252 HP / 252 Spe / 4 SpD.",
+   "evWhere": "Speed in Diglett's Cave; HP Up ×10.",
+   "trainFrom": "Lv 27 as Jumpluff.",
+   "moves": [
+    {
+     "m": "Sleep Powder",
+     "src": "level 17 — 75% sleep to open the stall"
+    },
+    {
+     "m": "Leech Seed",
+     "src": "level 22 — passive damage + healing"
+    },
+    {
+     "m": "Giga Drain",
+     "src": "TM19 — Erika (Celadon Gym); STAB + heal"
+    },
+    {
+     "m": "Substitute / Aerial Ace",
+     "src": "Fuchsia tutor / TM40 — stall protection or a real attack"
+    }
+   ],
+   "items": "Leftovers (post-game) — core to the stall; or Miracle Seed.",
+   "evo": "Skiploom at L18, Jumpluff at L27.",
+   "final": "Lv 45–50.",
+   "notes": "Base 110 Speed + Leech Seed + Sleep Powder + Substitute is a proper stall engine that frustrates slower teams — but it does almost no direct damage (55 SpA). A fun post-game annoyer. 4× weak to Ice."
+  },
+  "yanma": {
+   "line": "Yanma (does not evolve in Gen 3)  ·  Sevii, post-game",
+   "role": "Speed-Boost sweeper — snowballs Speed, then chips with Flying + Hidden Power (its Bug STAB is weak in Gen 3).",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 30–38.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Speed Boost (prefer — +1 Speed every turn) over Compound Eyes. Random — Speed Boost is the whole point, so re-catch for it.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Wing Attack",
+     "src": "level — Flying STAB (Yanma's Bug moves are all weak in Gen 3)"
+    },
+    {
+     "m": "Hidden Power [Flying/Bug]",
+     "src": "TM10 — Pickup; its best special option"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying coverage"
+    },
+    {
+     "m": "Giga Drain / Hypnosis",
+     "src": "TM19 / level — coverage + heal, or a sleep to fish for"
+    }
+   ],
+   "items": "Silver Powder (+10% Bug); Leftovers post-game.",
+   "evo": "None — Yanmega is a Gen 4 evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "With Speed Boost it outruns everything within a turn or two, making its 75 SpA feel much bigger. Frail and 4× weak to Rock, so it's a late-game clean-up sweeper. Insist on the Speed Boost ability — Compound Eyes is a big downgrade here."
+  },
+  "wooper": {
+   "line": "Wooper → Quagsire (L20)  ·  FireRed only, Sevii, post-game",
+   "role": "Superbly-typed bulky Water/Ground — only one weakness, and it hits back with EdgeQuake.",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 5–30.",
+   "nature": "Adamant (+Atk) or Relaxed (+Def).",
+   "ability": "Water Absorb (prefer — heals off Water) over Damp. Random.",
+   "ivs": "HP, Attack, then Defense.",
+   "evs": "252 HP / 252 Atk / 4 Def.",
+   "evWhere": "HP Up ×10; Attack off Mankey. It yields HP itself.",
+   "trainFrom": "Lv 20 as Quagsire.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym (or level 42); prime STAB"
+    },
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; second STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage vs Grass/Dragon"
+    },
+    {
+     "m": "Rock Slide / Rest",
+     "src": "Rock Tunnel tutor / level — coverage or recovery"
+    }
+   ],
+   "items": "Leftovers (post-game); Soft Sand (+10% Ground) otherwise.",
+   "evo": "Quagsire at L20.",
+   "final": "Lv 50–55.",
+   "notes": "FireRed exclusive, post-game. Water/Ground has just ONE weakness (Grass — a 4× one, mind), so it's a fantastic bulky pivot with Water Absorb. Slow but tanky; EQ + Ice Beam handle most of what it faces."
+  },
+  "murkrow": {
+   "line": "Murkrow (does not evolve in Gen 3)  ·  FireRed only, Sevii, post-game",
+   "role": "Fast, frail Dark/Flying — a hit-and-run attacker with Faint Attack and Thief.",
+   "where": "Wild on the Sevii Islands — POST-GAME, needs the National Dex (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 22–30.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Insomnia (prefer — sleep immunity) or Super Luck. Random.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; never-miss Flying STAB"
+    },
+    {
+     "m": "Faint Attack",
+     "src": "level — never-miss Dark STAB"
+    },
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Celadon Game Corner; coverage vs Ghosts/Psychics"
+    },
+    {
+     "m": "Return / Thief",
+     "src": "TM27 / TM46 — neutral hit or item theft"
+    }
+   ],
+   "items": "Sharp Beak (+10% Flying); a Black Glasses for the Dark moves.",
+   "evo": "None — Honchkrow is a Gen 4 evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive, post-game. Base 91 Speed and 85 Attack with never-miss STABs (Aerial Ace + Faint Attack) make it a slick revenge-killer, but it's very frail. Dark/Flying is 4× weak to nothing but weak to Electric/Ice/Rock."
+  },
+  "misdreavus": {
+   "line": "Misdreavus (does not evolve in Gen 3)  ·  LeafGreen only, Sevii, post-game",
+   "role": "Fast Ghost annoyer with Levitate — Pain Split, Confuse Ray, and Thunderbolt.",
+   "where": "Wild on the Sevii Islands (Mt. Ember interior) — POST-GAME (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 40–45.",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Levitate (its only ability) — immune to Ground.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "From catch (it arrives at a high level).",
+   "moves": [
+    {
+     "m": "Shadow Ball",
+     "src": "TM30 — Celadon Game Corner; Ghost STAB"
+    },
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Game Corner; coverage vs Water/Flying"
+    },
+    {
+     "m": "Pain Split",
+     "src": "level — steal HP from a healthy foe"
+    },
+    {
+     "m": "Confuse Ray / Thief",
+     "src": "level / TM46 — disruption or item theft"
+    }
+   ],
+   "items": "Spell Tag (+10% Ghost); Leftovers post-game.",
+   "evo": "None — Mismagius is a Gen 4 evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive, post-game. Middling 85-across stats, but Levitate + Confuse Ray + Pain Split make it a slippery staller. Ghost/Poison... no — pure Ghost, so only Ghost and Dark threaten it."
+  },
+  "dunsparce": {
+   "line": "Dunsparce (does not evolve in Gen 3)  ·  Sevii, post-game",
+   "role": "Bulky Normal with Serene Grace paraflinch — annoying, if unremarkable.",
+   "where": "Wild on the Sevii Islands (Ruin Valley / Mt. Ember) — POST-GAME. Both versions.",
+   "catch": "Lv 30–40.",
+   "nature": "Adamant (+Atk) or Careful (+SpD).",
+   "ability": "Serene Grace (prefer — doubles flinch/para chances) over Run Away. Random.",
+   "ivs": "HP and Attack.",
+   "evs": "252 HP / 252 Atk / 4 SpD.",
+   "evWhere": "HP Up ×10; Attack off Mankey.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Body Slam",
+     "src": "Four Island move tutor (post-game) — 30% para, doubled by Serene Grace"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — 30% flinch, also doubled (tutor-only)"
+    },
+    {
+     "m": "Earthquake / Return",
+     "src": "TM26 / TM27 — coverage or reliable STAB"
+    },
+    {
+     "m": "Glare",
+     "src": "level — spread paralysis"
+    }
+   ],
+   "items": "Silk Scarf (+10% Normal); Leftovers post-game.",
+   "evo": "None — Dudunsparce is a much later evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "Post-game Sevii filler with 100 HP and a paraflinch gimmick (Serene Grace + Body Slam + Rock Slide). Fun to use, but its stats cap it well below the real Normal-type carries like Snorlax and Tauros."
+  },
+  "qwilfish": {
+   "line": "Qwilfish (does not evolve)  ·  FireRed only, Sevii, post-game",
+   "role": "Spiker and physical Water/Poison — sets hazards, then Sludge Bomb / Waterfall.",
+   "where": "Fish/Surf around the Sevii Islands — POST-GAME (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 20–40.",
+   "nature": "Adamant (+Atk) or Naughty.",
+   "ability": "Poison Point or Swift Swim — either works.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Sludge Bomb",
+     "src": "TM36 — Five Island (post-game, available now); Poison STAB"
+    },
+    {
+     "m": "Waterfall",
+     "src": "HM07 — Icefall Cave; physical Water STAB"
+    },
+    {
+     "m": "Spikes",
+     "src": "level — set the entry hazard"
+    },
+    {
+     "m": "Return / Destiny Bond",
+     "src": "TM27 / level — neutral hit or a trade-off KO"
+    }
+   ],
+   "items": "Poison Barb (+10% Poison); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive, post-game. A Spikes-setter with real offense (95 Attack), but frail and slow-ish. Water/Poison is only weak to Electric, Ground and Psychic — a decent enough defensive pivot for a Sevii team."
+  },
+  "heracross": {
+   "line": "Heracross (does not evolve)  ·  Sevii, post-game",
+   "role": "Elite physical Bug/Fighting — base 125 Attack with a devastating Megahorn.",
+   "where": "Headbutt-tree equivalent / wild on the Sevii Islands (Pattern Bush, Six Island) — POST-GAME. Both versions.",
+   "catch": "Lv 30–40.",
+   "nature": "Adamant (+Atk) or Jolly (+Spe).",
+   "ability": "Guts (prefer — 1.5× Attack when statused) over Swarm. Random.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Megahorn",
+     "src": "level 53 — 120-power Bug STAB, its signature nuke"
+    },
+    {
+     "m": "Brick Break",
+     "src": "TM31 — S.S. Anne; reliable Fighting STAB (or Reversal/Counter, level)"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage vs Flying (tutor-only)"
+    },
+    {
+     "m": "Earthquake / Return",
+     "src": "TM26 / TM27 — extra coverage"
+    }
+   ],
+   "items": "Black Belt or Silver Powder (+10%); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 50–55.",
+   "notes": "Post-game, but one of the best physical attackers in the game once caught — Megahorn + Brick Break covers an enormous swathe. FR/LG has no Swords Dance tutor, so unlike RSE it can't set up; it just hits very, very hard off 125 Attack."
+  },
+  "sneasel": {
+   "line": "Sneasel (does not evolve in Gen 3)  ·  LeafGreen only, Sevii, post-game",
+   "role": "Blazing-fast Dark/Ice — base 115 Speed with never-miss Faint Attack, but frail and weak-STAB.",
+   "where": "Wild on the Sevii Islands (Icefall Cave area) — POST-GAME (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 30–40.",
+   "nature": "Jolly (+Spe) or Adamant (+Atk).",
+   "ability": "Inner Focus or Keen Eye — neither matters much.",
+   "ivs": "Attack and Speed.",
+   "evs": "252 Atk / 252 Spe / 4 HP.",
+   "evWhere": "Attack off Mankey; Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Faint Attack",
+     "src": "level — never-miss Dark STAB"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; coverage vs Fighting/Grass"
+    },
+    {
+     "m": "Return",
+     "src": "TM27 — Route 12; neutral hit"
+    },
+    {
+     "m": "Shadow Ball / Icy Wind",
+     "src": "TM30 / level — coverage / Speed drop"
+    }
+   ],
+   "items": "Black Glasses (+10% Dark); Leftovers post-game.",
+   "evo": "None — Weavile is a Gen 4 evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive, post-game. It's fast and pretty, but its STABs are weak in Gen 3 (Ice moves it learns are low-power; Dark is thin), and it's very frail. A stylish revenge-killer, not a heavy hitter — Weavile's power is generations away."
+  },
+  "slugma": {
+   "line": "Slugma → Magcargo (L38)  ·  Sevii, post-game",
+   "role": "Slow, physically-bulky Fire/Rock — a specially-attacking wall with Flamethrower + Rock coverage.",
+   "where": "Wild on the Sevii Islands (Mt. Ember, Rock Smash) — POST-GAME. Both versions.",
+   "catch": "Lv 25–45.",
+   "nature": "Modest (+SpA) or Bold (+Def).",
+   "ability": "Flame Body (burn on contact) or Magma Armor — either is fine.",
+   "ivs": "Special Attack, HP, then Defense.",
+   "evs": "252 HP / 252 SpA / 4 Def.",
+   "evWhere": "HP Up ×10; SpA off Gastly (Pokémon Tower).",
+   "trainFrom": "Lv 38 as Magcargo.",
+   "moves": [
+    {
+     "m": "Flamethrower",
+     "src": "TM35 — Celadon Game Corner; main STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — Rock STAB (or Ancient Power, level)"
+    },
+    {
+     "m": "Hidden Power [Grass/Ground]",
+     "src": "TM10 — Pickup; coverage vs Water/Rock"
+    },
+    {
+     "m": "Rest / Toxic",
+     "src": "TM44 / TM06 — recovery or stall"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "Magcargo at L38.",
+   "final": "Lv 45–50.",
+   "notes": "Post-game Sevii. Base 120 Defense makes it a physical wall, but Fire/Rock is 4× weak to Ground AND Water — two of the most common attack types — so it walls narrowly. Good SpA (80) and a burn ability keep it relevant on a Sevii team."
+  },
+  "swinub": {
+   "line": "Swinub → Piloswine (L33)  ·  Sevii, post-game",
+   "role": "Bulky physical Ice/Ground — EdgeQuake plus Ice STAB off a sturdy frame.",
+   "where": "Wild on the Sevii Islands (Icefall Cave / Tanoby) — POST-GAME. Both versions.",
+   "catch": "Lv 30–45.",
+   "nature": "Adamant (+Atk).",
+   "ability": "Oblivious or Snow Cloak — neither matters much.",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey; HP Up ×10.",
+   "trainFrom": "Lv 33 as Piloswine.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym; Ground STAB"
+    },
+    {
+     "m": "Ice Beam / Blizzard",
+     "src": "TM13 / TM14 — Ice STAB (Blizzard from Pokémon Mansion)"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage (tutor-only)"
+    },
+    {
+     "m": "Return / Rest",
+     "src": "TM27 / level — neutral hit or recovery"
+    }
+   ],
+   "items": "Soft Sand (+10% Ground) or Nevermeltice; Leftovers post-game.",
+   "evo": "Piloswine at L33.",
+   "final": "Lv 50–55.",
+   "notes": "Post-game Sevii. Ice/Ground gives it the great EdgeQuake + Ice coverage, and 100/100 HP/Attack make it a genuine bulky attacker — but the typing is 4× weak to Grass and weak to Water/Fire/Fighting/Steel, so it's fragile despite the HP. Mamoswine (its power spike) is a Gen 4 thing."
+  },
+  "remoraid": {
+   "line": "Remoraid → Octillery (L25)  ·  LeafGreen only, Sevii, post-game",
+   "role": "Slow special/mixed Water with an unusually wide coverage pool.",
+   "where": "Fish/Surf around the Sevii Islands — POST-GAME (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 20–40.",
+   "nature": "Modest (+SpA) or Quiet.",
+   "ability": "Suction Cups or Sniper — Sniper (boosted crits) is the spicier pick. Random.",
+   "ivs": "Special Attack, then HP.",
+   "evs": "252 SpA / 252 HP / 4 SpD.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); HP Up ×10.",
+   "trainFrom": "Lv 25 as Octillery.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage"
+    },
+    {
+     "m": "Fire Blast / Psychic",
+     "src": "TM38 / TM29 — surprising special coverage off its 105 SpA"
+    },
+    {
+     "m": "Hidden Power / Psychic",
+     "src": "TM10 / TM29 — more coverage"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Octillery at L25.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive, post-game. Octillery's 105 SpA and enormous TM pool (Fire Blast, Thunderbolt, Ice Beam, Psychic) make it a coverage machine — but its base 45 Speed means it takes a hit before it acts. A bulky wallbreaker for a Sevii team."
+  },
+  "delibird": {
+   "line": "Delibird (does not evolve)  ·  FireRed only, Sevii, post-game",
+   "role": "A novelty — the Present gimmick and Ice/Flying typing, but bottom-tier stats.",
+   "where": "Wild on the Sevii Islands (Icefall Cave) — POST-GAME (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 30–40.",
+   "nature": "Modest (+SpA) or Jolly (+Spe).",
+   "ability": "Vital Spirit (sleep immunity) or Hustle — Hustle boosts its weak Attack. Random.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly; Speed in Diglett's Cave.",
+   "trainFrom": "From catch — realistically, a dex entry.",
+   "moves": [
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; its best STAB"
+    },
+    {
+     "m": "Aerial Ace",
+     "src": "TM40 — Route 9; Flying STAB"
+    },
+    {
+     "m": "Hidden Power",
+     "src": "TM10 — Pickup; coverage"
+    },
+    {
+     "m": "Fly",
+     "src": "HM02 — overworld utility if nothing else carries it"
+    }
+   ],
+   "items": "Nevermeltice (+10% Ice); Leftovers post-game.",
+   "evo": "None.",
+   "final": "Lv 40–45.",
+   "notes": "FireRed exclusive, post-game, and one of the weakest fully-evolved Pokémon in the dex (330 BST). Its signature Present is a coin-flip (can even heal the foe) — Ice Beam is far more reliable. A collector's catch, not a battler."
+  },
+  "mantine": {
+   "line": "Mantine (does not evolve in Gen 3)  ·  LeafGreen only, Sevii, post-game",
+   "role": "Specially-bulky Water/Flying wall — base 140 SpD behind Surf and Ice Beam.",
+   "where": "Surf around the Sevii Islands (Trainer Tower / Kindle Road) — POST-GAME (LeafGreen only; trade in FireRed).",
+   "catch": "Lv 30–40.",
+   "nature": "Modest (+SpA) or Calm (+SpD).",
+   "ability": "Swift Swim or Water Absorb — Water Absorb (heals off Water) is the pick. Random.",
+   "ivs": "Special Attack, HP, then SpD.",
+   "evs": "252 HP / 252 SpA / 4 SpD.",
+   "evWhere": "HP Up ×10; SpA off Gastly (Pokémon Tower).",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Surf",
+     "src": "HM03 — Safari Zone Secret House; main STAB"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage vs Grass/Dragon/Flying"
+    },
+    {
+     "m": "Hidden Power [Grass/Electric]",
+     "src": "TM10 — Pickup; answers other Water types"
+    },
+    {
+     "m": "Toxic / Rest",
+     "src": "TM06 / TM44 — stall and recovery"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "None — Mantyke is a Gen 4 pre-evolution and doesn't exist here.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive, post-game. 140 SpD makes it a superb special wall (and Water Absorb adds a Water immunity), but its physical Defense is weak and Water/Flying is 4× weak to Electric — never switch it into a Thunderbolt. A patient Surf/Toxic staller."
+  },
+  "skarmory": {
+   "line": "Skarmory (does not evolve)  ·  FireRed only, Sevii, post-game",
+   "role": "Premier physical wall — base 140 Defense, a Steel/Flying typing, and Spikes.",
+   "where": "Wild on the Sevii Islands (Sevault Canyon) — POST-GAME (FireRed only; trade in LeafGreen).",
+   "catch": "Lv 30. Catch rate 25 — status it and bring Ultra Balls.",
+   "nature": "Impish (+Def) or Careful (+SpD).",
+   "ability": "Sturdy (prevents OHKO) or Keen Eye — Sturdy is the pick. Random.",
+   "ivs": "Defense and HP.",
+   "evs": "252 HP / 252 Def / 4 SpD.",
+   "evWhere": "HP Up ×10; Defense off Geodude in the caves.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Fly / Steel Wing",
+     "src": "HM02 / TM47 — Flying / Steel STAB (its only real attacks)"
+    },
+    {
+     "m": "Spikes",
+     "src": "level 42 — the entry hazard that defines it"
+    },
+    {
+     "m": "Toxic",
+     "src": "TM06 — Koga (Fuchsia Gym); wear down what it walls"
+    },
+    {
+     "m": "Rest / Agility",
+     "src": "TM44 / level — recovery or speed control"
+    }
+   ],
+   "items": "Leftovers (post-game) — core to its stall; or Sharp Beak.",
+   "evo": "None.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive, post-game. A legendary physical wall — Steel/Flying resists a huge chunk of the game and it takes only Fire and Electric super-effectively. Low offense (80 Atk) means it walls, sets Spikes, and Toxic-stalls rather than attacking. (No Whirlwind/Roar phazing to lean on here — Spikes + Toxic is the plan.)"
+  },
+  "phanpy": {
+   "line": "Phanpy → Donphan (L25)  ·  Sevii, post-game",
+   "role": "Bulky physical Ground tank — base 120 Attack and 120 Defense with EdgeQuake and Rapid Spin.",
+   "where": "Wild on the Sevii Islands (Cape Brink / Water Path) — POST-GAME. Both versions.",
+   "catch": "Lv 20–40. Phanpy has Pickup — free items while you raise it.",
+   "nature": "Adamant (+Atk) or Impish (+Def).",
+   "ability": "Sturdy on Donphan (its only ability) — prevents OHKOs.",
+   "ivs": "Attack and Defense.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey; HP Up ×10.",
+   "trainFrom": "Lv 25 as Donphan.",
+   "moves": [
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym; prime STAB"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — the other half of EdgeQuake (tutor-only)"
+    },
+    {
+     "m": "Return / Body Slam",
+     "src": "TM27 / Four Island tutor — neutral coverage"
+    },
+    {
+     "m": "Rapid Spin / Rest",
+     "src": "level / level — hazard control or recovery"
+    }
+   ],
+   "items": "Soft Sand (+10% Ground); Leftovers post-game.",
+   "evo": "Donphan at L25.",
+   "final": "Lv 50–55.",
+   "notes": "Post-game Sevii, but a genuinely strong bulky attacker — 120/120 Attack/Defense with EdgeQuake covers most threats. Weak to Water/Grass/Ice, so it's a physical wall, not a special one. Phanpy's Pickup is a nice bonus while training."
+  },
+  "smoochum": {
+   "line": "Jynx (L30 from Smoochum)  ·  Smoochum by breeding",
+   "role": "Fast special Ice/Psychic with a sleep move — a fragile but hard-hitting sweeper.",
+   "where": "In-game trade in Cerulean (a Poliwhirl for a Jynx), or wild in Icefall Cave (Four Island). Smoochum only comes from BREEDING Jynx with Ditto.",
+   "catch": "Trade Jynx arrives ~Lv 10 (obeys); wild ~Lv 30–40.",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Oblivious (its only relevant ability) — immune to infatuation.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "From the trade — the EXP bonus levels it fast; or from catch.",
+   "moves": [
+    {
+     "m": "Ice Beam / Blizzard",
+     "src": "TM13 / TM14 — Ice STAB (Blizzard from Pokémon Mansion)"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; second STAB"
+    },
+    {
+     "m": "Calm Mind",
+     "src": "TM04 — Sabrina (Saffron Gym); set up and sweep"
+    },
+    {
+     "m": "Lovely Kiss",
+     "src": "level — a strong (75%) sleep to open the sweep"
+    }
+   ],
+   "items": "Nevermeltice or Twistedspoon (+10%); Leftovers post-game.",
+   "evo": "Jynx at L30 (Smoochum → Jynx). Smoochum itself is a breed-only baby.",
+   "final": "Lv 45–50.",
+   "notes": "115 SpA / 95 Speed with Lovely Kiss makes it a real sweeper, but its defenses are dreadful (35 Def) — it sleeps something and sweeps, or it dies. Ice/Psychic is 4× weak to nothing but weak to Bug/Ghost/Dark/Fire/Rock/Steel, so it's a glass cannon."
+  },
+  "elekid": {
+   "line": "Electabuzz (L30 from Elekid)  ·  FireRed only, Elekid by breeding",
+   "role": "Fast special/mixed Electric — base 105 Speed with elemental-punch coverage.",
+   "where": "Electabuzz is wild in the Power Plant (FireRed only). Elekid only comes from BREEDING Electabuzz with Ditto.",
+   "catch": "Lv 33 (Power Plant).",
+   "nature": "Timid (+Spe) or Modest (+SpA).",
+   "ability": "Static (its only ability) — paralyse on contact.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Thunderbolt",
+     "src": "TM24 — Celadon Game Corner; main STAB"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; coverage vs Fighting/Poison"
+    },
+    {
+     "m": "Hidden Power [Ice/Grass]",
+     "src": "TM10 — Pickup; the answer to Ground types"
+    },
+    {
+     "m": "Ice Punch / Cross Chop",
+     "src": "EGG moves — breed Elekid for them; a mixed set off its 83 Attack"
+    }
+   ],
+   "items": "Magnet (+10% Electric); Leftovers post-game.",
+   "evo": "Electabuzz at L30 (Elekid → Electabuzz). Electivire is a Gen 4 evolution and doesn't exist here — Electabuzz is the final form.",
+   "final": "Lv 45–50.",
+   "notes": "FireRed exclusive. Base 105 Speed + 95 SpA make it a fine fast special attacker. Note the elemental punches and Cross Chop are EGG moves in FR/LG (Electabuzz learns Thunder Punch by level but not Ice Punch/Cross Chop) — you must breed an Elekid for them, so a pure-special Thunderbolt/Psychic/HP set is the no-fuss option."
+  },
+  "magby": {
+   "line": "Magmar (L30 from Magby)  ·  LeafGreen only, Magby by breeding",
+   "role": "Fast special Fire with fighting coverage — a mid-game sweeper.",
+   "where": "Magmar is wild on Mt. Ember and in Pokémon Mansion (LeafGreen only). Magby only comes from BREEDING Magmar with Ditto.",
+   "catch": "Lv 30–45 (Mt. Ember / Mansion).",
+   "nature": "Modest (+SpA) or Timid (+Spe).",
+   "ability": "Flame Body (its only ability) — burn on contact.",
+   "ivs": "Special Attack and Speed.",
+   "evs": "252 SpA / 252 Spe / 4 HP.",
+   "evWhere": "SpA off Gastly (Pokémon Tower); Speed in Diglett's Cave.",
+   "trainFrom": "From catch.",
+   "moves": [
+    {
+     "m": "Flamethrower",
+     "src": "TM35 — Celadon Game Corner (or level 41); main STAB"
+    },
+    {
+     "m": "Psychic",
+     "src": "TM29 — Saffron City; coverage vs Fighting/Poison"
+    },
+    {
+     "m": "Hidden Power [Grass/Ground]",
+     "src": "TM10 — Pickup; answers Water/Rock"
+    },
+    {
+     "m": "Cross Chop / Thunder Punch",
+     "src": "EGG moves — breed Magby for them; a mixed set off its 95 Attack"
+    }
+   ],
+   "items": "Charcoal (+10% Fire); Leftovers post-game.",
+   "evo": "Magmar at L30 (Magby → Magmar). Magmortar is a Gen 4 evolution and doesn't exist here — Magmar is the final form.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive; the counterpart to FireRed's Electabuzz. Base 100 SpA / 93 Speed makes it a fine fast special sweeper. Note Cross Chop and Thunder Punch are EGG moves in FR/LG (Magmar learns Fire Punch by level, not those) — breed a Magby for the mixed coverage, or just run pure-special Flamethrower/Psychic/HP."
+  },
+  "larvitar": {
+   "line": "Larvitar → Pupitar (L30) → Tyranitar (L55)  ·  Sevii, post-game",
+   "role": "Pseudo-legend — base 134 Attack, 600 BST, and permanent Sandstorm. A post-game project.",
+   "where": "Wild in Sevault Canyon (Sevii) — POST-GAME, needs the National Dex. Both versions.",
+   "catch": "Lv 15–20 (deep in the canyon).",
+   "nature": "Adamant (+Atk).",
+   "ability": "Sand Stream on Tyranitar (its only ability) — summons a permanent sandstorm.",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Spe.",
+   "evWhere": "Attack off Mankey; HP Up ×10.",
+   "trainFrom": "Lv 30 as Pupitar; the long haul is to Tyranitar at L55.",
+   "moves": [
+    {
+     "m": "Rock Slide",
+     "src": "level 22 (Tyranitar learns it natively) — Rock STAB; no strong Rock TM needed"
+    },
+    {
+     "m": "Crunch",
+     "src": "level 47 — Dark STAB, hits Ghost/Psychic"
+    },
+    {
+     "m": "Earthquake",
+     "src": "TM26 — Viridian Gym; coverage"
+    },
+    {
+     "m": "Brick Break / Return",
+     "src": "TM31 / TM27 — covers its 4× Fighting weakness attackers... offensively"
+    }
+   ],
+   "items": "Hard Stone (+10% Rock); Leftovers post-game.",
+   "evo": "Pupitar at L30, Tyranitar at L55 — a very late, grind-heavy evolution.",
+   "final": "Lv 55+.",
+   "notes": "Post-game and a serious time investment (Tyranitar at L55), but the payoff is a 600-BST monster with a sandstorm that chips the foe every turn. Rock/Dark is 4× weak to Fighting — its one glaring hole. Dragon Dance is a later-gen egg move, so it sweeps on raw Attack."
+  },
+  "azurill": {
+   "line": "Marill → Azumarill (L18)  ·  LeafGreen only (Sevii), Azurill by breeding",
+   "role": "Huge Power physical Water — a deceptively hard hitter with great bulk.",
+   "where": "Marill is wild on the Sevii Islands (LeafGreen only; trade in FireRed) — POST-GAME. Azurill only comes from BREEDING Marill/Azumarill with Ditto.",
+   "catch": "Lv 5–20.",
+   "nature": "Adamant (+Atk).",
+   "ability": "Huge Power (prefer — DOUBLES Attack) over Thick Fat. Random — and Huge Power is the whole point, so re-catch/breed for it.",
+   "ivs": "Attack and HP.",
+   "evs": "252 Atk / 252 HP / 4 Def.",
+   "evWhere": "Attack off Mankey; HP Up ×10. Marill itself yields HP.",
+   "trainFrom": "Lv 18 as Azumarill.",
+   "moves": [
+    {
+     "m": "Waterfall",
+     "src": "HM07 — Icefall Cave; physical Water STAB, doubled by Huge Power"
+    },
+    {
+     "m": "Return / Body Slam",
+     "src": "TM27 / Four Island tutor — hard neutral hit"
+    },
+    {
+     "m": "Ice Beam",
+     "src": "TM13 — Celadon Game Corner; coverage (special, but useful)"
+    },
+    {
+     "m": "Rock Slide",
+     "src": "Rock Tunnel move tutor — coverage (tutor-only)"
+    }
+   ],
+   "items": "Mystic Water (+10% Water); Leftovers post-game.",
+   "evo": "Azumarill at L18. Azurill is a breed-only baby that evolves into Marill by friendship.",
+   "final": "Lv 45–50.",
+   "notes": "LeafGreen exclusive, post-game. Azumarill's base Attack is only 50, but Huge Power DOUBLES it to an effective 100 — with 100 HP of bulk behind it, that's a sturdy, hard-hitting Water. Insist on the Huge Power ability; Thick Fat wastes the set."
+  },
+  "wynaut": {
+   "line": "Wobbuffet (L15 from Wynaut)  ·  Sevii, Wynaut by breeding",
+   "role": "The trapper — Shadow Tag locks the foe in, then Counter/Mirror Coat bounces their own hit back.",
+   "where": "Wobbuffet is wild on the Sevii Islands — POST-GAME. Wynaut only comes from BREEDING Wobbuffet with Ditto.",
+   "catch": "Lv 30–40 (Wobbuffet).",
+   "nature": "Calm (+SpD) or Bold (+Def) — it never attacks directly, so pure bulk.",
+   "ability": "Shadow Tag (its only ability) — the foe cannot switch out or flee.",
+   "ivs": "HP and both defenses (Def/SpD).",
+   "evs": "252 HP / 128 Def / 128 SpD.",
+   "evWhere": "HP Up ×10; split the rest between Geodude (Def) and Tentacool (SpD).",
+   "trainFrom": "Lv 15 as Wobbuffet.",
+   "moves": [
+    {
+     "m": "Counter",
+     "src": "level — return 2× a physical hit"
+    },
+    {
+     "m": "Mirror Coat",
+     "src": "level — return 2× a special hit"
+    },
+    {
+     "m": "Encore",
+     "src": "level — lock the foe into one move while you set up the right reflect"
+    },
+    {
+     "m": "Destiny Bond",
+     "src": "level — if it's going down, take the foe with it"
+    }
+   ],
+   "items": "Leftovers (post-game) — it survives on longevity; a must-have.",
+   "evo": "Wobbuffet at L15 (Wynaut → Wobbuffet). Wynaut is a breed-only baby.",
+   "final": "Lv 45–50.",
+   "notes": "A pure gimmick wall: 190 HP and huge defenses, but its ONLY damage is Counter/Mirror Coat, so it needs the foe to attack. Shadow Tag traps something frail, Encore locks it, then you bounce it. Useless against status/setup, brutal against attackers. Its four moves above are literally all it can learn."
+  }
+ }
+}

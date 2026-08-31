@@ -19,7 +19,8 @@ rows = lambda f: list(csv.DictReader(open(os.path.join(D, f + ".csv"))))
 GAMES_DIR = os.path.join(HERE, "games")
 if len(sys.argv) < 2:                         # no argument: build every game there is
     import subprocess
-    built = sorted(f[:-5] for f in os.listdir(GAMES_DIR) if f.endswith(".json"))
+    built = sorted(f[:-5] for f in os.listdir(GAMES_DIR)
+                   if f.endswith(".json") and not f.endswith(".builds.json"))
     for g in built:
         subprocess.run([sys.executable, __file__, g], check=True)
     # the front page, so GitHub Pages has something at the root. Same palette and
@@ -77,6 +78,12 @@ route = json.load(open(os.path.join(GAMES_DIR, GAME + ".json")))
 OUT = os.path.join(HERE, "dist", GAME + ".html")
 UI = os.path.join(HERE, "ui.html")
 
+# Optimal builds are editorial and per evolution line, so they live beside the game
+# file (games/<name>.builds.json), not in build.py. Each entry is keyed by the line's
+# root species; every member of the line shows the same build on its sheet.
+BUILDS_PATH = os.path.join(GAMES_DIR, GAME + ".builds.json")
+BUILDS = json.load(open(BUILDS_PATH)).get("lines", {}) if os.path.exists(BUILDS_PATH) else {}
+
 CFG = route["build"]
 VERSIONS = {k: str(v) for k, v in CFG["versions"].items()}
 VER = set(VERSIONS.values())
@@ -107,6 +114,13 @@ for r in rows("pokemon_species"):
                             "gender": int(r["gender_rate"]),          # -1 genderless, else eighths female
                             "legend": r["is_legendary"] == "1" or r["is_mythical"] == "1"}
 by_name = {s["name"]: sid for sid, s in species.items()}
+
+def line_root(sid):
+    """The base form of sid's evolution line — how a build is looked up. The build
+    is authored once per line and shown on every member's sheet."""
+    while species.get(sid, {}).get("from") in species:
+        sid = species[sid]["from"]
+    return species[sid]["name"]
 
 poke_of = {r["species_id"]: r["id"] for r in rows("pokemon") if r["is_default"] == "1"}
 base_exp = {r["species_id"]: int(r["base_experience"] or 60) for r in rows("pokemon") if r["is_default"] == "1"}
@@ -610,7 +624,9 @@ def species_row(sid):
             "catch": sp["catch"], "happy": sp["happy"], "cycles": sp["cycles"],
             "gender": sp["gender"], "legend": sp["legend"],
             "growthName": GROWTH.get(int(sp["growth"]), ""),
-            "learn": learn.get(str(pid), {"lv": [], "tm": []})}
+            "learn": learn.get(str(pid), {"lv": [], "tm": []}),
+            # the authored optimal build for this Pokémon's line, if one exists
+            "build": BUILDS.get(line_root(sid))}
 
 blockers = {"exclusives": exclusives, "tradeEvos": trade_evos,
             "choices": route.get("dexBlockers", [])}
@@ -680,6 +696,15 @@ if no_art:
     print(f"  no art for {len(no_art)} — run tools/art.sh: {' '.join(no_art[:6])}")
 
 mon_table = {i: species_row(str(i)) for i in sorted(in_family)}
+# every mentionable line should carry an optimal build; report the gaps
+_lines = {line_root(str(i)) for i in in_family}
+_missing_builds = sorted(l for l in _lines if l not in BUILDS)
+if _missing_builds:
+    print(f"  builds: {len(_lines) - len(_missing_builds)}/{len(_lines)} lines — "
+          f"missing {len(_missing_builds)}: {', '.join(_missing_builds[:8])}"
+          + ("…" if len(_missing_builds) > 8 else ""))
+_stray_builds = sorted(set(BUILDS) - _lines)
+assert not _stray_builds, f"builds for lines the app never shows: {_stray_builds}"
 # the UI ranks moves by coverage, so it needs the same chart build.py already has
 se_chart = {a: sorted(b for b in types.values()
                       if efficacy.get((type_id[a], type_id[b]), 100) > 100)
