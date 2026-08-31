@@ -649,6 +649,37 @@ table.dtbl .chip{white-space:nowrap}
   border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--fg);line-height:1.55}
 .onotes svg.i{width:15px;height:15px;color:var(--warn);flex:none;margin-top:2px}
 .onotes b{color:var(--warn)}
+.okmark{display:inline-block;margin-top:3px;color:var(--good);font-size:12px;font-weight:600}
+.warnmark{display:inline-block;margin-top:3px;color:var(--warn);font-size:12px;font-weight:600}
+.movenote{margin-top:9px;display:flex;gap:7px;align-items:flex-start;font-size:12px;color:var(--dim);line-height:1.5}
+.movenote svg.i{width:13px;height:13px;color:var(--acc);flex:none;margin-top:2px}
+.movewarn{margin-top:9px;display:flex;gap:8px;align-items:flex-start;background:var(--warnbg);
+  border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--fg);line-height:1.5}
+.movewarn svg.i{width:15px;height:15px;color:var(--warn);flex:none;margin-top:2px}
+.movewarn b{color:var(--warn)}
+/* IV estimator */
+.ivcheck{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.ivcheck>summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);
+  display:flex;align-items:center;gap:7px;list-style:none;font-weight:650;padding:2px 0}
+.ivcheck>summary::-webkit-details-marker{display:none}
+.ivcheck>summary svg.i{width:13px;height:13px;color:var(--acc)}
+.ivcheck>summary svg.mk{width:13px;height:13px;margin-left:auto;transition:transform .15s;color:var(--dim)}
+.ivcheck[open]>summary svg.mk{transform:rotate(180deg)}
+.ivgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
+.ivgrid label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--dim);font-weight:600}
+.ivgrid input{width:100%;padding:6px 8px;font-size:14px;background:var(--field);color:var(--fg);
+  border:1px solid var(--line2);border-radius:8px}
+.ivtbl td{padding:4px 14px 4px 0}
+.ivstar{color:var(--acc);margin-left:3px}
+.ivrank{font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:5px;margin-left:4px;text-transform:uppercase}
+.ivrank.great{background:var(--goodbg);color:var(--good)}
+.ivrank.good{background:var(--accbg);color:var(--acc)}
+.ivrank.ok{background:var(--hover);color:var(--dim)}
+.ivrank.low{background:var(--warnbg);color:var(--warn)}
+.ivbad{color:var(--bad);font-size:12px}
+.ivverdict{margin-top:8px;font-size:12.5px;font-weight:600;color:var(--fg)}
+.ivverdict.good{color:var(--good)}
+.ivverdict.low{color:var(--warn)}
 /* art: item icons, type labels, badges. Last, and typed, so the sprite-sizing
    rules above ('.hit img', '.shead img') can't blow these up. */
 img.ico{width:26px;height:26px;vertical-align:middle;margin-right:7px;flex:none}
@@ -1559,6 +1590,56 @@ const natMult = (id, idx) => {
   return !n ? 1 : n[0] === idx ? 1.1 : n[1] === idx ? 0.9 : 1
 }
 
+// --- IV estimator: back-solve a freshly-caught mon's Gen 3 IVs from its stats (EV=0) ---
+// Gen 3 has no in-game IV viewer, so we invert the stat formula: for each 0–31 IV, does it
+// reproduce the entered stat at this level/nature? Return the matching range. EV=0 assumes
+// it's unfought — check before EV training. Wide ranges at low level are honest, not a bug.
+let ivProbe = load('ivprobe', {})            // id -> six entered stats (strings)
+function ivRange(base, level, mult, observed, isHP) {
+  const hits = []
+  for (let iv = 0; iv <= 31; iv++) {
+    const core = Math.floor((2 * base + iv) * level / 100)
+    const s = isHP ? core + level + 10 : Math.floor((core + 5) * mult)
+    if (s === observed) hits.push(iv)
+  }
+  return hits.length ? [hits[0], hits[hits.length - 1]] : null
+}
+// which stat indices matter most for a build — read off its EV spread (the 252-invested ones)
+const keyStats = b => {
+  const nums = [...String((b && b.evs) || '').matchAll(/(\d+)\s*(HP|Atk|Def|SpA|SpD|Spe)/g)]
+  if (!nums.length) return []
+  const max = Math.max(...nums.map(m => +m[1]))
+  return [...new Set(nums.filter(m => +m[1] === max).map(m => STATN.indexOf(m[2])))]
+}
+function ivReportHtml(id) {
+  const lv = lvOf(id), sp = M(id), b = sp.build
+  if (!lv) return '<div class="meta">Set a level up top first — the estimate needs it.</div>'
+  const probe = ivProbe[id] || [], key = new Set(keyStats(b))
+  const solved = STATN.map((n, i) => {
+    const raw = probe[i]
+    if (raw == null || raw === '') return null
+    return ivRange(sp.stats[i], lv, natMult(id, i), +raw, i === 0)
+  })
+  const rows = STATN.map((n, i) => {
+    const star = key.has(i) ? '<span class="ivstar">★</span>' : ''
+    if (probe[i] == null || probe[i] === '') return `<tr><td>${n}${star}</td><td class="meta">—</td></tr>`
+    const r = solved[i]
+    if (!r) return `<tr><td>${n}${star}</td><td class="ivbad">no IV fits — re-check the level/nature, or it's already been EV-trained</td></tr>`
+    const [lo, hi] = r, rank = lo >= 26 ? 'great' : lo >= 20 ? 'good' : lo >= 12 ? 'ok' : 'low'
+    return `<tr><td>${n}${star}</td><td>IV ${lo === hi ? lo : lo + '–' + hi} <span class="ivrank ${rank}">${rank}</span></td></tr>`
+  }).join('')
+  const keyR = [...key].map(i => solved[i])
+  let verdict = ''
+  if (keyR.length && keyR.every(Boolean)) {
+    const los = keyR.map(r => r[0])
+    verdict = los.every(l => l >= 20) ? '<div class="ivverdict good">Keeper — the ★ stats that matter here rolled strong.</div>'
+      : los.some(l => l < 12) ? '<div class="ivverdict low">A ★ stat rolled low — re-catch or soft-reset if you\'re optimising.</div>'
+      : '<div class="ivverdict">Serviceable — fine to use, not a perfect roll.</div>'
+  }
+  const loose = lv < 20 && probe.some(v => v) ? '<div class="meta">Low level, so ranges are wide — raise it a few levels for a sharper read.</div>' : ''
+  return `<table class="spots ivtbl">${rows}</table>${verdict}${loose}`
+}
+
 function soonMoves(id, lv) {
   return M(id).learn.lv.filter(([l]) => l > lv && l <= lv + 12)
     .map(([l, i]) => DATA.moves[i] && { ...DATA.moves[i], id: +i, from: 'learns at ' + l, lv: l })
@@ -2233,24 +2314,49 @@ function drawModal() {
       .filter(Boolean).join(' <span class="osep">·</span> ')
     const row = (label, val, why) => val
       ? `<tr><td>${label}</td><td>${esc(val)}${why ? `<span class="why">${esc(why)}</span>` : ''}</td></tr>` : ''
+    // does the nature the player has set match what the build wants?
+    const wantNat = (String(b.nature).match(/^[A-Za-z]+/) || [''])[0].toLowerCase()
+    const setNat = natures[id]
+    const natHint = wantNat && NATURES[wantNat]
+      ? (setNat ? (setNat === wantNat
+            ? `<span class="okmark">✓ matches the nature you set</span>`
+            : `<span class="warnmark">you set ${cap(setNat)} — build wants ${cap(wantNat)}</span>`)
+          : `<span class="why">On the in-game Summary the raised stat is red, the lowered one blue. Set yours in the box up top to check it here.</span>`)
+      : ''
+    const natureCell = `<tr><td>Nature</td><td>${esc(b.nature)}${natHint}</td></tr>`
+    // EV row: keep the where-to-train, add the one caveat people miss
+    const evCell = `<tr><td>EV spread</td><td>${esc(b.evs)}${b.evWhere ? `<span class="why">${esc(b.evWhere)}</span>` : ''}<span class="why">EVs are invisible in-game — count as you go. Vitamins (Celadon Dept. Store) cover the first 100 of a stat; battles do the rest. 4 EVs = 1 stat point; 252 max per stat, 510 total.</span></td></tr>`
+    // move-timing warning — the trap the user asked about
+    const stoneEvo = /stone/i.test(String(b.evo))
+    const evolves = b.evo && !/^none/i.test(String(b.evo))
+    const moveWarn = stoneEvo
+      ? `<div class="movewarn">${I('alert')}<div><b>Teach its key moves before you use the stone.</b> A stone evolution's new form learns almost nothing by level-up, so a move you skip is gone for good (the Move Reminder can only bring back moves in the new form's list). Stack them on the pre-evolution first.</div></div>`
+      : evolves ? `<div class="movenote">${I('info')}Evolving never deletes moves it already knows, and the Move Reminder (Two Island) can re-teach level-up moves you skipped.</div>` : ''
     return `<details class="obuild"${load('obuild', true) ? ' open' : ''}>
       <summary>${I('diamond', 'mk')}Optimal build <span class="obtag">FR/LG</span></summary>
       ${b.role ? `<div class="orole">${esc(b.role)}</div>` : ''}
       <div class="osummary">${summary}</div>
       <table class="spots obtbl">
         ${row('Obtain', b.where, b.catch)}
-        ${row('Nature', b.nature)}
+        ${natureCell}
         ${row('Ability', b.ability)}
         ${row('IV priority', b.ivs)}
-        ${row('EV spread', b.evs, b.evWhere)}
+        ${evCell}
         ${row('Train from', b.trainFrom)}
         ${row('Evolve', b.evo)}
         ${row('Final level', b.final)}
         ${row('Items', b.items)}
       </table>
       ${(b.moves || []).length ? `<div class="omoves"><h6>${I('swords')}Best moveset</h6>
-        <ul>${b.moves.map(mv => `<li><b>${esc(mv.m)}</b><span class="meta">${esc(mv.src)}</span></li>`).join('')}</ul></div>` : ''}
+        <ul>${b.moves.map(mv => `<li><b>${esc(mv.m)}</b><span class="meta">${esc(mv.src)}</span></li>`).join('')}</ul>${moveWarn}</div>` : ''}
       ${b.notes ? `<div class="onotes">${I('info')}<div><b>FR/LG notes.</b> ${esc(b.notes)}</div></div>` : ''}
+      <details class="ivcheck">
+        <summary>${I('target', 'mk')}Check a caught one — is it a keeper?</summary>
+        <div class="why">Enter its six stats from the in-game <b>Summary</b> screen. Uses the level &amp; nature you set up top and assumes it's freshly caught (0 EVs) — so check it <b>before</b> EV training. ★ marks the stats that matter for this build.</div>
+        <div class="ivgrid">${STATN.map((n, i) =>
+          `<label>${n}<input type="number" min="0" max="999" inputmode="numeric" data-iv="${i}" value="${esc((ivProbe[id] || [])[i] ?? '')}"></label>`).join('')}</div>
+        <div id="ivreport">${ivReportHtml(id)}</div>
+      </details>
     </details>`
   })()
 
@@ -2358,6 +2464,14 @@ function drawModal() {
   facts.ontoggle = () => save('facts', facts.open)
   const obuild = host.querySelector('.obuild')
   if (obuild) obuild.ontoggle = () => save('obuild', obuild.open)
+  // IV estimator: update the entered stats and re-solve in place (no full render, keeps focus)
+  host.querySelectorAll('input[data-iv]').forEach(inp => inp.oninput = () => {
+    const cur = (ivProbe[id] || []).slice()
+    cur[+inp.dataset.iv] = inp.value
+    ivProbe[id] = cur; save('ivprobe', ivProbe)
+    const out = host.querySelector('#ivreport')
+    if (out) out.innerHTML = ivReportHtml(id)
+  })
   bindSheetDrag(host, () => { modalId = null; render() })
 }
 
