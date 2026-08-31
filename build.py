@@ -510,6 +510,9 @@ def build(tag):
             "boss": stop.get("boss"), "notes": stop.get("notes", ""),
             "items": stop.get("items", []),
             "badge": stop.get("badge"), "unlock": route["badgeHm"].get(stop.get("badge") or ""),
+            # a locked run of fights with no Pokemon Center between them (the Elite Four):
+            # one team of six clears them all, no swapping at a PC once you're in.
+            "gauntlet": stop.get("gauntlet", False),
             "mons": mons, "fights": [f["id"] for f in here],
         })
     return {"stops": out, "fights": fs, "_grind": grind}

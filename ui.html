@@ -442,6 +442,16 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .verdict.good{color:#9df0bb;background:var(--goodbg);border:1px solid #1f4a31}
 .verdict.hold{color:#cfe0ff;background:#16203a;border:1px solid #2c3f63}
 .verdict.bad{color:var(--warn);background:var(--warnbg);border:1px solid var(--warn)}
+/* gauntlet coverage: one team of six read across a locked run of fights */
+.gaunt .verdict{margin:0 0 10px}
+.gcovlist{display:flex;flex-direction:column}
+.gcov{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 2px;border-top:1px solid var(--line)}
+.gcov b{color:var(--fg);min-width:76px}
+.gcov span{color:var(--dim);min-width:0;overflow-wrap:anywhere}
+.gcov svg.i{width:15px;height:15px;flex:none}
+.gcov.ok svg.i{color:var(--good)}
+.gcov.pc svg.i{color:var(--acc2)}
+.gcov.no svg.i{color:var(--warn)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:3px 0}
 .chip{font-size:11px;padding:1px 7px;border-radius:5px;background:var(--hover);color:var(--dim)}
 .chip.v{color:var(--acc)}.chip.e{color:var(--warn)}
@@ -1114,6 +1124,67 @@ function useGame() {
 }
 useGame()
 const roster = f => f.variants ? f.team.concat(f.variants[DATA.rivalStarter[starterOf()]] || []) : f.team
+
+// --- Gauntlets: a run of fights with no Pokémon Center between them (the Elite Four) --
+// You commit one team of six to the whole run and can't switch at a PC once you're in,
+// so the matchup has to be read across every member at once — a foe none of your six
+// answers is a wall you can't route around by boxing something mid-run. gauntletAt(i)
+// returns that stop's fights, in order, or null when the stop is a normal one.
+const gauntletAt = i => stops[i] && stops[i].gauntlet
+  ? stops[i].fights.map(f => fightById[f]).filter(Boolean) : null
+
+// The owned species (by catch id or an evolved form) that comfortably, without a trade,
+// counter a fight — deduped to the form you'd field. `set` is your party or your PC.
+const gCounter = (f, set) => {
+  const seen = new Set(), out = []
+  for (const c of f.counters)
+    if (!c.trade && c.m > 0.2 && (set.has(c.id) || set.has(c.finalId)) && !seen.has(c.finalId)) {
+      seen.add(c.finalId); out.push(cap(c.final))
+    }
+  return out
+}
+// Per member of a locked run: who in your party covers it, who in the PC would if you
+// withdrew them first, and the best obtainable picks when you own neither.
+const gauntletPlan = members => members.map(f => ({
+  f,
+  party: gCounter(f, party),
+  bench: gCounter(f, pc),
+  best: f.counters.filter(c => !c.trade && c.m > 0.2).slice(0, 3).map(c => cap(c.final)),
+}))
+
+// The shared "can my fixed six clear this run?" card: a headline verdict, then a
+// per-foe pass / withdraw-from-PC / gap list. Shown before a gauntlet in both views.
+function gauntletCoverage(members) {
+  const plan = gauntletPlan(members)
+  const foe = f => esc(f.name.replace(/ —.*/, ''))
+  const gaps = plan.filter(p => !p.party.length)
+  const fillable = gaps.filter(p => p.bench.length)
+  const stuck = gaps.filter(p => !p.bench.length && p.best.length)
+  const slog = gaps.filter(p => !p.bench.length && !p.best.length)
+
+  let head
+  if (!party.size)
+    head = `<div class="verdict hold">${I('lock')}<div>Build a party and this shows whether your six cover all ${members.length}, with no swaps allowed.</div></div>`
+  else if (!gaps.length)
+    head = `<div class="verdict good">${I('check-circle')}<div>Your six answer every member — walk in as you are.</div></div>`
+  else {
+    const bad = stuck.length || slog.length, bits = []
+    if (fillable.length) bits.push(`withdraw <b>${[...new Set(fillable.flatMap(p => p.bench))].join(', ')}</b> at the Pokémon Center first`)
+    if (stuck.length) bits.push(`raise an answer to <b>${stuck.map(p => foe(p.f)).join(', ')}</b> — nothing you own touches ${stuck.length > 1 ? 'them' : 'it'}`)
+    if (slog.length) bits.push(`<b>${slog.map(p => foe(p.f)).join(', ')}</b> ${slog.length > 1 ? 'have' : 'has'} no clean answer obtainable yet`)
+    head = `<div class="verdict ${bad ? 'bad' : 'hold'}">${I(bad ? 'alert' : 'box')}<div>${gaps.length} of ${members.length} unanswered by your six — ${bits.join('; ')}. You can't fix it once you're inside.</div></div>`
+  }
+
+  const rows = plan.map(p => {
+    const f = foe(p.f)
+    if (p.party.length) return `<div class="gcov ok">${I('check')}<b>${f}</b><span>${esc(p.party.join(', '))}</span></div>`
+    if (p.bench.length) return `<div class="gcov pc">${I('box')}<b>${f}</b><span>withdraw ${esc(p.bench.join(', '))}</span></div>`
+    if (p.best.length) return `<div class="gcov no">${I('alert')}<b>${f}</b><span>none owned — try ${esc(p.best.join(', '))}</span></div>`
+    return `<div class="gcov no">${I('alert')}<b>${f}</b><span>no clean answer obtainable yet</span></div>`
+  }).join('')
+
+  return $(`<div class="card gaunt">${head}<div class="gcovlist">${rows}</div></div>`)
+}
 
 
 function drawMap() {
@@ -2284,11 +2355,19 @@ function boxPanel(m, s) {
     m.append(hmCard)
   }
 
-  // who's dead weight for what's coming, and what to withdraw for it
+  // what's coming: a locked run gets one combined plan (there's no PC to switch at
+  // once you're inside), any other fight the box-and-withdraw advice for that battle.
   const next = stops.slice(at).flatMap(x => x.fights).map(id => fightById[id])[0]
-  if (next && (party.size || pc.size)) {
-    const hit = id => next.counters.find(c => c.id === id && !c.trade)
-                   || next.counters.find(c => c.id === id)
+  const run = next && gauntletAt(next.stop)
+  if (run && (party.size || pc.size)) {
+    const label = (stops[next.stop].boss || {}).name || stops[next.stop].name.replace(/ —.*/, '')
+    const first = esc(run[0].name.replace(/ —.*/, '')), last = esc(run[run.length - 1].name.replace(/ —.*/, ''))
+    m.append($(`<h3>${I('lock')}Before the ${esc(label)}</h3>`))
+    m.append($(`<div class="notice">${I('lock')}<div>No Pokémon Center from ${first} through ${last} — the six you enter with have to beat all ${run.length}. Set your team at the Pokémon Center before you go in; there's no switching once you're inside.</div></div>`))
+    m.append(gauntletCoverage(run))
+  } else if (next && (party.size || pc.size)) {
+    const hit = id => next.counters.find(c => (c.id === id || c.finalId === id) && !c.trade)
+                   || next.counters.find(c => c.id === id || c.finalId === id)
     const nm = id => cap((hit(id) || {}).final || M(id).name)
     const sc = id => (hit(id) || {}).m ?? -1
     const weak = [...party].filter(id => sc(id) <= 0).sort((a, b) => sc(a) - sc(b))
@@ -3069,25 +3148,32 @@ function routeView(m) {
 
   const here = s.fights.map(id => fightById[id])
   if (here.length) {
+    const gaunt = !!s.gauntlet && here.length > 1
     m.append($(`<h3>${I('swords')}Fights here — and what beats them</h3>`))
+    if (gaunt) {
+      const first = esc(here[0].name.replace(/ —.*/, '')), last = esc(here[here.length - 1].name.replace(/ —.*/, ''))
+      m.append($(`<div class="notice">${I('lock')}<div><b>One locked run — no switching.</b> There's no Pokémon Center from ${first} through ${last}, so the six you walk in with have to beat all ${here.length}. Organise your team at the Pokémon Center before you enter.</div></div>`))
+      m.append(gauntletCoverage(here))
+    }
+    const owns = (set, c) => set.has(c.id) || set.has(c.finalId)
     here.forEach(f => {
       const r = roster(f).slice().sort((a, b) => a.level - b.level)
       const good = f.counters.filter(c => c.m > 0.2 && !c.trade)
-      const mine = good.filter(c => party.has(c.id))
-      const stored = good.filter(c => pc.has(c.id))
+      const mine = good.filter(c => owns(party, c))
+      const stored = good.filter(c => owns(pc, c) && !owns(party, c))
       const box = $(`<div class="card">
         <b>${esc(f.name)}</b>${f.variants ? ` <span class="meta">· roster shown for a ${cap(starterOf())} start</span>` : ''}
         <div class="roster">${r.map(t =>
           `<div><img src="${spr(t.id)}" alt="${t.name}">${cap(t.name)}<br><b>Lv ${t.level}</b></div>`).join('')}</div>
         <div class="meta" style="margin-top:10px">Best answers you can have by now</div>
         <div class="ctr">${f.counters.filter(c => c.m > 0).slice(0, 6).map(c =>
-          `<div class="${party.has(c.id) ? 'have' : pc.has(c.id) ? 'stored' : ''} ${c.trade ? 'trade' : ''}">
+          `<div class="${owns(party, c) ? 'have' : owns(pc, c) ? 'stored' : ''} ${c.trade ? 'trade' : ''}">
              <img src="${spr(c.finalId)}" alt="${c.final}">${cap(c.final)}
              <span class="src">${c.trade ? 'needs a trade<br>' : ''}${esc(c.from)}</span>
            </div>`).join('') || '<span class="meta">Nothing obtainable yet counters this cleanly — expect a slog.</span>'}</div>
         ${mine.length ? `<div class="verdict good">${I('check-circle')}<div>In your party: <b>${mine.map(c => cap(c.final)).join(', ')}</b></div></div>` : ''}
-        ${stored.length ? `<div class="verdict hold">${I('box')}<div>In your PC — withdraw before this fight: <b>${stored.map(c => cap(c.final)).join(', ')}</b></div></div>` : ''}
-        ${!mine.length && !stored.length ? `<div class="verdict bad">${I('alert')}<div>Nothing you own answers this fight. Pick one of the above up first.</div></div>` : ''}
+        ${stored.length ? `<div class="verdict hold">${I('box')}<div>In your PC — withdraw ${gaunt ? 'before you enter' : 'before this fight'}: <b>${stored.map(c => cap(c.final)).join(', ')}</b></div></div>` : ''}
+        ${!mine.length && !stored.length ? `<div class="verdict bad">${I('alert')}<div>Nothing you own answers this fight${gaunt ? " — and you can't swap once you're inside" : ''}. Pick one of the above up first.</div></div>` : ''}
       </div>`)
       m.append(box)
     })
