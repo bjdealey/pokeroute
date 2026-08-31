@@ -712,6 +712,34 @@ table.dtbl .chip{white-space:nowrap}
   padding:3px 8px;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;gap:3px}
 .candbtn:hover{color:var(--fg);border-color:var(--line2)}
 .candbtn.del{padding:3px 6px}.candbtn.del svg.i{width:12px;height:12px}
+/* EV-training tracker */
+.evtrack{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.evtrack>summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);
+  display:flex;align-items:center;gap:7px;list-style:none;font-weight:650;padding:2px 0}
+.evtrack>summary::-webkit-details-marker{display:none}
+.evtrack>summary svg.i{width:13px;height:13px;color:var(--acc)}
+.evtrack>summary svg.mk{width:13px;height:13px;margin-left:auto;transition:transform .15s;color:var(--dim)}
+.evtrack[open]>summary svg.mk{transform:rotate(180deg)}
+.evtrk{display:flex;flex-direction:column;gap:12px;margin:11px 0 4px}
+.evhd{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.evnm{font-size:12.5px;font-weight:700;color:var(--fg)}
+.evct{font-size:13px;font-weight:700;color:var(--fg);font-variant-numeric:tabular-nums;flex:none}
+.evmeta{color:var(--dim);font-weight:600;font-size:11px}
+.evbar{height:7px;border-radius:5px;background:var(--hover);overflow:hidden;margin:5px 0 4px}
+.evbar i{display:block;height:100%;background:var(--acc);border-radius:5px;transition:width .18s}
+.evrow.done .evbar i{background:var(--good)}
+.evsub{font-size:11.5px;color:var(--dim);line-height:1.5}
+.evgood{color:var(--good)}
+.evacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.evb{background:var(--field);border:1px solid var(--line2);color:var(--fg);border-radius:7px;
+  padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.evb:hover:not(:disabled){border-color:var(--acc);color:var(--acc)}
+.evb:disabled{opacity:.4;cursor:default}
+.evb.gh{padding:4px 7px;color:var(--dim)}
+.evb.gh svg.i{width:13px;height:13px}
+.evtot{font-size:12px;color:var(--dim);font-weight:600;margin-top:6px;padding-top:9px;border-top:1px solid var(--line)}
+.evtot b{color:var(--fg)}
+.evwarn{color:var(--warn);font-weight:700;margin-left:4px}
 /* art: item icons, type labels, badges. Last, and typed, so the sprite-sizing
    rules above ('.hit img', '.shead img') can't blow these up. */
 img.ico{width:26px;height:26px;vertical-align:middle;margin-right:7px;flex:none}
@@ -1629,6 +1657,7 @@ const natMult = (id, idx) => {
 let ivProbe = load('ivprobe', {})            // id -> six entered stats (strings)
 let probeAbility = load('probeability', {})  // id -> which ability the caught one has
 let candidates = load('candidates', {})      // id -> [{stats, nat, abil, lv}] saved catches to compare
+let evTrack = load('evtrack', {})            // id -> {stat: {v: vitamins used, b: battle EVs}} EV-training log
 function ivRange(base, level, mult, observed, isHP) {
   const hits = []
   for (let iv = 0; iv <= 31; iv++) {
@@ -1657,14 +1686,18 @@ function movesKnownAt(id, level) {
 // Vitamins add 10 EVs each up to 100 per stat (then they stop working) — so they're
 // the fast first 100, and battles do the 100→252 rest.
 const VITAMIN = { HP: 'HP Up', Atk: 'Protein', Def: 'Iron', SpA: 'Calcium', SpD: 'Zinc', Spe: 'Carbos' }
-function vitaminPlan(evs) {
-  const seen = new Map()
-  for (const m of String(evs || '').matchAll(/(\d+)\s*(HP|Atk|Def|SpA|SpD|Spe)/g)) {
+// invested stats and their EV targets, read off a build's spread (dedupe 'or' variants, keep the biggest)
+function evTargets(b) {
+  const t = new Map()
+  for (const m of String((b && b.evs) || '').matchAll(/(\d+)\s*(HP|Atk|Def|SpA|SpD|Spe)/g)) {
     const v = +m[1], s = m[2]
-    if (!seen.has(s) || seen.get(s) < v) seen.set(s, v)   // dedupe 'or' variants, keep the biggest
+    if (!t.has(s) || t.get(s) < v) t.set(s, v)
   }
+  return t
+}
+function vitaminPlan(evs) {
   const buy = []
-  for (const [s, v] of seen) {
+  for (const [s, v] of evTargets({ evs })) {
     if (v >= 10) buy.push(`${VITAMIN[s]} ×${Math.min(10, Math.floor(v / 10))}`)
   }
   return buy
@@ -1732,6 +1765,40 @@ function candListHtml(id) {
       <button class="candbtn del" data-delcand="${i}" title="Remove">${I('x')}</button></div>`
   }).join('')
   return `<div class="candhdr">Saved catches (${list.length}) — best first</div>${rows}`
+}
+// EV-training tracker: Gen 3 has no EV meter, so log what you've put into each stat —
+// vitamins (+10 each, first 100 only) and battle EVs (+1/+2 per KO) — and watch it fill.
+function evTrackHtml(id) {
+  const b = M(id).build, targets = evTargets(b)
+  if (!targets.size) return ''
+  const log = evTrack[id] || {}, key = new Set(keyStats(b))
+  let total = 0
+  const rows = [...targets].map(([s, tgt]) => {
+    const t = log[s] || { v: 0, b: 0 }
+    const vit = Math.min(100, (t.v || 0) * 10)
+    const cur = Math.min(tgt, vit + (t.b || 0))
+    total += cur
+    const remain = tgt - cur, pct = Math.round(cur / tgt * 100)
+    const i = STATN.indexOf(s), star = key.has(i) ? '<span class="ivstar">★</span>' : ''
+    const done = remain <= 0
+    const put = []
+    if (t.v) put.push(`${VITAMIN[s]} ×${t.v} <span class="evmeta">(+${vit})</span>`)
+    if (t.b) put.push(`${t.b} from battles`)
+    const tail = done ? '<b class="evgood">done</b>'
+      : `${remain} EV${remain === 1 ? '' : 's'} left <span class="evmeta">(~${Math.ceil(remain / 2)}–${remain} battles)</span>`
+    const sub = (put.length ? put.join(' · ') + ' · ' : '') + tail
+    const vitBtn = tgt >= 10
+      ? `<button class="evb" data-evadd="${i}:vit"${(t.v || 0) >= 10 || done ? ' disabled' : ''} title="Log a ${VITAMIN[s]} (+10 EVs; only the first 100 count)">+${VITAMIN[s]}</button>`
+      : ''
+    return `<div class="evrow${done ? ' done' : ''}">
+      <div class="evhd"><span class="evnm">${s}${star}</span><span class="evct">${cur}<span class="evmeta">/${tgt}</span></span></div>
+      <div class="evbar"><i style="width:${pct}%"></i></div>
+      <div class="evsub">${sub}</div>
+      <div class="evacts">${vitBtn}<button class="evb" data-evadd="${i}:1"${done ? ' disabled' : ''} title="Beat a Pokémon worth +1 EV in ${s}">+1</button><button class="evb" data-evadd="${i}:2"${done ? ' disabled' : ''} title="Beat a Pokémon worth +2 EVs in ${s}">+2</button><button class="evb gh" data-evreset="${i}" title="Reset ${s}">${I('rotate')}</button></div>
+    </div>`
+  }).join('')
+  const capNote = total >= 510 ? ' <span class="evwarn">510 total reached</span>' : ''
+  return `<div class="evtrk">${rows}</div><div class="evtot">Invested <b>${total}<span class="evmeta">/510</span></b>${capNote}</div>`
 }
 function ivReportHtml(id) {
   const lv = lvOf(id), sp = M(id), b = sp.build
@@ -2449,10 +2516,7 @@ function drawModal() {
     const natureCell = `<tr><td>Nature</td><td>${esc(b.nature)}${natHint}</td></tr>`
     // EV row: keep the where-to-train, add the one caveat people miss
     const vits = vitaminPlan(b.evs)
-    const evStats = new Map()
-    for (const m of String(b.evs || '').matchAll(/(\d+)\s*(HP|Atk|Def|SpA|SpD|Spe)/g)) {
-      const v = +m[1], s = m[2]; if (!evStats.has(s) || evStats.get(s) < v) evStats.set(s, v)
-    }
+    const evStats = evTargets(b)
     const spots = [...evStats].filter(([s, v]) => v >= 20 && (DATA.evSpots || {})[s])
       .map(([s]) => `<b style="color:var(--fg)">${s}</b> → ${esc(DATA.evSpots[s])}`)
     const evCell = `<tr><td>EV spread</td><td>${esc(b.evs)}${
@@ -2509,6 +2573,11 @@ function drawModal() {
       ${(b.moves || []).length ? `<div class="omoves"><h6>${I('swords')}Best moveset</h6>
         <ul>${b.moves.map(mv => `<li><b>${esc(mv.m)}</b><span class="meta">${esc(mv.src)}</span></li>`).join('')}</ul>${moveWarn}</div>` : ''}
       ${b.notes ? `<div class="onotes">${I('info')}<div><b>FR/LG notes.</b> ${esc(b.notes)}</div></div>` : ''}
+      ${evTargets(b).size ? `<details class="evtrack"${load('evtrackopen', false) ? ' open' : ''}>
+        <summary>${I('swords', 'mk')}Track EV training — items &amp; battles</summary>
+        <div class="why">Gen 3 hides EVs, so log each one as you train: tap a stat's <b>vitamin</b> or a <b>+1 / +2</b> battle result and its bar fills toward the target. Vitamins add +10 (only up to 100 in a stat); most training battles give +1 or +2. Saved per Pokémon on this device.</div>
+        <div id="evtrack">${evTrackHtml(id)}</div>
+      </details>` : ''}
       <details class="ivcheck"${load('ivcheck', false) ? ' open' : ''}>
         <summary>${I('target', 'mk')}Check a caught one — score & compare</summary>
         <div class="why">Enter its six stats from the in-game <b>Summary</b> screen. Uses the level &amp; nature you set up top and assumes it's freshly caught (0 EVs) — so check it <b>before</b> EV training. ★ marks the stats that matter, and the <b>score</b> is how close it is to perfect for this build.</div>
@@ -2631,6 +2700,28 @@ function drawModal() {
   if (obuild) obuild.ontoggle = () => save('obuild', obuild.open)
   const ivc = host.querySelector('.ivcheck')
   if (ivc) ivc.ontoggle = () => save('ivcheck', ivc.open)     // stays open across saves/loads
+  const evt = host.querySelector('.evtrack')
+  if (evt) evt.ontoggle = () => save('evtrackopen', evt.open)
+  const evbox = host.querySelector('#evtrack')
+  const refreshEv = () => { if (evbox) evbox.innerHTML = evTrackHtml(id) }
+  // EV tracker: log a vitamin / a +1 or +2 battle into a stat, or reset it — update the bars in place.
+  // Delegated on the container (which survives the innerHTML swap) so repeated taps keep working.
+  if (evbox) evbox.onclick = e => {
+    const add = e.target.closest('button[data-evadd]'), rst = e.target.closest('button[data-evreset]')
+    if (add && !add.disabled) {
+      const [i, kind] = add.dataset.evadd.split(':'), s = STATN[+i]
+      const tgt = evTargets(M(id).build).get(s); if (!tgt) return
+      const rec = (evTrack[id] || (evTrack[id] = {}))[s] || (evTrack[id][s] = { v: 0, b: 0 })
+      if (kind === 'vit') { if (rec.v < 10) rec.v++ }
+      else rec.b += +kind
+      rec.b = Math.max(0, Math.min(rec.b, tgt - Math.min(100, rec.v * 10)))   // keep the stat's total ≤ its target
+      save('evtrack', evTrack); refreshEv()
+    } else if (rst) {
+      const s = STATN[+rst.dataset.evreset]
+      if (evTrack[id]) { delete evTrack[id][s]; if (!Object.keys(evTrack[id]).length) delete evTrack[id] }
+      save('evtrack', evTrack); refreshEv()
+    }
+  }
   const refreshReport = () => { const out = host.querySelector('#ivreport'); if (out) out.innerHTML = ivReportHtml(id) }
   const refreshCands = () => { const out = host.querySelector('#candlist'); if (out) out.innerHTML = candListHtml(id) }
   // IV estimator: update the entered stats and re-solve in place (no full render, keeps focus)
