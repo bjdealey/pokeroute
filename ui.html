@@ -645,6 +645,11 @@ table.dtbl .chip{white-space:nowrap}
 .omoves li:last-child{border-bottom:none}
 .omoves li b{color:var(--fg)}
 .omoves li .meta{display:block;font-size:11.5px;margin-top:1px}
+.catchbox{margin-top:11px}
+.catchbox h6{margin:0 0 6px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);
+  font-weight:650;display:flex;align-items:center;gap:6px}
+.catchbox h6 svg.i{width:13px;height:13px;color:var(--acc);opacity:.85}
+.catchbox .why{margin-top:5px;display:block}
 .onotes{margin-top:11px;display:flex;gap:8px;align-items:flex-start;background:var(--warnbg);
   border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--fg);line-height:1.55}
 .onotes svg.i{width:15px;height:15px;color:var(--warn);flex:none;margin-top:2px}
@@ -1611,6 +1616,14 @@ const keyStats = b => {
   const max = Math.max(...nums.map(m => +m[1]))
   return [...new Set(nums.filter(m => +m[1] === max).map(m => STATN.indexOf(m[2])))]
 }
+// what a wild mon caught at `level` would know: Gen 3 keeps its last 4 level-up moves;
+// earlier ones are skipped (relearnable), later ones it learns as it grows.
+function movesKnownAt(id, level) {
+  const lv = (M(id).learn.lv || []).slice().sort((a, b) => a[0] - b[0])
+  const named = list => list.map(([l, i]) => DATA.moves[i] && { l, n: DATA.moves[i].n }).filter(Boolean)
+  const learned = named(lv.filter(([l]) => l <= level))
+  return { known: learned.slice(-4), skipped: learned.slice(0, -4), upcoming: named(lv.filter(([l]) => l > level)) }
+}
 function ivReportHtml(id) {
   const lv = lvOf(id), sp = M(id), b = sp.build
   if (!lv) return '<div class="meta">Set a level up top first — the estimate needs it.</div>'
@@ -2332,6 +2345,30 @@ function drawModal() {
     const moveWarn = stoneEvo
       ? `<div class="movewarn">${I('alert')}<div><b>Teach its key moves before you use the stone.</b> A stone evolution's new form learns almost nothing by level-up, so a move you skip is gone for good (the Move Reminder can only bring back moves in the new form's list). Stack them on the pre-evolution first.</div></div>`
       : evolves ? `<div class="movenote">${I('info')}Evolving never deletes moves it already knows, and the Move Reminder (Two Island) can re-teach level-up moves you skipped.</div>` : ''
+    // where to catch it on THIS cartridge — earliest vs highest-level, with the move angle
+    const cinfo = sp.catch && sp.catch[game]
+    const catchBlock = (() => {
+      if (!cinfo) return ''
+      const spotLine = s => {
+        const place = cap(s.where), stop = s.stop.replace(/ —.*/, '')
+        const norm = x => x.toLowerCase().replace(/[^a-z0-9]/g, '')
+        const showStop = !norm(stop).includes(norm(place)) && !norm(place).includes(norm(stop))
+        return `<b style="color:var(--fg)">${place}</b> <span class="meta">${showStop ? '— ' + esc(stop) + ', ' : ''}Lv ${
+          s.lo}${s.hi !== s.lo ? '–' + s.hi : ''}${s.method !== 'walk' ? ' · ' + cap(s.method) : ''}</span>`
+      }
+      const e = cinfo.early, h = cinfo.high
+      const same = e.where === h.where && e.lo === h.lo && e.hi === h.hi
+      const mk = movesKnownAt(id, h.hi)
+      const knownNames = mk.known.map(x => cap(x.n)).join(', ')
+      const note = same
+        ? `Fixed level here, so no earlier/later trade-off.`
+        : `Catch it high (Lv ${h.hi}) and it already knows ${knownNames || 'its most recent moves'}${
+            mk.skipped.length ? `; earlier level-up moves come back at the Relearner (${esc(relearnerAt())})` : ''}. Catch it early (Lv ${e.lo}) and it learns everything as it grows.`
+      return `<div class="catchbox"><h6>${I('pin')}Where to catch · ${game === 'FR' ? 'FireRed' : 'LeafGreen'}</h6>
+        <table class="spots"><tr><td>Earliest</td><td>${spotLine(e)}</td></tr>
+        ${same ? '' : `<tr><td>Highest&nbsp;level</td><td>${spotLine(h)}</td></tr>`}</table>
+        <div class="why">${note}</div></div>`
+    })()
     return `<details class="obuild"${load('obuild', true) ? ' open' : ''}>
       <summary>${I('diamond', 'mk')}Optimal build <span class="obtag">FR/LG</span></summary>
       ${b.role ? `<div class="orole">${esc(b.role)}</div>` : ''}
@@ -2347,6 +2384,7 @@ function drawModal() {
         ${row('Final level', b.final)}
         ${row('Items', b.items)}
       </table>
+      ${catchBlock}
       ${(b.moves || []).length ? `<div class="omoves"><h6>${I('swords')}Best moveset</h6>
         <ul>${b.moves.map(mv => `<li><b>${esc(mv.m)}</b><span class="meta">${esc(mv.src)}</span></li>`).join('')}</ul>${moveWarn}</div>` : ''}
       ${b.notes ? `<div class="onotes">${I('info')}<div><b>FR/LG notes.</b> ${esc(b.notes)}</div></div>` : ''}

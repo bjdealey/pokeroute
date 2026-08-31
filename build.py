@@ -391,6 +391,7 @@ def effort(sid, e, method, rate, at, path, grind, fs):
     return cost, notes
 
 # --- build one game ----------------------------------------------------------
+CATCH = {}                                    # (version, species id) -> {early, high} wild spot
 def build(tag):
     enc = enc_of[tag]
     fs = mk_fights()
@@ -416,6 +417,19 @@ def build(tag):
                                        "method": m, "rate": rate, "e": e})
     for v in spots.values():
         v.sort(key=lambda x: (x["at"], -x["rate"]))
+
+    # the earliest and the highest-level wild spot for each species, for the sheet's
+    # "where to catch" note. Computed off the FULL (untruncated) spot list so the
+    # highest is always right, not just the highest of the six build_mon keeps.
+    def spot_brief(x):
+        return {"stop": stops[x["at"]]["name"], "where": x["where"], "method": x["method"],
+                "lo": x["e"]["lo"], "hi": x["e"]["hi"], "at": x["at"], "rate": x["rate"]}
+    for sid, v in spots.items():
+        wild = [x for x in v if x["method"] not in ONE_SHOT and x["method"] != "npc-trade"]
+        if not wild: continue
+        early = wild[0]                                   # already sorted by (at, -rate)
+        high = max(wild, key=lambda x: (x["e"]["hi"], -x["at"]))
+        CATCH[(tag, int(sid))] = {"early": spot_brief(early), "high": spot_brief(high)}
 
     by_stop = collections.defaultdict(list)
     for sid, v in spots.items():
@@ -626,7 +640,10 @@ def species_row(sid):
             "growthName": GROWTH.get(int(sp["growth"]), ""),
             "learn": learn.get(str(pid), {"lv": [], "tm": []}),
             # the authored optimal build for this Pokémon's line, if one exists
-            "build": BUILDS.get(line_root(sid))}
+            "build": BUILDS.get(line_root(sid)),
+            # earliest / highest-level wild catch per cartridge (only where caught wild)
+            "catch": {t: CATCH.get((t, int(sid))) for t in VERSIONS
+                      if CATCH.get((t, int(sid)))}}
 
 blockers = {"exclusives": exclusives, "tradeEvos": trade_evos,
             "choices": route.get("dexBlockers", [])}
