@@ -619,6 +619,36 @@ table.dtbl .chip{white-space:nowrap}
 .facts summary:hover{color:var(--fg)}
 .facts table{margin-top:8px}
 .facts .why{display:block;white-space:normal}
+/* Optimal build — the authored per-line FR/LG plan, headline block on the sheet */
+.obuild{border-top:1px solid var(--line);padding:12px 0 4px}
+.obuild>summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);
+  display:flex;align-items:center;gap:7px;list-style:none;font-weight:700;padding:2px 0}
+.obuild>summary::-webkit-details-marker{display:none}
+.obuild>summary svg.i{width:14px;height:14px;color:var(--acc)}
+.obuild>summary svg.mk{width:13px;height:13px;margin-left:auto;transition:transform .15s;color:var(--dim)}
+.obuild[open]>summary svg.mk{transform:rotate(180deg)}
+.obtag{font-size:9.5px;letter-spacing:.06em;background:var(--accbg);color:var(--acc);
+  padding:1px 6px;border-radius:5px;font-weight:700}
+.orole{margin:9px 0 0;font-size:13.5px;color:var(--fg);line-height:1.5}
+.osummary{margin:9px 0 2px;font-size:12.5px;color:var(--fg);line-height:1.7;
+  background:var(--accbg);border:1px solid var(--line);border-radius:9px;padding:8px 11px}
+.osummary .osep{color:var(--dim2);margin:0 2px}
+.obuild table.obtbl{margin-top:10px}
+.obtbl td:first-child{color:var(--acc2);font-weight:600;white-space:nowrap}
+.obtbl .why{display:block;margin-top:2px}
+.omoves{margin-top:11px}
+.omoves h6{margin:0 0 6px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);
+  font-weight:650;display:flex;align-items:center;gap:6px}
+.omoves h6 svg.i{width:13px;height:13px;color:var(--acc);opacity:.85}
+.omoves ul{list-style:none;margin:0;padding:0}
+.omoves li{padding:4px 0;border-bottom:1px solid var(--line);font-size:13px}
+.omoves li:last-child{border-bottom:none}
+.omoves li b{color:var(--fg)}
+.omoves li .meta{display:block;font-size:11.5px;margin-top:1px}
+.onotes{margin-top:11px;display:flex;gap:8px;align-items:flex-start;background:var(--warnbg);
+  border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--fg);line-height:1.55}
+.onotes svg.i{width:15px;height:15px;color:var(--warn);flex:none;margin-top:2px}
+.onotes b{color:var(--warn)}
 /* art: item icons, type labels, badges. Last, and typed, so the sprite-sizing
    rules above ('.hit img', '.shead img') can't blow these up. */
 img.ico{width:26px;height:26px;vertical-align:middle;margin-right:7px;flex:none}
@@ -2188,6 +2218,42 @@ function drawModal() {
       <div class="meta">Best set move, hits to KO — assumes no EVs/IVs, no crit or weather.</div></div>`
   })()
 
+  // --- Optimal build (FR/LG): authored per evolution line, shown on every member ---
+  const buildSection = (() => {
+    const b = sp.build
+    if (!b) return ''
+    const short = s => {                                        // first clause, for the summary strip
+      let t = String(s).split(/\s+—\s+|\s*[(;·]|,\s/)[0].trim()
+      if (t.length > 46) t = t.slice(0, 44).replace(/\s\S*$/, '') + '…'
+      return esc(t)
+    }
+    const moveNames = (b.moves || []).map(x => x.m).join(' / ')
+    const summary = [short(b.nature), short(b.ability), 'IVs ' + short(b.ivs), esc(b.evs),
+                     esc(moveNames), short(b.items), short(b.catch || b.trainFrom), short(b.where)]
+      .filter(Boolean).join(' <span class="osep">·</span> ')
+    const row = (label, val, why) => val
+      ? `<tr><td>${label}</td><td>${esc(val)}${why ? `<span class="why">${esc(why)}</span>` : ''}</td></tr>` : ''
+    return `<details class="obuild"${load('obuild', true) ? ' open' : ''}>
+      <summary>${I('diamond', 'mk')}Optimal build <span class="obtag">FR/LG</span></summary>
+      ${b.role ? `<div class="orole">${esc(b.role)}</div>` : ''}
+      <div class="osummary">${summary}</div>
+      <table class="spots obtbl">
+        ${row('Obtain', b.where, b.catch)}
+        ${row('Nature', b.nature)}
+        ${row('Ability', b.ability)}
+        ${row('IV priority', b.ivs)}
+        ${row('EV spread', b.evs, b.evWhere)}
+        ${row('Train from', b.trainFrom)}
+        ${row('Evolve', b.evo)}
+        ${row('Final level', b.final)}
+        ${row('Items', b.items)}
+      </table>
+      ${(b.moves || []).length ? `<div class="omoves"><h6>${I('swords')}Best moveset</h6>
+        <ul>${b.moves.map(mv => `<li><b>${esc(mv.m)}</b><span class="meta">${esc(mv.src)}</span></li>`).join('')}</ul></div>` : ''}
+      ${b.notes ? `<div class="onotes">${I('info')}<div><b>FR/LG notes.</b> ${esc(b.notes)}</div></div>` : ''}
+    </details>`
+  })()
+
   host.hidden = false
   host.innerHTML = `<div class="sheet">
     <div class="shead">
@@ -2204,6 +2270,7 @@ function drawModal() {
         ? `<span class="xp">Lv ${target} for ${esc(nextF.name.replace(/ —.*/, ''))} — ≈${battlesTo(id, lv, target)} battles</span>`
         : lv && target ? `<span class="ok2">ready for ${esc(nextF.name.replace(/ —.*/, ''))}</span>` : ''}
     </div>
+    ${buildSection}
     ${evos.length ? `<div class="ssec"><h5>${I('evolve')}Evolve</h5><div class="evos">${evos.join('')}</div>
       ${goal === 'living' ? `<small class="livewarn">Living Dex: you'd need to catch another ${cap(sp.name)}</small>` : ''}</div>` : ''}
     ${lv ? `<div class="ssec"><h5>${I('swords')}Moves</h5>
@@ -2289,6 +2356,8 @@ function drawModal() {
     b.onclick = () => setOwn(id, b.dataset.own))
   const facts = host.querySelector('.facts')          // stays as you left it, sheet to sheet
   facts.ontoggle = () => save('facts', facts.open)
+  const obuild = host.querySelector('.obuild')
+  if (obuild) obuild.ontoggle = () => save('obuild', obuild.open)
   bindSheetDrag(host, () => { modalId = null; render() })
 }
 

@@ -81,6 +81,7 @@ digits and slashes.
     index.html        the front page, rewritten on a full build (GitHub Pages)
     ui.html           the shared template; the build inlines data at /*DATA*/
     games/frlg.json   one file per game — the part no API has
+    games/frlg.builds.json  the optimal-build guide, one entry per evolution line
     data/*.csv        the PokeAPI/veekun dump, shared by every game
     data/sprites/     sprite PNGs, base64-inlined at build time
     data/sprites/shiny/  the same species again, in their shiny colours
@@ -93,6 +94,19 @@ rival rosters, badge→HM map, town map layout, TM/HM catalogue, NPCs, dex block
 a `build` block with the generation, dex cutoff, version group, version ids, where the
 stone shop is, which HM gates which encounter method, and which sprite sets to pull.
 Adding a game is adding a file.
+
+**`games/<name>.builds.json` is the optimal-build guide** — the one part that is
+editorial rather than derived. It carries one entry per evolution *line*, keyed by the
+line's root species (`bulbasaur`, `abra`, `eevee`…); the build walks up `evolves_from` so
+every member of a line shows the same plan on its sheet. Each entry is fifteen fields —
+`role`, where and what level to obtain it, `nature`, `ability`, `ivs`, `evs` and where to
+train them, when to start, the best `moves` (each with when/how it's obtained in-game),
+`items`, the evolution point, the final level, and FR/LG-specific `notes`. It is optional
+and loaded only if present, so a new game gets its sheets with or without one. `build.py`
+prints how many lines still lack a build and asserts there are none for species the app
+can't show. Values are FR/LG-accurate: single-use TMs, Game-Corner-rebuyable TMs, no
+nature/IV inheritance (Everstone doesn't pass nature until Gen 4), tutor-only Rock Slide,
+the late Earthquake TM, and the post-game Sevii moves are all called out where they bite.
 
 ## Goals
 
@@ -117,6 +131,15 @@ Each slot is a single line — sprite, name, level, and the one thing that matte
 now ("needs Lv 38 — ≈25 battles", "ready to become Ivysaur", "tap to set its level").
 **Tapping it opens that Pokémon's sheet**, which is where the detail lives:
 
+- **Optimal build (FR/LG).** The headline of every sheet: an authored, evolution-line plan
+  for getting the most out of that Pokémon. A one-line role and an at-a-glance summary, then
+  the specifics — where and at what level to obtain it, the ideal nature, the best ability
+  and which IVs matter, an EV spread with where to farm it, when to start training, the best
+  four moves *with when and how each is obtained in-game*, held/evolution items, the
+  evolution point, a recommended final level, and a FR/LG-notes callout for the cartridge's
+  own rules (single-use TMs, no nature inheritance, tutor-only Rock Slide, post-game Sevii
+  moves, FireRed vs LeafGreen exclusives). Shown on every member of a line — open Geodude or
+  Golem and you get the same Golem plan. Collapsible, and it remembers how you left it.
 - **Level.** Type it in and the estimates go concrete: how many levels until it evolves,
   and *"Lv 38 for Rival — ≈25 battles"*, computed from its real Gen 3 EXP curve against
   what a battle is worth at the best grinding spot you can currently reach.
