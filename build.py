@@ -742,7 +742,8 @@ payload = ("const DATA=" + json.dumps({"game": route["game"], "region": route["r
                                        "typeArt": type_art, "methodArt": method_art, "badgeArt": badge_art, "spriteSets": CFG["spriteSets"], "npcs": {n["id"]: dict(n, at=idx_of[n["stop"]]) for n in route.get("npcs", [])},
                                        "games": games, "rivalStarter": route["rivalStarter"],
                                        "dex": blockers, "evoDown": evo_down, "names": names, "catalogue": full_catalogue,
-                                       "stopNames": {st["id"]: st["name"] for st in stops}},
+                                       "stopNames": {st["id"]: st["name"] for st in stops},
+                                       "evSpots": route.get("evSpots", {})},
                                       separators=(",", ":"))
            + ";const SPR=" + json.dumps(spr, separators=(",", ":"))
            + ";const SHINY=" + json.dumps(shiny, separators=(",", ":"))
