@@ -484,6 +484,28 @@ img.mini{width:26px;height:26px;vertical-align:middle}
 .spots td:first-child{color:var(--dim);white-space:nowrap}
 .hit{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
 .hit img{width:48px;height:48px}
+/* universal search: grouped, clickable results */
+.fgrp{display:flex;align-items:center;gap:7px;margin:22px 0 8px;font-size:11.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--dim);font-weight:650}
+.fgrp svg.i{width:14px;height:14px;color:var(--acc);opacity:.85}
+.fgrp b{color:var(--fg);font-weight:650}
+.fgrp span{background:var(--hover);color:var(--dim);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:600}
+.fgrp::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.card.click{cursor:pointer;transition:border-color .12s,background .12s}
+.card.click:hover{border-color:var(--line2);background:var(--hover)}
+.flist{padding:6px 13px}
+.fitem{display:flex;gap:12px;align-items:baseline;padding:9px 4px;border-radius:7px;cursor:pointer;
+  border-bottom:1px solid var(--line)}
+.fitem:last-child{border-bottom:none}
+.fitem:hover{background:var(--hover)}
+.fnm{flex:none;width:128px;font-weight:600;color:var(--fg);overflow-wrap:anywhere}
+.fdesc{flex:1;min-width:0;color:var(--dim);font-size:12.5px;line-height:1.55}
+.fdesc .fx{display:block;margin-top:2px}
+.flist .ico{width:17px;height:17px;vertical-align:-3px;margin-right:4px}
+.fmore{display:inline-flex;align-items:center;gap:4px;margin:2px 0;padding:7px 2px;background:none;border:none;
+  color:var(--acc);font-size:13px;font-weight:600;cursor:pointer}
+.fmore:hover{text-decoration:underline}
+.fmore svg.i{width:14px;height:14px}
 button.g.gear{padding:7px 9px}
 button.g.gear svg.i{width:16px;height:16px}
 button.g.gear[aria-expanded="true"]{color:var(--acc2);background:var(--accbg);border-color:#2f4a7a}
@@ -1217,48 +1239,113 @@ function verTag(p) {
     : ''
 }
 
+// Jump from a universal-search hit to the matching reference dex, pre-filtered to the query.
+function gotoDex(tab, q) {
+  view = 'dex'; dexTab = tab; save('dexTab', tab); dexQ = q; query = ''
+  render(); scrollTo(0, 0)
+}
+const groupHead = (icon, label, n) => $(`<div class="fgrp">${I(icon)}<b>${esc(label)}</b><span>${n}</span></div>`)
+
+// One search bar over the whole game: every species (not just the wild-catchable ones),
+// every move, and every item / TM / key person — grouped, each opening its own detail.
 function findView(m) {
   if (mobile()) {
-    const wrap = $(`<div class="qmbox">${I('search')}<input class="qm" placeholder="Pokémon, TM, item, move…" value="${
+    const wrap = $(`<div class="qmbox">${I('search')}<input class="qm" placeholder="Pokémon, move, TM, item…" value="${
       esc(query)}" autocomplete="off" aria-label="Search the whole game"></div>`)
     wrap.querySelector('input').oninput = e => {
       query = e.target.value.trim(); render(); document.querySelector('.qm').focus()
     }
     m.append(wrap)
   }
-  const q = query.toLowerCase()
-  const hits = Object.values(monById).filter(p => p.name.includes(q) || p.final.includes(q)).slice(0, 12)
-  const gear = DATA.catalogue.filter(c => c.name.toLowerCase().includes(q) || c.where.toLowerCase().includes(q))
   if (!query) {
     m.append($(`<div class="card"><div class="blank">${I('search')}<b>Search the whole game</b>
-      <span>A Pokémon, an item, a TM or a move — you get every place and every level it turns up at,
-      on your cartridge.</span></div></div>`))
+      <span>One box for everything — a Pokémon (any of them, not only the wild ones), a move,
+      a TM, an item or a person. Tap a result to open its full page.</span></div></div>`))
     return
   }
-  m.append($(`<h3>${I('target')}Where to find “${esc(query)}”</h3>`))
-  if (gear.length) m.append($(`<div class="card"><table class="spots">${gear.slice(0, 14).map(c =>
-    `<tr><td>${ico(c.icon)}<b style="color:var(--fg)">${esc(c.name)}</b></td><td>${esc(c.where)}${
-      c.stop ? ` <span class="meta">— ${esc((DATA.stopNames[c.stop] || '').replace(/ —.*/, ''))}</span>` : ''}</td></tr>`).join('')}</table></div>`))
-  if (!hits.length && !gear.length) {
+  const q = query.toLowerCase(), toks = q.split(/\s+/).filter(Boolean)
+  const hit = s => toks.every(t => s.includes(t))     // every word must appear — "fire stone" needn't be adjacent
+  const other = game === 'FR' ? 'LG' : 'FR', otherName = other === 'FR' ? 'FireRed' : 'LeafGreen'
+  const rel = name => { const n = String(name).toLowerCase(); return n === q ? 0 : n.startsWith(q) ? 1 : n.includes(q) ? 2 : 3 }
+
+  // match across all three reference sets — the text each dex tab searches, plus how a mon is reached
+  const monText = (sp, id) => ('#' + id + ' ' + sp.name + ' ' + sp.types.join(' ') + ' ' + (sp.genus || '')
+    + ' ' + sp.abil.map(a => a.name).join(' ') + ' ' + (sp.eggs || []).join(' ') + ' ' + (sp.how || '')).toLowerCase()
+  const monHits = Object.keys(DATA.mon).map(Number).filter(id => hit(monText(DATA.mon[id], id)))
+    .sort((a, b) => rel(DATA.mon[a].name) - rel(DATA.mon[b].name) || a - b)
+  const moveText = (mv, i) => (mv.n + ' ' + mv.t + ' ' + mv.c + ' ' + (mv.fx || '') + ' ' + ((machineOf[i] || {}).name || '')).toLowerCase()
+  const moveHits = Object.keys(DATA.moves).map(Number).filter(i => hit(moveText(DATA.moves[i], i)))
+    .sort((a, b) => rel(DATA.moves[a].n) - rel(DATA.moves[b].n) || DATA.moves[a].n.localeCompare(DATA.moves[b].n))
+  const itemHits = DATA.catalogue.map((c, i) => ({ c, i })).filter(({ c }) => {
+    const mc = machineByName[c.name], mv = mc && DATA.moves[mc.move]
+    return hit((c.name + ' ' + c.kind + ' ' + c.where + ' ' + (c.why || '') + ' ' + (mv ? mv.n : '')).toLowerCase())
+  }).sort((x, y) => rel(x.c.name) - rel(y.c.name))
+
+  if (!monHits.length && !moveHits.length && !itemHits.length) {
     m.append($(`<div class="card"><div class="blank">${I('alert')}<b>Nothing in ${
-      game === 'FR' ? 'FireRed' : 'LeafGreen'} matches</b>
-      <span>It may be a ${game === 'FR' ? 'LeafGreen' : 'FireRed'} exclusive — the Dex tab's
-      Blockers panel lists all of them.</span></div></div>`))
+      game === 'FR' ? 'FireRed' : 'LeafGreen'} matches “${esc(query)}”</b>
+      <span>If it's a Pokémon, it may be a ${otherName} exclusive — the Dex tab's Blockers panel lists those.</span></div></div>`))
     return
   }
-  hits.forEach(p => {
-    const box = $(`<div class="card">
-      <div class="hit"><img src="${spr(p.id)}" alt="${p.name}">
-        <div><b style="text-transform:capitalize">${cap(p.name)}</b>${verTag(p)}
-        ${p.types.map(ty).join('')}
-        <div class="meta">first available: ${esc(p.fromStop)}</div></div></div>
-      <table class="spots">${p.spots.map(x => `<tr>
-        <td>${esc(x.stop.replace(/ —.*/, ''))}</td>
-        <td><b>${cap(x.where)}</b> · ${methodIco(x.method)}${x.method === 'npc-trade' ? 'in-game trade' : cap(x.method)}${x.method === 'walk' ? ` · ${x.rate}%` : ''} · Lv ${x.levels[0]}–${x.levels[1]}</td></tr>`).join('')}</table>
-      ${chain(p)}${dexLine(p)}
-    </div>`)
-    m.append(box)
-  })
+  m.append($(`<h3>${I('search')}Results for “${esc(query)}”</h3>`))
+
+  const CAP = 12
+  const moreLink = (tab, n, where) => {
+    const b = $(`<button class="fmore">See all ${n} in the ${esc(where)} ${I('chev-right')}</button>`)
+    b.onclick = () => gotoDex(tab, query)
+    return b
+  }
+
+  if (monHits.length) {
+    m.append(groupHead('pokeball', 'Pokémon', monHits.length))
+    monHits.slice(0, CAP).forEach(id => m.append(monResult(id, other, otherName)))
+    if (monHits.length > CAP) m.append(moreLink('mon', monHits.length, 'Pokédex'))
+  }
+  if (moveHits.length) {
+    m.append(groupHead('swords', 'Moves', moveHits.length))
+    const card = $(`<div class="card flist">${moveHits.slice(0, CAP).map(i => {
+      const mv = DATA.moves[i], mc = machineOf[i]
+      const bits = [ty(mv.t), cap(mv.c), mv.p ? mv.p + ' pow' : '', mv.a ? mv.a + '% acc' : '',
+        mc ? `${ico(mc.icon)}${esc(mc.name.slice(0, 4))}` : ''].filter(Boolean).join(' · ')
+      return `<div class="fitem click" data-q="${esc(mv.n)}"><span class="fnm">${cap(mv.n)}</span>
+        <span class="fdesc">${bits}${mv.fx ? `<span class="fx">${esc(mv.fx)}</span>` : ''}</span></div>`
+    }).join('')}</div>`)
+    card.querySelectorAll('[data-q]').forEach(el => el.onclick = () => gotoDex('moves', el.dataset.q))
+    m.append(card)
+    if (moveHits.length > CAP) m.append(moreLink('moves', moveHits.length, 'Movedex'))
+  }
+  if (itemHits.length) {
+    m.append(groupHead('disc', 'Items, TMs & people', itemHits.length))
+    const card = $(`<div class="card flist">${itemHits.slice(0, CAP).map(({ c }) =>
+      `<div class="fitem click" data-q="${esc(c.name)}"><span class="fnm">${ico(c.icon)}${esc(c.name)}</span>
+        <span class="fdesc">${esc(c.where)}${c.stop != null ? ` <span class="meta">— ${esc((DATA.stopNames[c.stop] || '').replace(/ —.*/, ''))}</span>` : ''}</span></div>`).join('')}</div>`)
+    card.querySelectorAll('[data-q]').forEach(el => el.onclick = () => gotoDex('items', el.dataset.q))
+    m.append(card)
+    if (itemHits.length > CAP) m.append(moreLink('items', itemHits.length, 'Itemdex'))
+  }
+}
+
+// A single species result — the full catch table for a wild one, or how to get it otherwise.
+function monResult(id, other, otherName) {
+  const sp = DATA.mon[id], own = monById[id]
+  const exclusive = DATA.dex.exclusives[other].includes(sp.name)
+  const tag = own ? verTag(own) : exclusive ? `<span class="ver x">${otherName} only</span>` : ''
+  const how = own ? 'first available: ' + esc(own.fromStop)
+    : exclusive ? 'trade only — ' + otherName + ' exclusive'
+    : sp.from ? 'evolve ' + cap(M(sp.from).name) + (sp.how ? ' — ' + esc(sp.how) : '')
+    : 'evolve or trade for it'
+  const box = $(`<div class="card click">
+    <div class="hit"><img src="${spr(id)}" alt="${sp.name}">
+      <div><b style="text-transform:capitalize">${cap(sp.name)}</b>${tag}
+      ${sp.types.map(ty).join('')}
+      <div class="meta">${how}</div></div></div>
+    ${own ? `<table class="spots">${own.spots.map(x => `<tr>
+      <td>${esc(x.stop.replace(/ —.*/, ''))}</td>
+      <td><b>${cap(x.where)}</b> · ${methodIco(x.method)}${x.method === 'npc-trade' ? 'in-game trade' : cap(x.method)}${x.method === 'walk' ? ` · ${x.rate}%` : ''} · Lv ${x.levels[0]}–${x.levels[1]}</td></tr>`).join('')}</table>
+      ${chain(own)}${dexLine(own)}` : ''}
+  </div>`)
+  box.onclick = () => openMon(id)
+  return box
 }
 
 // --- the reference dexes: every species, move and item this game has ---------
